@@ -1,0 +1,198 @@
+---
+title: "World Value Survey - Exploration"
+author: "Nicolas Restrepo"
+date: "2023-06-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(countrycode)
+library(janitor)
+theme_set(theme_bw())
+```
+
+I am going to use this document to explore the latest time series from the World Values Survey. 
+
+Let's begin by loading in the data:
+
+```{r}
+load("Data/wvs_timeseries.rdata")
+d <- data1
+rm(data1)
+
+head(glimpse(d))
+```
+
+From looking at the codebook, I think there are seven questions we can focus on. 
+
+1. Whether homosexuality is ever justifiable (nine-point scale from `never justifiable` to `always justifiable`).
+
+2. Whether prostitution is ever justifiable (nine-point scale from `never justifiable` to `always justifiable`).
+
+3. Whether abortion is ever justifiable (nine-point scale from `never justifiable` to `always justifiable`).
+
+4. Whether divorce is ever justifiable (nine-point scale from `never justifiable` to `always justifiable`).
+
+5. Whether euthanasia is ever justifiable (nine-point scale from `never justifiable` to `always justifiable`).
+
+6. Whether suicide is ever justifiable (nine-point scale from `never justifiable` to `always justifiable`).
+
+7. Whether you would **not** like immigrants/foreign workers as neighbors.
+
+I am now going to select these variables and give them cleaner names, so they are easier to manipulate: 
+
+```{r}
+d_short <- d %>% 
+  select(S002VS, 
+         COUNTRY_ALPHA,
+         S020,
+         S003,
+         X001,
+         X003, 
+         X007, 
+         F118:F123, 
+         A124_06) %>% 
+  rename(wave = S002VS, 
+         country = COUNTRY_ALPHA,
+         country_code = S003, 
+         year_survey = S020,
+         sex = X001,
+         age = X003, 
+         marital_status = X007, 
+         just_homosexuality = F118, 
+         just_prostitution = F119, 
+         just_abortion = F120, 
+         just_divorce = F121, 
+         just_euthanasia = F122, 
+         just_suicide = F123, 
+         neigh_imm = A124_06) 
+  
+```
+
+Our data is organized in such a way where each wave is an individual, in a country, in a given wave. The first thing to look at is how available our questions of interest are in each country and each wave. Before we do that, we need to deal with the missing values a bit. 
+
+```{r}
+# All missing values are indicated with negative values
+# Turn them into NAs for now
+
+d_short <- d_short %>% 
+  mutate(
+    across( 
+      .cols = 8:14, 
+       ~ ifelse(
+        . < 0, 
+        NA_real_, 
+        .
+      ))
+  )
+```
+
+I am going to remove the `NAs` and examine how many people I have per country per wave. 
+
+```{r}
+
+
+summary_df <- d_short %>% 
+  select(country,
+         wave,
+         8:14) %>% 
+  pivot_longer(3:9, 
+               names_to = "variable", 
+               values_to = "response") %>% 
+  mutate(valid_response = if_else(
+    is.na(response),0, 1
+  )) %>% 
+  group_by(
+    country, 
+    wave, 
+    variable
+  ) %>% 
+  summarise(
+    count = sum(valid_response)
+  ) %>% 
+  ungroup()
+  
+summary_df %>% 
+  ggplot(aes(
+    x = wave, 
+    y = count, 
+    fill = variable
+  )) +
+  geom_bar(stat = 'identity') +
+  facet_wrap(~country) +
+  theme(axis.text.y = element_blank()) +
+  theme(legend.position = 'none')
+```
+
+We have countries for which we have pretty comprehensive data like the USA, Sweden, Canada and Argentino. Other countries, like Uganda only have one wave. 
+
+### Some Trajectories 
+
+I am going to select countries for which we have more than four waves and look at some of the trajectories of our data.
+
+Let's look at homosexuality:
+
+```{r}
+
+wave_df <- d_short %>% 
+  group_by(country, wave) %>% 
+  slice(1) %>% 
+  ungroup() %>% 
+  group_by(country) %>% 
+  summarise(waves_counted = n())
+
+d_short <- d_short %>% 
+  left_join(., wave_df, by = "country")
+
+d_short %>% 
+  filter(waves_counted > 3) %>% 
+  group_by(
+    country, 
+    wave
+  ) %>% 
+  summarize(
+    mean_value = mean(just_homosexuality, 
+                      na.rm = T)
+  ) %>% 
+  ggplot(aes(
+    x = wave, 
+    y = mean_value, 
+    color = country
+  )) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country) + 
+  theme(legend.position = "none") +
+  labs(title = "Is homosexuality ever justifiable?")
+```
+
+Look at that dip in India! 
+
+What about the question of whether abortion is ever justifiable
+
+```{r}
+d_short %>% 
+  filter(waves_counted > 3) %>% 
+  group_by(
+    country, 
+    wave
+  ) %>% 
+  summarize(
+    mean_value = mean(just_abortion, 
+                      na.rm = T)
+  ) %>% 
+  ggplot(aes(
+    x = wave, 
+    y = mean_value, 
+    color = country
+  )) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country) + 
+  theme(legend.position = "none") +
+  labs(title = "Is abortion ever justifiable?")
+
+```
+
