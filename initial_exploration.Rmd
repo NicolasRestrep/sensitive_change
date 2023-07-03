@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(countrycode)
 library(janitor)
+library(cmdstanr)
 theme_set(theme_bw())
 ```
 
@@ -44,6 +45,7 @@ From looking at the codebook, I think there are seven questions we can focus on.
 I am now going to select these variables and give them cleaner names, so they are easier to manipulate: 
 
 ```{r}
+# Read in the data 
 d_short <- d %>% 
   select(S002VS, 
          COUNTRY_ALPHA,
@@ -52,26 +54,148 @@ d_short <- d %>%
          X001,
          X003, 
          X007, 
-         F118:F123, 
-         A124_06) %>% 
+         A001:A006,
+         A029:A042,
+         A124_02, 
+         A124_03, 
+         A124_06:A124_09,
+         A165,
+         A170,
+         A173,
+         C001,
+         C002,
+         D057,
+         E033,
+         E035:E037,
+         E039,
+         E069_01:E069_02,
+         E069_04:E069_08,
+         E069_10:E069_13,
+         E069_17,
+         F028,
+         F034,
+         F050,
+         F053,
+         F063,
+         F114A,
+         F115:F123,
+         G006) %>% 
   rename(wave = S002VS, 
          country = COUNTRY_ALPHA,
          country_code = S003, 
          year_survey = S020,
          sex = X001,
          age = X003, 
-         marital_status = X007, 
+         
+         # Importance battery: 1 means very important, 4 means not at all important
+         important_family = A001,
+         important_friends = A002, 
+         important_leisure = A003, 
+         important_poltics = A004,
+         important_work = A005, 
+         important_religion = A006, 
+         
+         # Important qualities in children: 1 means mentioned, 0 means not mentioned
+         child_independence = A029, 
+         child_hard_work = A030, 
+         child_feeling_responsibility = A032, 
+         child_imagination = A034, 
+         child_tolerance = A035, 
+         child_thrift = A038, 
+         child_determination = A039, 
+         child_religion = A040, 
+         child_unselfish = A041,
+         child_obedience = A042,
+         
+         # People you would not like to have as neighbours: 1 mentioned, 0 means not mentioned
+         neigh_diff_race = A124_02, 
+         neigh_drink = A124_03, 
+         neigh_imm = A124_06, 
+         neigh_aids = A124_07, 
+         neigh_drugs = A124_08, 
+         neigh_gay = A124_09,
+         
+         # Most people can be trusted: (1) Most people, (2) you can never be too careful
+         trust_people = A165,
+         
+         # (10) means more satisfied
+         life_satisf = A170, 
+         
+         # Control over life's choices: (10) feels most in control. 
+         choice_control = A173, 
+         
+         # Men should be given jobs over women: (1) Agree, (2) Disagree, (3) Neither A nor D
+         jobs_men_over_women = C001, 
+         
+         # Nationals should be given jobs over foreigners: (1) Agree, (2) Disagree, (3) Neither A nor D
+         jobs_national_over_foreign = C002, 
+         
+         # Likert: (1) Strongly Agree -- (4) Strongly Disagree
+         housewife_fulfilling = D057,
+         
+         # Left/Right placement: (1) Left -- (10) Right
+         politics_scale = E033,
+         
+         # Importance of income equality 
+         income_eq = E035, 
+         
+         # Business should be public/private owned: (1) Private -- (10) Public
+         pvt_state_owned = E036, 
+         
+         # Government should take responsibility vs individual responsibility: (1) Gvt -- (10) Individual
+         gvt_responsibility = E037,
+         
+         # Competition good or harmful: (1) Good --- (10) harmful
+         competition_good_evil = E039, 
+         
+         # Confidence battery: (1) A great deal; (2) Quite a lot; (3) Not very much; (4) None at all
+         confidence_churches = E069_01, 
+         confidence_armed_forces = E069_02,
+         confidence_press = E069_04, 
+         confidence_unions = E069_05, 
+         confidence_police = E069_06, 
+         confidence_parliament = E069_07,
+         confidence_civil = E069_08,
+         confidence_television = E069_10,
+         confidence_governement = E069_11,
+         confidence_political_party = E069_12,
+         confidence_major_companies = E069_13,
+         confidence_justice_courts = E069_17,
+         
+         # How often attends religious services?
+         # (1) More than once a week -- (8) Never
+         attend_relig = F028, 
+         
+         # (1) Religious; (2) not religious; (3) atheist
+         religious_person = F034,
+         
+         # Believes (1), does not believe (0)
+         believe_god = F050, 
+         believe_hell = F053, 
+         
+         # (1) Not at all important -- (10) very important
+         important_god = F063,
+         just_gvt_benefits = F114A,
+         just_fare_public_trans = F115,
+         just_cheat_taxes = F116,
+         just_bribe = F117,
          just_homosexuality = F118, 
          just_prostitution = F119, 
          just_abortion = F120, 
          just_divorce = F121, 
          just_euthanasia = F122, 
          just_suicide = F123, 
-         neigh_imm = A124_06) 
+         proud_nationality = G006, 
+         marital_status = X007) 
+
+
+
+# Zap labels 
+d_short <- haven::zap_labels(d_short)
   
 ```
 
-Our data is organized in such a way where each wave is an individual, in a country, in a given wave. The first thing to look at is how available our questions of interest are in each country and each wave. Before we do that, we need to deal with the missing values a bit. 
+Our data  is organized in such a way where each wave is an individual, in a country, in a given wave. The first thing to look at is how available our questions of interest are in each country and each wave. Before we do that, we need to deal with the missing values a bit. 
 
 ```{r}
 # All missing values are indicated with negative values
@@ -80,7 +204,7 @@ Our data is organized in such a way where each wave is an individual, in a count
 d_short <- d_short %>% 
   mutate(
     across( 
-      .cols = 8:14, 
+      .cols = 5:68, 
        ~ ifelse(
         . < 0, 
         NA_real_, 
@@ -194,5 +318,118 @@ d_short %>%
   theme(legend.position = "none") +
   labs(title = "Is abortion ever justifiable?")
 
+```
+
+Okay let's try to look more closely at different age-groups, to see if we can detect, at least visually, patterns in where changes are happening. I am going to zoom in on the USA, Sweden, Korea, and India for this. 
+
+```{r}
+# Categorical variable for age
+d_short <- d_short %>% 
+  mutate(age = if_else(age < 0, 
+                       NA_real_, 
+                       age), 
+         age_banded = case_when(
+           age < 25 ~ "<25", 
+           age >= 25 & age < 35 ~ "25-34", 
+           age >= 35 & age < 45 ~ "35-44", 
+           age >= 45 & age < 55 ~ "45-54", 
+           age >= 55 & age < 65 ~ "55-64", 
+           age >= 65 ~ "65+"
+         ))
+
+d_short %>% 
+  filter(country %in% c("USA", "SWE", "IND", "KOR"), 
+         !is.na(age)) %>% 
+  group_by(wave, country, age_banded) %>% 
+  summarise(mv = mean(just_divorce, na.rm = T)) %>% 
+  ggplot(aes(x = wave, 
+             y = mv, 
+             color = age_banded)) +
+  geom_point() +
+  geom_line(alpha = 0.5) +
+  facet_wrap(~country) +
+  labs(title = "How Justifiable is Divorce?", 
+       subtitle = "Age groups across four countries")
+```
+
+```{r}
+
+just_usa_jpn <-  d_short %>% 
+  filter(country %in% c("USA", "JPN"), 
+         !is.na(just_homosexuality)) %>% 
+  mutate(outcome = scale(just_homosexuality, center = T, scale = T)[,1], 
+         wavef = as.factor(wave))
+
+pred_matrix <- model.matrix(~ wavef, 
+                  data=just_usa_jpn)
+
+stan_data <- list(
+      x = pred_matrix, 
+      outcome = just_usa_jpn$outcome, 
+      N_obs = nrow(just_usa_jpn), 
+      K = ncol(pred_matrix), 
+      cid = ifelse(just_usa_jpn$country=="USA", 1, 2), 
+      N_cts = length(unique(just_usa_jpn$country)))
+
+simple_usa <- cmdstan_model(stan_file = "simple_mu_usa.stan")
+
+simple_usa_fit <- simple_usa$sample(
+  data = stan_data, 
+  chains = 4, 
+  iter_warmup =100, 
+  iter_sampling =  400,
+  refresh = 50, 
+  parallel_chains = 4
+)
+
+draws_df <- simple_usa_fit$draws(
+  format = "df"
+)
+
+expected_means <- tibble(
+  wave_1 = draws_df$`beta_c[1,1]`,
+  wave_2 = draws_df$`beta_c[1,1]` + draws_df$`beta_c[1,2]`,
+  wave_3 = draws_df$`beta_c[1,1]` + draws_df$`beta_c[1,3]`, 
+  wave_4 = draws_df$`beta_c[1,1]` + draws_df$`beta_c[1,4]`,
+  wave_5 = draws_df$`beta_c[1,1]` + draws_df$`beta_c[1,5]`, 
+  wave_6 = draws_df$`beta_c[1,1]` + draws_df$`beta_c[1,6]`,
+  wave_7 = draws_df$`beta_c[1,1]` + draws_df$`beta_c[1,7]`
+) %>% pivot_longer(
+  1:7, 
+  names_to = "waves",
+  values_to = "estimates"
+) %>% 
+  mutate(
+    year = case_when(
+      waves == "wave_1" ~ 1, 
+      waves == "wave_2" ~ 2,
+      waves == "wave_3" ~ 3,
+      waves == "wave_4" ~ 4,
+      waves == "wave_5" ~ 5,
+      waves == "wave_6" ~ 6, 
+      waves == "wave_7" ~ 7
+    )
+  )
+
+expected_means %>% 
+  ggplot(
+    aes(
+      x = year, 
+      y = estimates
+    )
+  ) +
+  geom_jitter(pch = 21, 
+              alpha = 0.05) +
+  geom_point( 
+    data = just_usa_jpn %>%
+      filter(country == "USA") %>% 
+    group_by(wave) %>% 
+    summarise(m = mean(outcome)), 
+    aes(
+      x = wave, 
+      y = m
+    ), 
+    pch = 22, 
+    col = "red")
 ```
 
