@@ -1,0 +1,440 @@
+---
+title: "SV Exploration"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(countrycode)
+library(janitor)
+theme_set(theme_bw())
+```
+
+I am going to take all of Nico's cleaning code.
+
+```{r}
+load("Data/wvs_timeseries.rdata")
+
+d <- data1 %>% 
+  haven::zap_labels()
+
+rm(data1)
+
+d_short <- d %>% 
+  select(S002VS, 
+         COUNTRY_ALPHA,
+         S020,
+         S003,
+         X001,
+         X003, 
+         X007, 
+         F118:F123, 
+         A124_06) %>% 
+  rename(wave = S002VS, 
+         country = COUNTRY_ALPHA,
+         country_code = S003, 
+         year_survey = S020,
+         sex = X001,
+         age = X003, 
+         marital_status = X007, 
+         just_homosexuality = F118, 
+         just_prostitution = F119, 
+         just_abortion = F120, 
+         just_divorce = F121, 
+         just_euthanasia = F122, 
+         just_suicide = F123, 
+         neigh_imm = A124_06) 
+
+d_short <- d_short %>% 
+  mutate(
+    across( 
+      .cols = 6:14, # changed to include age and marital status
+       ~ ifelse(
+        . < 0, 
+        NA_real_, 
+        .
+      ))
+  )
+
+summary_df <- d_short %>% 
+  select(country,
+         wave,
+         8:14) %>% 
+  pivot_longer(3:9, 
+               names_to = "variable", 
+               values_to = "response") %>% 
+  mutate(valid_response = if_else(
+    is.na(response),0, 1
+  )) %>% 
+  group_by(
+    country, 
+    wave, 
+    variable
+  ) %>% 
+  summarise(
+    count = sum(valid_response)
+  ) %>% 
+  ungroup()
+
+```
+
+I want to see start and end dates for individual questions in each country and the number of waves. This tells us how long the series is in that country for that question and how many distinct waves. 
+
+NOTE: I am also going to make a few new variables:
+- `age01` is (age-18)/(64-18) (should help lmer optimization)
+- `birthyear` (we will use more versions of this later)
+- `cohort10` (coarsened by 10s)
+- `cohort5` (coarsened by 5s)
+
+```{r}
+d_waves <- d_short %>% 
+  pivot_longer(just_homosexuality:neigh_imm,
+               names_to = "variable",
+               values_to = "y") %>%
+  mutate(age01 = (age-18)/(64-18),
+         birthyear = year_survey - age,
+         cohort10 = floor(birthyear/10) * 10,
+         cohort5  = floor(birthyear/5) * 5) %>% 
+  drop_na() %>% 
+  group_by(country, variable) %>% 
+  mutate(start = min(year_survey),
+         end = max(year_survey),
+         span = end-start,
+         waves = n_distinct(wave),
+         obs = n()) %>% 
+  ungroup()
+```
+
+Let's look at best-case-scenario country/variables: those with all 7 waves.
+
+```{r}
+d7 <- d_waves %>% 
+  filter(waves == 7)
+
+table(d7$country, d7$variable)
+```
+
+This is very limiting! Only four countries.
+
+Let's relax it a tiny bit.
+
+```{r}
+d6 <- d_waves %>% 
+  filter(waves >= 5 & span >= 30)
+
+table(d6$country, d6$variable)
+```
+
+This might be good enough: 8 countries and in different areas of the world. I'm going to start with a very simple HAPC decomposition on each of these combos and see.
+
+We need to make sure we have all the variables we need before nesting. For example, some of the cohort groups might be too small and we could combine them.
+
+```{r}
+table(d6$cohort10)
+table(d6$cohort5)
+```
+
+Based on this I'm going to do "1920 and earlier" and "1990 and later" on the ends of both variables. We might revisit this later.
+
+```{r}
+d6 <- d6 %>% 
+  mutate(
+    cohort10b = factor(
+      case_when(
+        cohort10 < 1920 ~ 1920,
+        cohort10 > 1990 ~ 1990,
+        TRUE ~ cohort10
+      )
+    ),
+    cohort5b = factor(
+      case_when(
+        cohort5 < 1920 ~ 1920,
+        cohort5 > 1990 ~ 1900,
+        TRUE ~ cohort5
+      )
+    )
+  )
+```
+
+We are now ready to nest the df.
+
+```{r}
+d6nest <- d6 %>% 
+  group_by(country, variable) %>% 
+  nest()
+```
+
+Before running it on everything, I am going to do a quick test on one variable in one country (prostitution in South Africa).
+
+```{r}
+maxobs <- max(d6$obs)
+
+d6test <- d6 %>% 
+  filter(obs == maxobs)
+
+d6test %>% 
+  group_by(year_survey) %>% 
+  summarize(y = mean(y)) %>% 
+  ggplot(aes(x = year_survey,
+             y = y)) +
+  geom_point() +
+  geom_line()
+
+```
+
+OK you can see that the average goes up here pretty dramatically. Even just looking at this, it's got to be a period effect but let's look more closely at the cohorts separately.
+
+```{r}
+d6test %>% 
+  group_by(cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line()
+
+```
+
+There may be some differences by cohort but everyone changes pretty dramatically in most recent waves.
+
+We can use FE ANOVA to get an approximation of the "delta" statistic that Omar and I use to calculate cultural durability. We could choose different coarsenings in the final version but I will use `cohort10b` here for simplicity.
+
+```{r}
+library(rstatix)
+
+fe1 <- lm(y ~ age01 + I(age01^2) + cohort10b + factor(year_survey),
+          data = d6test)
+
+at <- anova_test(fe1, detailed = TRUE)
+
+C_mse <- at[3,2] / at[3,4]
+P_mse <- at[4,2] / at[4,4]
+
+Delta <- C_mse / (C_mse + P_mse)
+Delta
+
+```
+
+Only 1% of the systematic change here looks like cohort replacement.
+
+Let's extend this to the same question but for all available countries.
+
+```{r}
+d6_pros <- d6 %>% 
+  filter(variable == "just_prostitution")
+
+d6_pros %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+```
+
+The pictures here are more complicated than South Africa alone! In fact, for some countries, it might not even make sense to say the average has changed (e.g., JPN). We can think about that later.
+
+Let's try getting deltas for all countries.
+
+First the function.
+
+```{r}
+get_delta <- function(df) {
+  fe1 <- lm(y ~ age01 + I(age01^2) + cohort10b + factor(year_survey),
+            data = df)
+  
+  at <- anova_test(fe1, detailed = TRUE)
+  
+  C_mse <- at[3,2] / at[3,4]
+  P_mse <- at[4,2] / at[4,4]
+  
+  Delta <- C_mse / (C_mse + P_mse)
+  return(Delta)
+}
+```
+
+Now nest and map
+
+```{r}
+d6_pros %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+There's a good deal of variability here, which means even the same question changes according to different processes in different countries. That's interesting.
+
+Let's look at another variable: homosexuality.
+
+```{r}
+d6_homo <- d6 %>% 
+  filter(variable == "just_homosexuality")
+
+d6_homo %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_homo %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+
+```
+
+Abortion.
+
+```{r}
+d6_abort <- d6 %>% 
+  filter(variable == "just_abortion")
+
+d6_abort %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_abort %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+Divorce.
+
+```{r}
+d6_div <- d6 %>% 
+  filter(variable == "just_divorce")
+
+d6_div %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_div %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+Euthanasia
+
+```{r}
+d6_euth <- d6 %>% 
+  filter(variable == "just_euthanasia")
+
+d6_euth %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_euth %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+Suicide
+
+```{r}
+d6_suicide <- d6 %>% 
+  filter(variable == "just_suicide")
+
+d6_suicide %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_suicide %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+Neig Imm
+
+```{r}
+d6_imm <- d6 %>% 
+  filter(variable == "neigh_imm")
+
+d6_imm %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_imm %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
