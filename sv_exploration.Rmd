@@ -276,5 +276,165 @@ d6_pros %>%
 
 There's a good deal of variability here, which means even the same question changes according to different processes in different countries. That's interesting.
 
+Let's look at another variable: homosexuality.
 
+```{r}
+d6_homo <- d6 %>% 
+  filter(variable == "just_homosexuality")
 
+d6_homo %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_homo %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+
+```
+
+Abortion.
+
+```{r}
+d6_abort <- d6 %>% 
+  filter(variable == "just_abortion")
+
+d6_abort %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_abort %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+Divorce.
+
+```{r}
+d6_div <- d6 %>% 
+  filter(variable == "just_divorce")
+
+d6_div %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_div %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+Euthanasia
+
+```{r}
+d6_euth <- d6 %>% 
+  filter(variable == "just_euthanasia")
+
+d6_euth %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_euth %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+Suicide
+
+```{r}
+d6_suicide <- d6 %>% 
+  filter(variable == "just_suicide")
+
+d6_suicide %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_suicide %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
+
+Neig Imm
+
+```{r}
+d6_imm <- d6 %>% 
+  filter(variable == "neigh_imm")
+
+d6_imm %>% 
+  group_by(country,
+           cohort10b,
+           year_survey) %>% 
+  summarize(y = mean(y)) %>%
+  ggplot(aes(x = year_survey,
+             y = y,
+             group = cohort10b,
+             color = cohort10b)) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~country)
+
+d6_imm %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(delta = map_dbl(data, get_delta)) %>% 
+  select(country, delta) %>% 
+  arrange(delta)
+```
