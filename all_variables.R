@@ -254,3 +254,58 @@ ggplot(results,
   ) +
   facet_wrap(~country) +
   theme(legend.position = "none")
+
+### CHANGING X-AXIS TO ABSOLUTE CHANGE ####
+
+# Find variables with meaningful changes from first to last wave
+d_change <- d_waves %>%
+  filter(waves >= 4 & span >= 30 & age > 24) %>% 
+  mutate(first_obs = min(year0),
+         last_obs = max(year0),
+         .by = c(country, variable)) %>% 
+  filter(year0 == first_obs | year0 == last_obs) %>% 
+  mutate(post = if_else(year0 == last_obs, 1L, 0L)) %>%
+  mutate(ymean = mean(y),
+         .by = c(country, variable, post)) %>% 
+  mutate(ysd = sd(y),
+         .by = c(country, variable)) %>%
+  group_by(country, variable, post) %>%
+  select(ymean, ysd) %>% 
+  slice_head(n = 1) %>%
+  ungroup() %>% 
+  pivot_wider(names_from = post,
+              values_from = ymean,
+              names_prefix = "mean") %>% 
+  mutate(change = (mean1 - mean0) / ysd,
+         abschange = abs(change))
+  
+  
+  # group_by(country, variable, post) %>%
+  # summarize(mean = mean(y),
+  #           sd = sd(y),
+  #           .groups = "drop") %>% 
+  # pivot_wider(names_from = post,
+  #             values_from = c(mean, sd)) %>% 
+  # mutate(change = (mean_1 - mean_0) / sd_0,
+  #        abschange = abs(change))
+
+hist(d_change$abschange)
+
+# attach to results
+results <- left_join(results,
+                     select(d_change, country, variable, abschange)) %>% 
+  filter(abschange < Inf) # Mexico neigh_imm for some reason (check this)
+
+# Results ----
+ggplot(results,
+       aes(x = abschange,
+           y = pbetween,
+           color = variable, 
+           label = variable)) +
+  geom_point() + 
+  geom_text_repel(
+    data = results %>% 
+      filter(abschange >= .8) # "large" differences according to Cohen's d (arbitrary)
+  ) +
+  facet_wrap(~country) +
+  theme(legend.position = "none")
