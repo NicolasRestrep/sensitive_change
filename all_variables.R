@@ -215,8 +215,8 @@ getmod_lm_b2 <- function(df) {
 }
 
 getmod_lm_bw2 <- function(df) {
-  lm(y ~ ns(year0, df = 2) * cohort10t,
-     data = df)
+  lm(y ~ ns(year0, df = 1) * cohort10t,        # spline (or linear; check current setting)
+     data = df)                                # df=2 means one bend; df=1 means line
 }
 
 # get R2
@@ -279,22 +279,11 @@ d_change <- d_waves %>%
   mutate(change = (mean1 - mean0) / ysd,
          abschange = abs(change))
   
-  
-  # group_by(country, variable, post) %>%
-  # summarize(mean = mean(y),
-  #           sd = sd(y),
-  #           .groups = "drop") %>% 
-  # pivot_wider(names_from = post,
-  #             values_from = c(mean, sd)) %>% 
-  # mutate(change = (mean_1 - mean_0) / sd_0,
-  #        abschange = abs(change))
-
 hist(d_change$abschange)
 
 # attach to results
 results <- left_join(results,
-                     select(d_change, country, variable, abschange)) %>% 
-  filter(abschange < Inf) # Mexico neigh_imm for some reason (check this)
+                     select(d_change, country, variable, abschange))
 
 # Results ----
 ggplot(results,
