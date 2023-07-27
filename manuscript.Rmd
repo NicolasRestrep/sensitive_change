@@ -404,7 +404,6 @@ d_waves <- d_short %>%
   ungroup()
 
 d_waves %>% 
-  filter(year_survey==start) %>% 
   filter(waves >= 4 & span >= 30 & age > 24) %>% 
   group_by(country,
            variable) %>% 
@@ -429,4 +428,294 @@ d_waves %>%
 ```
 
 There are some shortcomings with this analysis. In Canada, for instance, we have no people with this missing value for the questions about moral attitudes, and the same is true for Mexico for the questions about confidence in institutions. This is surely an effect of how the interview was administered or coded rather than a willingness of Mexicans and Canadians to be open about these issues. However, the patterns in the other countries make sense. Questions about the moral attitudes -- like the justifiability of divorce, euthanasia, and homosexuality -- tend to have high proportion of non-responses. We also observe that questions about religious practices and beliefs, and about political self-placement also have higher levels of this type of missingness. In turn, questions about confidence in institutions tend to have lower levels of missingness. Thus, beyond our intuitive -- or even machine-learning assisted -- ratings of the sensitivity of these questions, the patterns of non-response in the data give us confirming evidence. We notice that questions about morality, political opinions, and religious beleifs tend to elicit more hesitation among participants and, thus, could be considered more sensitive. 
+
+## Results 
+
+```{r}
+# Select sensitivity measures for country-year 
+sens_df <- d_waves %>% 
+  filter(waves >= 4 & span >= 30 & age > 24) %>% 
+  group_by(country,
+           variable) %>% 
+  mutate(num_people = n()) %>% 
+  ungroup() %>% 
+  group_by(country, 
+           variable,
+           y) %>% 
+  mutate(num_answer = n(), 
+         percentage_answer = num_answer/num_people) %>% 
+  slice(1) %>% 
+  ungroup() %>% 
+  filter(y == -2) %>% 
+  select(country, variable, percentage_answer)
+
+# Previous analyses ----
+
+d_short_clean <- d_short %>% 
+  mutate(
+    across( 
+      .cols = 5:68, 
+      ~ ifelse(
+        . < 0, 
+        NA_real_, 
+        .
+      ))
+  )
+
+# Create the variables for manipulation
+
+d_waves_clean <- d_short_clean %>% 
+  pivot_longer(important_family:proud_nationality,
+               names_to = "variable",
+               values_to = "y") %>%
+  mutate(age01 = (age - 25)/(64 - 25),
+         birthyear = year_survey - age,
+         year0 = year_survey - 1981,
+         cohort5 = floor(birthyear/5) * 5,
+         cohort10 = floor(birthyear/10) * 10) %>%
+  drop_na(c(y, birthyear)) %>% 
+  group_by(country, variable) %>% 
+  mutate(start = min(year_survey),
+         end = max(year_survey),
+         span = end - start,
+         waves = n_distinct(wave),
+         obs = n()) %>% 
+  ungroup()
+
+# Filter dataset appropriately 
+d30 <- d_waves_clean %>% 
+  filter(waves >= 4 & span >= 30 & age > 24)
+
+d30 <- d30 %>% 
+  mutate(cohort10t = case_when(
+    cohort10 < 1920 ~ 1920,
+    cohort10 > 1980 ~ 1980,
+    TRUE ~ cohort10
+  ))
+
+# Functions ----
+getmod_lm_b2 <- function(df) {
+  lm(y ~ cohort10t,
+     data = df)
+}
+
+getmod_lm_bw2 <- function(df) {
+  lm(y ~ ns(year0, df = 1) * cohort10t,        # spline (or linear; check current setting)
+     data = df)                                # df=2 means one bend; df=1 means line
+}
+
+# get R2
+get_r2 <- function(mod) {
+  r2 <- r2(mod) %>% .[[1]] %>% as.numeric()
+  return(r2)
+}
+
+# Analysis ----
+
+# Nest dataset
+d30_nest <- d30 %>% 
+  group_by(country, variable) %>% 
+  nest()
+
+# Carry out analyses
+results <- d30_nest %>% 
+  mutate(mb = map(data, getmod_lm_b2),
+         mbw = map(data, getmod_lm_bw2),
+         rb = map_dbl(mb, get_r2),
+         rbw = map_dbl(mbw, get_r2),
+         pbetween = rb/rbw) %>% 
+  select(country, variable, rb, rbw, pbetween)
+
+### CHANGING X-AXIS TO ABSOLUTE CHANGE ####
+
+# Find variables with meaningful changes from first to last wave
+d_change <- d_waves_clean %>%
+  filter(waves >= 4 & span >= 30 & age > 24) %>% 
+  mutate(first_obs = min(year0),
+         last_obs = max(year0),
+         .by = c(country, variable)) %>% 
+  filter(year0 == first_obs | year0 == last_obs) %>% 
+  mutate(post = if_else(year0 == last_obs, 1L, 0L)) %>%
+  mutate(ymean = mean(y),
+         .by = c(country, variable, post)) %>% 
+  mutate(ysd = sd(y),
+         .by = c(country, variable)) %>%
+  group_by(country, variable, post) %>%
+  select(ymean, ysd) %>% 
+  slice_head(n = 1) %>%
+  ungroup() %>% 
+  pivot_wider(names_from = post,
+              values_from = ymean,
+              names_prefix = "mean") %>% 
+  mutate(change = (mean1 - mean0) / ysd,
+         abschange = abs(change))
+
+# attach to results
+results <- left_join(results,
+                     select(d_change, country, variable, abschange))
+
+# Results ----
+ggplot(results,
+       aes(x = abschange,
+           y = pbetween,
+           color = variable, 
+           label = variable)) +
+  geom_point() + 
+  geom_text_repel(
+    data = results %>% 
+      filter(abschange >= .8) # "large" differences according to Cohen's d (arbitrary)
+  ) +
+  facet_wrap(~country) +
+  theme(legend.position = "none")
+
+```
+
+```{r}
+
+sens_df_joint <- sens_df %>% 
+  left_join(., results, by = c("country", "variable")) 
+
+sens_df_joint <- sens_df_joint %>% 
+  group_by(country) %>% 
+  mutate(sens_centered = scale(percentage_answer)[,1]) %>% 
+  ungroup()
+
+sens_df_joint %>% 
+  filter(country != "KOR") %>% 
+  ggplot(
+    aes(
+      x = sens_centered, 
+      y = pbetween, 
+    )
+  ) +
+  geom_point(pch = 4) +
+  geom_smooth(method = "lm", 
+              se = F, 
+              color = "firebrick") + 
+  facet_wrap(~country)
+```
+
+```{r}
+sens_df_joint <- sens_df_joint %>% 
+  mutate(
+    gpt_sens = case_when( 
+      # Importance battery: 1 means very important, 4 means not at all important
+         variable == "important_family" ~ 2,
+         variable == "important_friends" ~ 2,
+         variable == "important_leisure" ~ 2,
+         variable == "important_poltics" ~ 3,
+         variable == "important_work" ~ 2,
+         variable == "important_religion" ~ 7, 
+         
+         # Important qualities in children: 1 means mentioned, 0 means not mentioned
+         variable == "child_independence" ~ 3,
+         variable == "child_hard_work" ~ 3,
+         variable == "child_feeling_responsibility" ~ 3,
+         variable == "child_imagination" ~ 3,
+         variable == "child_tolerance" ~ 3,
+         variable == "child_thrift" ~ 3,
+         variable == "child_determination" ~ 3,
+         variable == "child_religion" ~ 3,
+         variable == "child_unselfish" ~ 3,
+         variable == "child_obedience" ~ 3,
+         
+         # People you would not like to have as neighbours: 1 mentioned, 0 means not mentioned
+         variable == "neigh_diff_race" ~ 8,
+         variable == "neigh_drink" ~ 5, 
+         variable == "neigh_imm" ~ 8, 
+         variable == "neigh_aids" ~ 7, 
+         variable == "neigh_drugs" ~ 7, 
+         variable == "neigh_gay" ~ 9, 
+         
+         # Most people can be trusted: (1) Most people, (2) you can never be too careful
+         variable == "trust_people" ~ 3,
+         
+         # (10) means more satisfied
+         variable == "life_satisf" ~ 4, 
+         
+         # Control over life's choices: (10) feels most in control. 
+         variable == "choice_control" ~ 4, 
+         
+         # Men should be given jobs over women: (1) Agree, (2) Disagree, (3) Neither A nor D
+         variable == "jobs_men_over_women" ~ 7, 
+         
+         # Nationals should be given jobs over foreigners: (1) Agree, (2) Disagree, (3) Neither A nor D
+         variable == "jobs_national_over_foreign" ~ 8, 
+         
+         # Likert: (1) Strongly Agree -- (4) Strongly Disagree
+         variable == "housewife_fulfilling" ~ 6,
+         
+         # Left/Right placement: (1) Left -- (10) Right
+         variable == "politics_scale" ~ 4,
+         
+         # Importance of income equality 
+         variable == "income_eq" ~ 4, 
+         
+         # Business should be public/private owned: (1) Private -- (10) Public
+         variable == "pvt_state_owned" ~ 5, 
+         
+         # Government should take responsibility vs individual responsibility: (1) Gvt -- (10) Individual
+         variable == "gvt_responsibility" ~ 5,
+         
+         # Competition good or harmful: (1) Good --- (10) harmful
+         variable == "competition_good_evil" ~ 4, 
+         
+         # Confidence battery: (1) A great deal; (2) Quite a lot; (3) Not very much; (4) None at all
+         variable == "confidence_churches" ~ 7, 
+         variable == "confidence_armed_forces" ~ 5,
+         variable == "confidence_press" ~ 5, 
+         variable == "confidence_unions" ~ 5, 
+         variable == "confidence_police" ~ 6, 
+         variable == "confidence_parliament" ~ 5,
+         variable == "confidence_civil" ~ 4,
+         variable == "confidence_television" ~ 5,
+         variable == "confidence_governement" ~ 5,
+         variable == "confidence_political_party" ~5,
+         variable == "confidence_major_companies" ~ 4,
+         variable == "confidence_justice_courts" ~ 5,
+         
+         # How often attends religious services?
+         # (1) More than once a week -- (8) Never
+         variable == "attend_relig" ~ 7, 
+         
+         # (1) Religious; (2) not religious; (3) atheist
+         variable == "religious_person" ~ 7,
+         
+         # Believes (1), does not believe (0)
+         variable == "believe_god" ~ 8, 
+         variable == "believe_hell" ~ 7, 
+         
+         # (1) Not at all important -- (10) very important
+         variable == "important_god" ~ 8,
+         variable == "just_gvt_benefits" ~ 4,
+         variable == "just_fare_public_trans" ~ 3,
+         variable == "just_cheat_taxes" ~ 4,
+         variable == "just_bribe" ~ 5,
+         variable == "just_homosexuality" ~ 8, 
+         variable == "just_prostitution" ~ 8, 
+         variable == "just_abortion" ~ 9, 
+         variable == "just_divorce" ~ 6, 
+         variable == "just_euthanasia" ~ 8, 
+         variable == "just_suicide" ~ 10, 
+         variable == "proud_nationality"~ 4
+      ), 
+    gpt_sens_centered = scale(gpt_sens)[,1]
+  )
+
+sens_df_joint %>% 
+  filter(country != "KOR") %>% 
+  ggplot(
+    aes(
+      x = sens_centered, 
+      y = gpt_sens, 
+    )
+  ) +
+  geom_point(pch = 4) +
+  geom_smooth(method = "lm", 
+              se = F, 
+              color = "firebrick") + 
+  facet_wrap(~country)
+
+
+```
 
