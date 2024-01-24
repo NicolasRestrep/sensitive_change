@@ -1,0 +1,203 @@
+StartDate,EndDate,Status,IPAddress,Progress,Duration (in seconds),Finished,RecordedDate,ResponseId,RecipientLastName,RecipientFirstName,RecipientEmail,ExternalReference,LocationLatitude,LocationLongitude,DistributionChannel,UserLanguage,initial_screen_trans,consent,message_nonqualif,instructions ,PID,imp_family_1,imp_friends_1,imp_leisure_1,imp_pol_1,imp_wrk_1,imp_rel_1,child_qualities_1,neigh_race_1,neigh_drink_1,neigh_imm_1,neigh_aids_1,neigh_drug_1,neigh_gay_1,trust_1,life_satisf_1,choice_control_1,scarce_jobs_women_1,scarce_jobs_imm_1,housewife_fulfill_1,left_right_1,equal_incomes_1,private_public_busi_1,gvt_responsibility_1,comp_good_bad_1,conf_church_1,conf_armed_1,conf_press_1,conf_unions_1,conf_police_1,conf_parliament_1,conf_civil_1,conf_tv_1,conf_gvt_1,conf_pol_prt_1,conf_companies_1,conf_courts_1,rel_services_1,religiosity_1,belief_god_1,belief_hell_1,imp_god_1,just_gvt_benefits_1,just_public_trans_1,just_cheat_tax_1,just_bribe_1,just_homo_1,just_prst_1,just_abort_1,just_divorce_1,just_euth_1,just_suicide_1,att1_1,att2_1,att3_1,proud_1,end_message,random_id,PROLIFIC_PID
+Start Date,End Date,Response Type,IP Address,Progress,Duration (in seconds),Finished,Recorded Date,Response ID,Recipient Last Name,Recipient First Name,Recipient Email,External Data Reference,Location Latitude,Location Longitude,Distribution Channel,User Language,"Welcome! Bienvenido! Bienvenue! ようこそ ! Welkom ! Välkommen ! 
+
+Before we begin, we want to let you know that you can use the grey box on the top corner to translate any question into your preferred language. Try it! 
+
+Antes de empezar, queremos informarte que puedes usar el recuadro gris en la esquina superior para traducir cualquier pregunta a tu idioma preferido. ¡Inténtalo!
+Avant de commencer, nous voulons vous informer que vous pouvez utiliser la boîte grise dans le coin supérieur pour traduire n'importe quelle question dans votre langue préférée. Essayez !
+始める前に、お知らせしたいことがあります。右上の灰色のボックスを使って、どんな質問でも好きな言語に翻訳できるようになっています。試してみてくださいね！
+Voordat ons begin, wil ons jou laat weet dat jy die grys boks in die boonste hoek kan gebruik om enige vraag na jou voorkeurtaal te vertaal. Probeer dit gerus!
+Innan vi börjar vill vi informera dig om att du kan använda den grå rutan i det övre hörnet för att översätta vilken fråga som helst till ditt föredragna språk. Prova på det!","Thank you for participating! 
+This research project aims to study how comfortable different people feel about discussing certain questions.  We will present you with certain questions that have been used in surveys in the past, and will ask you to tell us how comfortable you think most people from your country would feel with talking about those questions. The entire study should take approximately 15 minutes. 
+Key Information: 
+Your participation is entirely voluntary, and you may withdraw at any point. However, you must answer all questions, perform all tasks, and proceed to the final screen of the study in order to be compensated. For successful participation in the study, you will receive $2.50, paid by transfer to your Prolific account.
+We will adhere, at all times, to strict standards of confidentiality. Information obtained through your participation will be accessible only to the research team. Your name will not be attached to the data in any way. Although the data collected may be made public or used for future research, your identity will always remain confidential. 
+You must be in the country specified during recruitment to qualify to participate in this study. If you are not, you will be redirected to the end of the survey after this page. Further, in accordance to Prolific policies, we may reject your work if the task was not completed correctly or the instructions were not followed. 
+The questions that you will evaluate cover a range of topics, from childrearing to substance abuse. We will not ask you about your experiences or your opinion, but rather about how most people in your country would feel about discussing these topics. However, there is a risk that some questions might reference potentially sensitive topics. If this is in any way distressing, please feel free to abstain from participation. There are no direct benefits for participating in this research. 
+If you have any questions you may contact us by email at sensitivityaroundtheglobe@gmail.com. If you have questions about your rights as a research subject, contact Duke University’s Campus Institutional Review Board at campusirb@duke.edu or at 919-684-3030 referencing protocol #2024-0223. 
+By clicking “I agree to participate”, you indicate that you understand the study description above, that you understand the qualifications necessary to participate in this study, that you will follow the instructions, and that you agree to participate. You may save and/or print this form.","Unfortunately, you do not qualify for participation in this study. You have either indicated that you do not consent to participating in this study or your IP address does not match the locations to which the project is restricted. 
+If you think this is an error, please feel free to reach out to us at sensitivityaroundtheglobe@gmail.com","Welcome, and thank you for deciding to take part in the study! Before you begin, please read the following instructions carefully:
+In our everyday lives, there are topics we find easier or more difficult to discuss with others. In this project we will present you with a series of questions and you will tell us how difficult you think it would be for most people from your country to talk about these issues. Bear in mind we are not asking you about your comfort with discussing the topics. We instead want you to think about what most people in your country would feel like discussing those questions. 
+Throughout the questions, you will be shown some active participation checks. They will consist of simple math operations – like 2+1 – that will help us know you are completing the task carefully. 
+Please remember to read all questions and instructions carefully so that you respond to all participation checks correctly. Failing to do so will result in loss of payment.","What is your Prolific ID?
+
+Please note that this response should auto-fill with the correct ID","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether family is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether friends are very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether leisure is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether politics are very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether work is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether religion is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""There are many qualities that children can be encouraged to learn at home. Which, if any, do you consider to be especially important?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have people of a different race as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have heavy drinkers as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have immigrants or foreign workers as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have people with AIDS as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have drug addicts as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have gay people as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say most people can be trusted or that you can never be too careful?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""All things considered, how satisfied are you with your life as a whole these days?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Some people feel they have completely free choice and control over their lives, while other people feel that what they do has no real effect on what happens to them. Please tell me whether you feel you have no choice and control at all over your life, a great deal of choice and control, or something in between.
+"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you agree or disagree with the idea that when jobs are scarce, men should have more right to a job than women?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you agree or disagree with the idea that when jobs are scarce, employers should give priority to people of this country over immigrants?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you agree or disagree with the idea that being a housewife is just as fulfilling as working for pay?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""In political matters, people talk of “the left” and “the right.” How would you place your views on this scale, generally speaking?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say that incomes should be made more equal, that there should be greater incentives for individual effort, or something in between?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say that businesses should be privately owned, publicly owned, or something in between?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say that the government should take more responsibility to ensure that everyone is provided for, that people should take more responsibility to provide for themselves, or something in between?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say that competition is good, it is harmful, or something in between?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in churches?
+"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in the armed forces?
+"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in the press?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in unions?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in the police?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in parliament/congress?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in civil services?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in television?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in the government?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in political parties?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in major companies?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in justice courts?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How often do you attend religious services?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say you are religious, not religious, or an atheist?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you believe in God?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you believe in Hell?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether God is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think claiming government benefits that you are not entitled to can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think avoiding a fare in public transportation can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think cheating on your taxes if you have a chance can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think accepting a bribe on the course of your duties can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think homosexuality can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think prostitution can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think abortion can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think divorce can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think euthanasia can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think suicide always be justified, never be justified, or something in between."" - 1","What is the result of the following operation:
+5 - 3","What is the result of the following operation:
+4 + 1","What is the result of the following operation:
+6 - 5","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How proud are you to be of the nationality of this country?""","Thank you for your participation. We would like to tell you about the purpose of the study you have just completed. 
+As stated in the informed consent, this study was designed to examine how difficult people in different countries find it to discuss certain questions. Specifically, we took questions that have been asked for several years in the World Values Survey ( https://www.worldvaluessurvey.org/wvs.jsp ) and asked you to tell us how most of your compatriots would feel about discussing them. We wanted to examine how sensitive these questions might be across different national contexts. 
+Thank you again for your time and participation. If you have any questions regarding this study, please contact us at sensitivityaroundtheglobe@gmail.com
+Is there any feedback you want to give us?",random_id,PROLIFIC_PID
+"{""ImportId"":""startDate"",""timeZone"":""America/Denver""}","{""ImportId"":""endDate"",""timeZone"":""America/Denver""}","{""ImportId"":""status""}","{""ImportId"":""ipAddress""}","{""ImportId"":""progress""}","{""ImportId"":""duration""}","{""ImportId"":""finished""}","{""ImportId"":""recordedDate"",""timeZone"":""America/Denver""}","{""ImportId"":""_recordId""}","{""ImportId"":""recipientLastName""}","{""ImportId"":""recipientFirstName""}","{""ImportId"":""recipientEmail""}","{""ImportId"":""externalDataReference""}","{""ImportId"":""locationLatitude""}","{""ImportId"":""locationLongitude""}","{""ImportId"":""distributionChannel""}","{""ImportId"":""userLanguage""}","{""ImportId"":""QID61""}","{""ImportId"":""QID1""}","{""ImportId"":""QID60""}","{""ImportId"":""QID2""}","{""ImportId"":""QID63_TEXT""}","{""ImportId"":""QID3_1""}","{""ImportId"":""QID5_1""}","{""ImportId"":""QID6_1""}","{""ImportId"":""QID7_1""}","{""ImportId"":""QID8_1""}","{""ImportId"":""QID9_1""}","{""ImportId"":""QID10_1""}","{""ImportId"":""QID11_1""}","{""ImportId"":""QID12_1""}","{""ImportId"":""QID13_1""}","{""ImportId"":""QID14_1""}","{""ImportId"":""QID15_1""}","{""ImportId"":""QID16_1""}","{""ImportId"":""QID17_1""}","{""ImportId"":""QID18_1""}","{""ImportId"":""QID19_1""}","{""ImportId"":""QID20_1""}","{""ImportId"":""QID21_1""}","{""ImportId"":""QID22_1""}","{""ImportId"":""QID23_1""}","{""ImportId"":""QID24_1""}","{""ImportId"":""QID25_1""}","{""ImportId"":""QID26_1""}","{""ImportId"":""QID27_1""}","{""ImportId"":""QID28_1""}","{""ImportId"":""QID29_1""}","{""ImportId"":""QID30_1""}","{""ImportId"":""QID31_1""}","{""ImportId"":""QID32_1""}","{""ImportId"":""QID33_1""}","{""ImportId"":""QID34_1""}","{""ImportId"":""QID35_1""}","{""ImportId"":""QID36_1""}","{""ImportId"":""QID37_1""}","{""ImportId"":""QID38_1""}","{""ImportId"":""QID40_1""}","{""ImportId"":""QID39_1""}","{""ImportId"":""QID41_1""}","{""ImportId"":""QID42_1""}","{""ImportId"":""QID43_1""}","{""ImportId"":""QID44_1""}","{""ImportId"":""QID45_1""}","{""ImportId"":""QID46_1""}","{""ImportId"":""QID47_1""}","{""ImportId"":""QID48_1""}","{""ImportId"":""QID49_1""}","{""ImportId"":""QID50_1""}","{""ImportId"":""QID51_1""}","{""ImportId"":""QID52_1""}","{""ImportId"":""QID53_1""}","{""ImportId"":""QID54_1""}","{""ImportId"":""QID57_1""}","{""ImportId"":""QID58_1""}","{""ImportId"":""QID59_1""}","{""ImportId"":""QID55_1""}","{""ImportId"":""QID56_TEXT""}","{""ImportId"":""random_id""}","{""ImportId"":""PROLIFIC_PID""}"
+2024-01-15 11:56:26,2024-01-15 12:05:15,IP Address,69.119.152.168,98,528,False,2024-01-22 12:05:19,R_3jAsFGuJKm20t6V,,,,,,,anonymous,EN,Understood,I agree to participate,,Understood,,3,1,1,2,3,4,3,3,3,4,3,4,3,1,1,5,6,3,2,1,6,3,5,2,4,3,2,5,3,1,2,1,1,1,6,2,3,4,3,5,4,3,4,3,3,2,6,4,2,6,5,2,5,1,2,,47520,
+2024-01-15 12:14:02,2024-01-15 12:35:14,IP Address,73.12.161.69,98,1272,False,2024-01-22 12:35:16,R_1TGZekIq0ZXyla4,,,,,,,anonymous,ES,Understood,I agree to participate,,Understood,,1,5,6,6,1,1,7,5,4,3,1,1,6,1,4,7,5,1,4,2,2,3,3,1,3,,1,1,1,1,7,1,1,1,1,1,2,1,1,1,1,4,6,3,6,4,1,8,2,1,1,2,5,1,1,,36888,
+2024-01-23 04:20:35,2024-01-23 04:20:46,IP Address,51.186.15.19,100,10,True,2024-01-23 04:20:47,R_439LvEyw60DODCg,,,,,51.4781,-0.0279,anonymous,EN,,,-->,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10186,{{%PROLIFIC_PID%}}
+2024-01-23 09:56:37,2024-01-23 10:10:06,IP Address,172.56.13.124,100,808,True,2024-01-23 10:10:07,R_5tNQE8jZvBLNJ7j,,,,,44.9834,-93.2622,anonymous,EN,Understood,I agree to participate,,Understood,5ba18771e671c600012322e4,1,1,1,1,1,1,6,8,1,4,7,3,7,1,7,7,7,6,3,5,4,1,4,1,2,5,1,3,7,1,1,1,5,3,1,1,1,6,3,1,1,5,1,4,10,10,7,10,6,10,9,2,5,1,8,,86438,5ba18771e671c600012322e4
+2024-01-23 09:53:52,2024-01-23 10:13:33,IP Address,104.230.65.13,100,1181,True,2024-01-23 10:13:34,R_5rJvKvXLGQPxZm5,,,,,39.7838,-84.2375,anonymous,EN,Understood,I agree to participate,,Understood,651c1b6bcc2be51dd84eb251,1,1,1,2,3,3,2,8,6,6,8,5,6,3,8,8,2,3,8,3,1,8,6,7,2,3,2,5,2,3,6,6,3,3,6,3,6,3,4,3,3,8,7,9,8,2,5,2,2,7,8,2,5,1,5,"The way some of these questions are worded would affect the way most people would be willing to discuss them. I do think most people are willing to discuss a lot of what was asked but because of the difficulty in reaching a common ground or how much some people stand by their beliefs; it depends on how long the discussion is going to be to determine how many would be willing to discuss those topics. I personally would be up for discussing any of these topics as long as I am discussing them with a person or group that is willing to discuss and compare opinions without getting overheated, or just trying to convince me that their view is the only one. Thank you so much, I hope this helps!!",80977,651c1b6bcc2be51dd84eb251
+2024-01-23 10:08:08,2024-01-23 10:15:21,IP Address,174.196.140.207,100,432,True,2024-01-23 10:15:21,R_1jH5hYEpHXATWIL,,,,,38.93,-77.35,anonymous,EN,Understood,I agree to participate,,Understood,659417e3075e6fce8d7979bf,2,1,2,4,2,8,3,9,3,9,7,7,9,7,3,7,10,9,8,8,7,2,8,3,7,8,4,2,9,8,3,3,6,6,9,8,7,3,8,7,7,9,6,3,8,9,8,10,2,9,8,2,5,1,9,,86810,659417e3075e6fce8d7979bf
+2024-01-23 09:58:58,2024-01-23 10:17:18,IP Address,173.242.200.116,100,1099,True,2024-01-23 10:17:18,R_3YxkLCTPVTjAJfi,,,,,34.9007,-86.4535,anonymous,EN,Understood,I agree to participate,,Understood,60c3d124a3f6a934bbbb3292,1,2,2,1,3,4,2,1,1,3,6,1,4,1,1,1,7,1,1,2,4,1,2,3,2,2,1,1,3,1,2,1,1,1,3,3,1,2,2,2,1,3,1,3,2,2,1,6,4,7,3,2,5,1,1,Thank you and have a great day!,65761,60c3d124a3f6a934bbbb3292
+2024-01-23 10:08:25,2024-01-23 10:23:18,IP Address,65.131.253.173,100,893,True,2024-01-23 10:23:18,R_1cV6UTHPYFzlIt5,,,,,28.7115,-81.5135,anonymous,EN,Understood,I agree to participate,,Understood,599b410ab5566b0001aa86db,6,6,5,6,7,6,4,7,6,4,5,4,7,6,6,6,6,7,4,4,6,4,6,4,3,3,5,4,5,4,6,4,5,4,4,4,4,4,3,4,4,4,7,4,5,6,6,6,5,6,8,2,5,1,3,,81856,599b410ab5566b0001aa86db
+2024-01-23 10:12:51,2024-01-23 10:27:41,IP Address,172.15.80.108,100,889,True,2024-01-23 10:27:41,R_5pQrWjY7E3o0fXq,,,,,37.4912,-120.8559,anonymous,EN,Understood,I agree to participate,,Understood,6126d55185945cde77d7afdc,2,9,4,6,6,6,3,6,5,7,7,3,8,2,5,5,5,6,7,6,5,3,6,8,5,3,4,5,5,5,6,5,5,7,5,3,4,4,4,8,5,5,6,5,6,8,6,2,7,4,6,2,5,1,4,,37809,6126d55185945cde77d7afdc
+2024-01-23 10:08:12,2024-01-23 10:33:01,IP Address,71.179.100.181,100,1488,True,2024-01-23 10:33:01,R_2GJKXHuLGI40m5j,,,,,39.2079,-76.9593,anonymous,EN,Understood,I agree to participate,,Understood,65a3e897bf76685e310cac38,8,8,8,7,8,7,6,6,4,6,7,2,7,7,7,6,7,9,6,7,6,6,8,7,9,8,7,7,10,8,7,7,7,7,9,7,6,6,9,7,10,4,4,4,1,6,3,2,8,6,6,2,5,1,10,great study,20834,65a3e897bf76685e310cac38
+2024-01-23 10:12:37,2024-01-23 10:35:18,IP Address,67.248.39.93,100,1361,True,2024-01-23 10:35:19,R_6NlIy6jytdlC7Gm,,,,,43.4157,-73.7023,anonymous,EN,Understood,I agree to participate,,Understood,650311dea8a04c0785cf39ca,3,2,3,6,2,6,4,6,3,4,4,2,3,4,3,3,6,4,4,6,6,6,4,4,6,6,4,6,4,4,4,3,6,6,4,6,4,3,4,6,6,7,4,3,4,4,7,8,4,4,8,2,5,1,4,,53611,650311dea8a04c0785cf39ca
+2024-01-23 10:11:32,2024-01-23 10:35:20,IP Address,70.166.134.21,100,1428,True,2024-01-23 10:35:21,R_5Q4bH8JDKF9qixM,,,,,36.1738,-94.0466,anonymous,EN,Understood,I agree to participate,,Understood,5d16b6890a274600163f6518,3,5,1,2,2,4,1,8,4,7,8,3,7,5,3,7,3,7,4,6,7,5,8,3,7,6,4,8,8,4,6,3,4,6,5,4,2,3,8,8,5,5,4,5,4,7,6,10,7,10,9,2,5,1,7,,60876,5d16b6890a274600163f6518
+2024-01-23 10:10:53,2024-01-23 10:39:30,IP Address,73.97.41.173,100,1716,True,2024-01-23 10:39:30,R_7KDXpz0WMyGKux3,,,,,47.1016,-123.0591,anonymous,EN,Understood,I agree to participate,,Understood,5ee7201004aef94af287ccc5,2,2,9,7,3,8,4,4,7,6,7,7,6,8,7,7,8,7,8,8,7,8,8,7,8,8,7,7,8,8,8,7,8,7,8,8,4,2,9,9,3,3,7,3,3,4,7,9,7,8,8,2,5,1,8,,49765,5ee7201004aef94af287ccc5

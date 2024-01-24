@@ -1,8 +1,8 @@
 ---
-title: "Mechanisms of Change across Issues and Contexts"
+title: "Opinions on Hard-to-Discuss Topics Change More via Cohort Replacement"
 author: 
-  - Nicolas Restrepo Ochoa, Anthropology Department, Univerity of California at Davis.
-  - Stephen Vaisey, Sociology Department, Duke University.
+  - Nicolas Restrepo Ochoa[^NRO]
+  - Stephen Vaisey[^SV]
 output:
   pdf_document:
   html_document:
@@ -36,7 +36,12 @@ library(labelled)
 theme_set(theme_bw())
 ```
 
+[^NRO]: Anthropology Department, Univerity of California at Davis.  
+[^SV]: Sociology Department, Duke University.
+
 Words: `r wordcountaddin::word_count("manuscript.Rmd")`
+
+\newpage
 
 ## Introduction
 
@@ -289,7 +294,7 @@ The second model would be similar but it would also include an interaction effec
 
 $$ y_i \sim N(\mu, \sigma^2) $$
 
-$$ \mu = \alpha + \beta_{\text{cohort}[i]} + \phi_{\text{year}[i]} + \zeta_{\text{cohort[i]} * \text{year[i]}} $$
+$$ \mu = \alpha + \beta_{\text{cohort}[i]} + \phi \times \text{year}_i + \zeta_{\text{cohort[i]}} \times \text{year}_i $$
 
 ```{r}
 # Functions ----
@@ -804,7 +809,7 @@ sens_df_joint %>%
 
 At first glance, the ratings seem intuitive. Questions about euthanasia and suicide have quite high ratings. In contrast, questions about the importance of friends and those about childrearing tend to have lower scores.
 
-We recognize there are several limitations to this scoring system. Perhaps the biggest is that LLMs are trained on text that might favor certain cultural biases, those of industrialized and highly educated countries. Therefore, these ratings hide cross-cultural variation in sensitivity --- i.e they cannot tell us whether an issue that is sensitive in Japan might be prosaic in Sweden.
+We recognize there are several limitations to this scoring system. Perhaps the biggest is that LLMs are trained on text that might favor certain cultural biases, those of industrialized and highly educated countries [@atariWhichHumans2023]. Therefore, these ratings hide cross-cultural variation in sensitivity --- i.e they cannot tell us whether an issue that is sensitive in Japan might be prosaic in Sweden.
 
 To complement this approach, we develop another measure for sensitivity that takes advantage of patterns of missingness in the WVS. Like most large-scale survey efforts, the WVS codes different types of missingness in their data. Missing values here are coded as: does not know (-1), does not apply (-3), did not answer (-2), and missing for other reasons (-5). As we mentioned above, in this special issue, sensitive topics are defined as those that are difficult to *talk about*. If sensitivity is indeed related to how difficult it is to speak about a subject, then we could plausibly interpret participants' unwillingness to answer the questions as an -- admittedly weak -- indicator of an issue's sensitivity. The proportion of missing data coded as (-2) in each question then could give us an indication of whether an issue is sensitive or not. We calculate this proportion for each question for each country and averaged across all countries. For our analyses, we use the latter because it is most comparable to the LLM ratings, but we also conducted all tests using the country-specific proportions and the results are largely the same. In Figure X, we see the sensitivity ratings calculated as the proportion of missing data that denotes unwillingness to answer per question:
 
@@ -820,8 +825,8 @@ sens_df_joint %>%
   geom_point(pch = 6) +
   coord_flip() +
   theme(axis.text.y = element_text(size = 5))  +
-  labs(title = "LLM Sensitivity Ratings", 
-       y = "Ratings", 
+  labs(title = "Missingness Sensitivity Ratings", 
+       y = "Percentage of Refusal (Centered)", 
        x = "")
 ```
 
@@ -901,9 +906,20 @@ s2 <- gtsummary::tbl_regression(mod2, tidy_fun = broom.mixed::tidy,
 tbl_merge_ex1 <-
   tbl_merge(
     tbls = list(s1, s2),
-    tab_spanner = c("**Missingness**", "**LLM**")
+    tab_spanner = c("Missingness", "LLM")
   )
-tbl_merge_ex1
+
+```
+```{r}
+tbl_merge_ex1 %>%
+  as_kable_extra(booktabs = TRUE,
+                 longtable = TRUE,
+                 linesep = "") %>%
+  kableExtra::kable_styling(
+    position = "center",
+    latex_options = c("striped", "repeat_header"),
+    stripe_color = "gray!15"
+  )
 ```
 
 Here, we have mixed evidence. When we use the sensitivity ratings based on unwillingness to answer the questions, we find that there no differences in rates of overall change between more and less sensitive issues. However, when we use the ratings by the LLM, we do see that there are some small differences: a one standard deviation increase in sensitivity would lead to a 0.07 standard deviations increase in overall change. Thus, even though we have some indications that sensitive issues tend to exhibit more overall change, given the contradictory evidence, it is not possible to draw strong conclusions.
@@ -922,14 +938,24 @@ mod4 <- lme4::lmer(pbetween ~ (1 | country) + sensitivity,
 s4 <- gtsummary::tbl_regression(mod4, tidy_fun = broom.mixed::tidy, 
                                 label=list("country.sd__(Intercept)" = "Country Intercept SD", 
                                            "Residual.sd__Observation" = "Residuals SD", "sensitivity" = "Sensitivity"))
-tbl_merge_ex1 <-
-  tbl_merge(
+tbl_merge_ex2 <- tbl_merge(
     tbls = list(s3, s4),
     tab_spanner = c("**Missingness**", "**LLM**")
   )
-tbl_merge_ex1
 
+tbl_merge_ex2 %>% 
+  as_kable_extra(
+    booktabs = TRUE,
+    longtable = TRUE,
+    linesep = ""
+  ) %>%
+  kableExtra::kable_styling(
+    position = "center",
+    latex_options = c("striped", "repeat_header"),
+    stripe_color = "gray!15"
+  )
 ```
+
 
 Here, both models are broadly consistent. The results suggests that as sensitivity increases, so does $\tau$. For the model that includes the LLM ratings, a one standard deviation increase in sensitivity leads to a 0.08 increase in $\tau$. In turn, for the model that operationalizes missingness as an unwillingness to answer questions, a one standard deviation increase in sensitivity is associated with a 0.05 increase in $\tau$. Although the coefficients are not large, this means that -- on average -- we should expect more sensitive issues to change more through *between-cohort differences* as opposed to *within-cohort changes*. Sensitive issues do seem to vary in terms of the mechanism that undergirds their variation across time: they appear to change more due to cohort replacement. These are small effects, but they are consistent with the theoretical mechanisms we discussed above. The fact that both models point in the same direction lends further confidence to the results.
 
