@@ -33,6 +33,7 @@ library(broom)
 library(broom.mixed)
 library(gtsummary)
 library(labelled)
+library(brms)
 theme_set(theme_bw())
 ```
 
@@ -372,17 +373,357 @@ $\tau$ then could be interpreted as the proportion of variance explained that is
 
 At this point it is important to discuss an important assumption in this approach. The second model we fit assumes that *within-cohort change* is linear. This means that we are unable to capture within-cohort fluctuations that might be caused by temporary shocks -- e.g. a temporary increase in support of defense spending after a terrorist attack. While we acknowledge that these fluctuations are an important component of *within-cohort change*, they cannot account for monotonic aggregate changes over time. When social scientists discuss cultural change, they often mean *directional* change. In other words, we tend to be interested in variation that follows a trend, like the secularization of group or the expansion/erosion of civil liberties. Given that we are interested in how average opinions, within cohorts, have changed in a single direction across time, the linear assumption is warranted. However, this does prevent us from drawing any conclusions about any *non-linear* changes that might happen within cohorts, which can certainly be important for understanding opinion change.
 
-### Data
+### Data & Analysis
 
 To understand mechanisms of change, across different contexts and issues, we use the World Values Survey (WVS) [@inglehartWorldValuesSurveys2000]. The WVS is a large-scale effort to collect comparable attitudinal data across multiple countries, which started in 1981. For each country and each wave, the WVS collects high-quality, nationally representative samples, and covers a wide range of questions from views on gender equality to socio-economic indices. The survey, however, is not longitudinal, which means that we are unable to track any within-individual changes across time. However, it allows us to examine trends in aggregate opinion across time for different countries.
 
 Our method will be most insightful when we have information about aggregate information in each country across a considerable span of time. This is a challenge because not all countries feature in every wave, and not all questions were asked in the times when we do have samples. We decide to select countries based on completeness: those for which we have the most measures. This leads us to eight countries: Argentina (ARG), Australia (AUS), Canada (CAN), Japan (JPN), Mexico (MEX), South Africa (ZAF), Sweden (SWE), and the USA. This is not comprehensive or particularly diverse sample of countries. We are missing some of the world's most populous countries -- India and China -- and we do not have a majority-Muslim country. However, given that these mechanisms of social change have yet to be tested across different societies, an initial comparison -- albeit limited -- is valuable. We also select the variables for our analysis based on relevance and completeness. In terms of the former, we choose variables that reflect cultural attitudes that could plausibly change over time. This includes a wide range of items, from opinions about child-bearing to attitudes about the acceptability of euthanasia. We also select the variables based on whether they have been asked in all the waves for the countries selected. After implementing both criteria we are left with 56 variables that cover a wide variety of issues, some everyday and some highly sensitive. The full list of items, alongside their respective questions and the abbreviations we use below, is available in the supplementary materials.
 
-### Analysis
+Given that we are interested in how sensitive or mundane these questions are, we fielded a multi-country survey to get at this issue. Though operationalizing sensitivity is difficult, we find the definition given in this special issue a useful starting point. As mentioned above, sensitivity here is defined as those topics that are difficult to talk about. We took this definition and asked respondents to tell us how easy or difficult it would be to discuss a given question, as worded in the WVS. Importantly, we are not interested in the respondents' own opinions on a given issue, but rather on how difficult they think it would be for the *majority of their compatriots* to talk about that question. Thus, we asked them: "how difficult would it be for the majority of people from you country to discuss the following question". We then provided them with a scale from one to ten, where the lower end was labelled as "not difficult at all" and the higher end was labeled as "extremely difficult". Each participant rated all the questions associated with the variables that we consider in this study. This allows us to approach a defensible measure of how sensitive each issue is in each of the eight countries we are focusing on. 
 
-For each variable, we calculate $\tau$, as defined above. We then examine how this metric is related to the total amount of change each variable exhibits in each country. Finally, we fit two linear regression models to explore whether the sensitivity of the issues is related to how much they change and to the mechanism that most likely underpins that variation.
+To field the surveys, we used the online platforms Prolific and CloudResearch. Both offer a high-quality pool of respondents and, importantly, they maintain samples across different countries. Between both platforms, we were able to reach to respondents from the eight countries that constitute our WVS sample. We translated all the questions to the main languages spoken in each country, and we gave participants the opportunity to choose their preferred language. Initially, our sample consisted of 808 individuals and, after excluding participants that had missed more than two attention checks, we had total sample of 802 respondents. Table 1 breaks down how this sample is distributed across the countries: 
 
-Though capturing the sensitivity of an issue is a difficult task, we use two strategies that can help us operationalize this concept in a principled way. At first glance, we cover variables that differ widely in terms of how sensitive they are. For example, it is possible to contend that questions about the justifiability of euthanasia are more sensitive that questions about whether imagination is an important quality in a child. But we want to ascertain the sensitivity of these questions in a more principled way. Our first approach is to use an LLM to rate each one of the questions in terms of sensitivity on a scale from 1 to 10. The script used to prompt the LLM for the ratings is available in the supplementary materials. The following plot shows the ratings associated with each question:
+```{r}
+
+usa_d <- read_csv("Data/usa_data_full.csv") %>% mutate(country = "USA")
+# Keep only the real answers (no headers, pretests or rejections)
+usa_d <- usa_d[-c(1:5, 16:17, 19) ,]
+
+swe_d <- read_csv("Data/swe_data_full.csv") %>% mutate(country = "SWE")
+swe_d <- swe_d[-c(1:2),]
+
+zaf_d <- read_csv("Data/zaf_data_full.csv") %>% mutate(country = "ZAF")
+zaf_d <- zaf_d[-c(1:2),]
+
+mex_d <- read_csv("Data/mex_data_full.csv") %>% mutate(country = "MEX")
+mex_d <- mex_d[-c(1:2),]
+
+jpn_d <- read_csv("Data/jpn_data_full.csv") %>% mutate(country = "JPN")
+jpn_d <- jpn_d[-c(1:2),]
+
+can_d <- read_csv("Data/can_data_full.csv") %>% mutate(country = "CAN")
+can_d <- can_d[-c(1:2),]
+
+aus_d <- read_csv("Data/aus_data_full.csv") %>% mutate(country = "AUS")
+aus_d <- aus_d[-c(1:2),]
+
+arg_d <- read_csv("Data/arg_data_full.csv") %>% mutate(country = "ARG")
+arg_d <- arg_d[-c(1:8,60),]
+
+
+usa_ds <- usa_d %>% 
+  select(23:77,81)
+
+swe_ds <- swe_d %>% 
+  select(23:77,81)
+
+zaf_ds <- zaf_d %>% 
+  select(23:77,81)
+
+mex_ds <- mex_d %>% 
+  select(23:77,81)
+
+jpn_ds <- jpn_d %>% 
+  select(23:77,81)
+
+can_ds <- can_d %>% 
+  select(23:77,81)
+
+aus_ds <- aus_d %>% 
+  select(23:77,81)
+
+arg_ds <- arg_d %>% 
+  select(22:76,81)
+
+d_sens_complete <- rbind(usa_ds,
+                         swe_ds,
+                         zaf_ds,
+                         mex_ds,
+                         jpn_ds,
+                         can_ds,
+                         aus_ds, 
+                         arg_ds)
+
+d_sens_complete <- d_sens_complete %>% 
+  mutate(
+    across( 
+      .cols =1:55, 
+      as.numeric
+    )
+  )
+
+# If attention check succesful then 1, else 0
+# Count attention checks
+d_sens_complete <- d_sens_complete %>% 
+  mutate(ac1 = if_else(att1_1 == 2, 1, 0), 
+         ac2 = if_else(att2_1 == 5, 1, 0), 
+         ac3 = if_else(att3_1 == 1, 1, 0), 
+         ac = ac1+ac2+ac3)
+rm(usa_d,
+   swe_d,
+   zaf_d,
+   mex_d,
+   jpn_d,
+   can_d,
+   aus_d)
+
+rm(usa_ds,
+   swe_ds,
+   zaf_ds,
+   mex_ds,
+   jpn_ds,
+   can_ds,
+   aus_ds)
+
+# Keep only respondents with 2 or more attention checks
+d_sens_complete <- d_sens_complete %>% 
+  filter(ac >=2)
+
+d_sens_long <- d_sens_complete %>% 
+  select(country, everything()) %>% 
+  mutate(
+    across( 
+      .cols = 2:56, 
+      as.numeric
+    )
+  ) %>% 
+  pivot_longer(
+    2:56, 
+    names_to = "question", 
+    values_to = "difficulty"
+  ) %>% 
+  mutate(
+    question = str_remove(question, "_1$"), 
+    variable = case_when( 
+      question == "imp_family" ~ "important_family", 
+      question == "imp_friends" ~ "important_friends", 
+      question == "imp_leisure" ~ "important_leisure", 
+      question == "imp_pol" ~ "important_politics", 
+      question == "imp_wrk" ~ "important_work", 
+      question == "imp_rel" ~ "important_religion", 
+      question == "child_qualities" ~ "child_independence", 
+      question == "neigh_race" ~ "neigh_diff_race", 
+      question == "neigh_drink" ~ "neigh_drink", 
+      question == "neigh_imm" ~ "neigh_imm", 
+      question == "neigh_aids" ~ "neigh_aids", 
+      question == "neigh_drug" ~ "neigh_drugs", 
+      question == "neigh_gay" ~ "neigh_gay", 
+      question == "trust" ~ "trust_people", 
+      question == "life_satisf" ~ "life_satisf", 
+      question == "choice_control" ~ "choice_control", 
+      question == "scarce_jobs_women" ~ "jobs_men_over_women", 
+      question == "scarce_jobs_imm" ~ "jobs_national_over_foreign", 
+      question == "housewife_fulfill" ~ "housewife_fulfilling", 
+      question == "left_right" ~ "politics_scale", 
+      question == "equal_incomes" ~  "income_eq", 
+      question == "private_public_busi" ~ "pvt_state_owned", 
+      question == "gvt_responsibility" ~ "gvt_responsibility", 
+      question == "comp_good_bad" ~ "competition_good_evil", 
+      question == "conf_church" ~ "confidence_churches", 
+      question == "conf_armed" ~ "confidence_armed_forces", 
+      question == "conf_press" ~ "confidence_press", 
+      question == "conf_unions" ~ "confidence_unions", 
+      question == "conf_police" ~ "confidence_police", 
+      question == "conf_parliament" ~ "confidence_parliament", 
+      question == "conf_civil" ~ "confidence_civil", 
+      question == "conf_tv" ~ "confidence_tv", 
+      question == "conf_gvt" ~ "confidence_government", 
+      question == "conf_pol_prt" ~ "confidence_political_parties", 
+      question == "conf_companies" ~ "confidence_major_companies", 
+      question == "conf_courts" ~ "confidence_justice_courts", 
+      question == "rel_services" ~ "attend_relig", 
+      question == "religiosity" ~ "religious_person", 
+      question == "belief_god" ~ "believe_god", 
+      question == "belief_hell" ~ "believe_hell", 
+      question == "imp_god" ~ "important_god", 
+      question == "just_gvt_benefits" ~  "just_gvt_benefits", 
+      question == "just_public_trans" ~ "just_fare_public_trans", 
+      question == "just_cheat_tax" ~ "just_cheat_taxes", 
+      question == "just_bribe" ~ "just_bribe", 
+      question == "just_homo" ~ "just_homosexuality", 
+      question == "just_prst" ~ "just_prostitution", 
+      question == "just_abort" ~ "just_abortion", 
+      question == "just_divorce" ~ "just_divorce", 
+      question == "just_euth" ~ "just_euthanasia", 
+      question == "just_suicide" ~ "just_suicide", 
+      question == "proud" ~ "proud_nationality", 
+      TRUE ~ question),
+  )
+
+
+d_sens_complete %>% 
+  group_by(country) %>% 
+  summarise(`Number of Respondents` = n()) %>% 
+  knitr::kable(
+    format = "latex",
+    align = "c",
+    booktabs = TRUE,
+    longtable = TRUE,
+    linesep = "",
+    ) %>%
+  kableExtra::kable_styling(
+      position = "left",
+      latex_options = c("striped", "repeat_header"),
+      stripe_color = "gray!15"
+    )
+  
+```
+
+Now, we do not claim that this sample is representative of the population of any of those countries. However, we believe that these data provide a principled measure of how sensitive certain issues are perceived in each country. The fact that we prompted participants to think about their second-order beliefs -- to think about what most of their compatriots think -- helps in trying to bypass individual idiosyncrasies and to get a adequate measure of group-level perceptions of sensitivity. This is reflected I the fact that the overall trends in our data display plausible results. Figure X, for example, shows the median score for the five issues that respondents, in each country, rated as the most difficult to discuss[^We provide full descriptive results of the survey data in the supplementary materials]: 
+
+```{r}
+p_usa <- d_sens_long %>% 
+  filter(country == "USA") %>% 
+  group_by(variable) %>% 
+  summarise(avg = median(difficulty)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg)) %>% 
+  slice(1:5) %>% 
+  ggplot(
+    aes(x = fct_reorder(variable, avg), 
+        y = avg)
+  ) +
+  geom_point(pch=23) +
+  coord_flip() +
+  labs(title = "USA", 
+       y = "Median Difficulty", 
+       x = "") +
+  theme(text = element_text(size = 6)) 
+
+p_swe <- d_sens_long %>% 
+  filter(country == "SWE") %>% 
+  group_by(variable) %>% 
+  summarise(avg = median(difficulty)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg)) %>% 
+  slice(1:5) %>% 
+  ggplot(
+    aes(x = fct_reorder(variable, avg), 
+        y = avg)
+  ) +
+  geom_point(pch=23) +
+  coord_flip() +
+  labs(title = "SWE", 
+       y = "Median Difficulty", 
+       x = "") +
+  theme(text = element_text(size = 6)) 
+
+p_zaf <- d_sens_long %>% 
+  filter(country == "ZAF") %>% 
+  group_by(variable) %>% 
+  summarise(avg = median(difficulty)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg)) %>% 
+  slice(1:5) %>% 
+  ggplot(
+    aes(x = fct_reorder(variable, avg), 
+        y = avg)
+  ) +
+  geom_point(pch=23) +
+  coord_flip() +
+  labs(title = "ZAF", 
+       y = "Median Difficulty", 
+       x = "") +
+  theme(text = element_text(size = 6)) 
+
+p_mex <- d_sens_long %>% 
+  filter(country == "MEX") %>% 
+  group_by(variable) %>% 
+  summarise(avg = median(difficulty)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg)) %>% 
+  slice(1:5) %>% 
+  ggplot(
+    aes(x = fct_reorder(variable, avg), 
+        y = avg) 
+  ) +
+  geom_point(pch=23) +
+  coord_flip() +
+  labs(title = "MEX", 
+       y = "Median Difficulty", 
+       x = "") +
+  theme(text = element_text(size = 6)) 
+
+p_jpn <- d_sens_long %>% 
+  filter(country == "JPN") %>% 
+  group_by(variable) %>% 
+  summarise(avg = median(difficulty)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg)) %>% 
+  slice(1:5) %>% 
+  ggplot(
+    aes(x = fct_reorder(variable, avg), 
+        y = avg)
+  ) +
+  geom_point(pch=23) +
+  coord_flip() +
+  labs(title = "JPN", 
+       y = "Median Difficulty", 
+       x = "") +
+  theme(text = element_text(size = 6)) 
+
+p_can <- d_sens_long %>% 
+  filter(country == "CAN") %>% 
+  group_by(variable) %>% 
+  summarise(avg = median(difficulty)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg)) %>% 
+  slice(1:5) %>% 
+  ggplot(
+    aes(x = fct_reorder(variable, avg), 
+        y = avg)
+  ) +
+  geom_point(pch=23) +
+  coord_flip() +
+  labs(title = "CAN", 
+       y = "Median Difficulty", 
+       x = "") +
+  theme(text = element_text(size = 6)) 
+
+p_arg <- d_sens_long %>% 
+  filter(country == "ARG") %>% 
+  group_by(variable) %>% 
+  summarise(avg = median(difficulty)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg)) %>% 
+  slice(1:5) %>% 
+  ggplot(
+    aes(x = fct_reorder(variable, avg), 
+        y = avg)
+  ) +
+  geom_point(pch=23) +
+  coord_flip() +
+  labs(title = "ARG", 
+       y = "Median Difficulty", 
+       x = "") +
+  theme(text = element_text(size = 6)) 
+
+p_aus <- d_sens_long %>% 
+  filter(country == "AUS" & 
+           !str_detect(variable,"att")) %>% 
+  group_by(variable) %>% 
+  summarise(avg = median(difficulty)) %>% 
+  ungroup() %>% 
+  arrange(desc(avg)) %>% 
+  slice(1:5) %>% 
+  ggplot(
+    aes(x = fct_reorder(variable, avg), 
+        y = avg)
+  ) +
+  geom_point(pch=23) +
+  coord_flip() +
+  labs(title = "AUS", 
+       y = "Median Difficulty", 
+       x = "") +
+  theme(text = element_text(size = 6)) 
+
+p_usa + p_swe + p_zaf + p_mex + p_jpn + p_can + p_arg + p_aus
+
+```
+
+Unsurprisingly, the questions about the justifiability of abortion, euthanasia, and suicide feature prominently in most countries, showing cross cultural similarities in perceptions of sensitivity. However, we also pick up on some context-specific patterns: while issues of corruption and government intervention are perceived as difficult to discuss in Argentina, question about race and immigration are seen as particularly sensitive in Sweden. This resonates with both the recent past of these countries and their current circumstances. The full descriptive summary of the data is provided in the supplementary materials, but overall the results seem to capture intuitive general trends while allowing for context-specific variation. While capturing the notion of sensitivity is challenging, we believe our data is an adequate operationalization, at least for the purposes of the present study. 
+
+We begin our analyses by examining the relationship between $\tau$ and the total amount of change each variable exhibits. For each variable, we calculate $\tau$, as defined above, and then plot it against how much it has changed across the decades of observation. We then fit two regression models to explore whether the perceived sensitivity of an issue is related to how much they change and to the mechanism that most likely underpins that variation. In both regressions, the key independent variable of interest is the median sensitivity for each country and each variable. ^[We use the median because it is less sensitive to extreme values, but our results show similar patterns when we use the average sensitivity for each variable]. In turn, the dependent variables of interest are respectively: the absolute change exhibited by each variable in each country and the calculated $\tau$. In both models, we allow for varying intercepts and slopes across countries to account for cultural variation -- and similarities -- between the different contexts. 
 
 ```{r}
 # Data importation & cleaning ----
@@ -679,160 +1020,7 @@ results <- left_join(results,
                      select(d_change, country, variable, abschange))
 
 
-sens_df_joint <- sens_df %>% 
-  left_join(., results, by = c("country", "variable")) 
-
-sens_df_joint <- sens_df_joint %>% 
-  group_by(country) %>% 
-  mutate(sens_centered = scale(percentage_answer)[,1]) %>% 
-  ungroup()
-
-sens_df_joint <- sens_df_joint %>% 
-  mutate(
-    gpt_sens = case_when( 
-      # Importance battery: 1 means very important, 4 means not at all important
-         variable == "important_family" ~ 2,
-         variable == "important_friends" ~ 2,
-         variable == "important_leisure" ~ 2,
-         variable == "important_poltics" ~ 3,
-         variable == "important_work" ~ 2,
-         variable == "important_religion" ~ 7, 
-         
-         # Important qualities in children: 1 means mentioned, 0 means not mentioned
-         variable == "child_independence" ~ 3,
-         variable == "child_hard_work" ~ 3,
-         variable == "child_feeling_responsibility" ~ 3,
-         variable == "child_imagination" ~ 3,
-         variable == "child_tolerance" ~ 3,
-         variable == "child_thrift" ~ 3,
-         variable == "child_determination" ~ 3,
-         variable == "child_religion" ~ 3,
-         variable == "child_unselfish" ~ 3,
-         variable == "child_obedience" ~ 3,
-         
-         # People you would not like to have as neighbours: 1 mentioned, 0 means not mentioned
-         variable == "neigh_diff_race" ~ 8,
-         variable == "neigh_drink" ~ 5, 
-         variable == "neigh_imm" ~ 8, 
-         variable == "neigh_aids" ~ 7, 
-         variable == "neigh_drugs" ~ 7, 
-         variable == "neigh_gay" ~ 9, 
-         
-         # Most people can be trusted: (1) Most people, (2) you can never be too careful
-         variable == "trust_people" ~ 3,
-         
-         # (10) means more satisfied
-         variable == "life_satisf" ~ 4, 
-         
-         # Control over life's choices: (10) feels most in control. 
-         variable == "choice_control" ~ 4, 
-         
-         # Men should be given jobs over women: (1) Agree, (2) Disagree, (3) Neither A nor D
-         variable == "jobs_men_over_women" ~ 7, 
-         
-         # Nationals should be given jobs over foreigners: (1) Agree, (2) Disagree, (3) Neither A nor D
-         variable == "jobs_national_over_foreign" ~ 8, 
-         
-         # Likert: (1) Strongly Agree -- (4) Strongly Disagree
-         variable == "housewife_fulfilling" ~ 6,
-         
-         # Left/Right placement: (1) Left -- (10) Right
-         variable == "politics_scale" ~ 4,
-         
-         # Importance of income equality 
-         variable == "income_eq" ~ 4, 
-         
-         # Business should be public/private owned: (1) Private -- (10) Public
-         variable == "pvt_state_owned" ~ 5, 
-         
-         # Government should take responsibility vs individual responsibility: (1) Gvt -- (10) Individual
-         variable == "gvt_responsibility" ~ 5,
-         
-         # Competition good or harmful: (1) Good --- (10) harmful
-         variable == "competition_good_evil" ~ 4, 
-         
-         # Confidence battery: (1) A great deal; (2) Quite a lot; (3) Not very much; (4) None at all
-         variable == "confidence_churches" ~ 7, 
-         variable == "confidence_armed_forces" ~ 5,
-         variable == "confidence_press" ~ 5, 
-         variable == "confidence_unions" ~ 5, 
-         variable == "confidence_police" ~ 6, 
-         variable == "confidence_parliament" ~ 5,
-         variable == "confidence_civil" ~ 4,
-         variable == "confidence_television" ~ 5,
-         variable == "confidence_governement" ~ 5,
-         variable == "confidence_political_party" ~5,
-         variable == "confidence_major_companies" ~ 4,
-         variable == "confidence_justice_courts" ~ 5,
-         
-         # How often attends religious services?
-         # (1) More than once a week -- (8) Never
-         variable == "attend_relig" ~ 7, 
-         
-         # (1) Religious; (2) not religious; (3) atheist
-         variable == "religious_person" ~ 7,
-         
-         # Believes (1), does not believe (0)
-         variable == "believe_god" ~ 8, 
-         variable == "believe_hell" ~ 7, 
-         
-         # (1) Not at all important -- (10) very important
-         variable == "important_god" ~ 8,
-         variable == "just_gvt_benefits" ~ 4,
-         variable == "just_fare_public_trans" ~ 3,
-         variable == "just_cheat_taxes" ~ 4,
-         variable == "just_bribe" ~ 5,
-         variable == "just_homosexuality" ~ 8, 
-         variable == "just_prostitution" ~ 8, 
-         variable == "just_abortion" ~ 9, 
-         variable == "just_divorce" ~ 6, 
-         variable == "just_euthanasia" ~ 8, 
-         variable == "just_suicide" ~ 10, 
-         variable == "proud_nationality"~ 4
-      ), 
-    gpt_sens_centered = scale(gpt_sens)[,1]
-  )
-
-sens_df_joint %>% 
-  ggplot(
-    aes(x = fct_reorder(variable, gpt_sens),
-        y = gpt_sens)
-  ) +
-  geom_point(pch = 6) +
-  coord_flip() +
-  theme(axis.text.y = element_text(size = 5))  +
-  labs(title = "LLM Sensitivity Ratings", 
-       y = "Ratings", 
-       x = "")
-
 ```
-
-At first glance, the ratings seem intuitive. Questions about euthanasia and suicide have quite high ratings. In contrast, questions about the importance of friends and those about childrearing tend to have lower scores.
-
-We recognize there are several limitations to this scoring system. Perhaps the biggest is that LLMs are trained on text that might favor certain cultural biases, those of industrialized and highly educated countries [@atariWhichHumans2023]. Therefore, these ratings hide cross-cultural variation in sensitivity --- i.e they cannot tell us whether an issue that is sensitive in Japan might be prosaic in Sweden.
-
-To complement this approach, we develop another measure for sensitivity that takes advantage of patterns of missingness in the WVS. Like most large-scale survey efforts, the WVS codes different types of missingness in their data. Missing values here are coded as: does not know (-1), does not apply (-3), did not answer (-2), and missing for other reasons (-5). As we mentioned above, in this special issue, sensitive topics are defined as those that are difficult to *talk about*. If sensitivity is indeed related to how difficult it is to speak about a subject, then we could plausibly interpret participants' unwillingness to answer the questions as an -- admittedly weak -- indicator of an issue's sensitivity. The proportion of missing data coded as (-2) in each question then could give us an indication of whether an issue is sensitive or not. We calculate this proportion for each question for each country and averaged across all countries. For our analyses, we use the latter because it is most comparable to the LLM ratings, but we also conducted all tests using the country-specific proportions and the results are largely the same. In Figure X, we see the sensitivity ratings calculated as the proportion of missing data that denotes unwillingness to answer per question:
-
-```{r}
-sens_df_joint %>% 
-  group_by(variable) %>% 
-  summarise(avg = mean(sens_centered)) %>% 
-  ungroup() %>% 
-  ggplot(
-    aes(x = fct_reorder(variable, avg),
-        y = avg)
-  ) +
-  geom_point(pch = 6) +
-  coord_flip() +
-  theme(axis.text.y = element_text(size = 5))  +
-  labs(title = "Missingness Sensitivity Ratings", 
-       y = "Percentage of Refusal (Centered)", 
-       x = "")
-```
-
-Though not entirely similar, both measures are weakly positively correlated. We notice similar patterns, like questions about childrearing being deemed mundane, while the justifiability of homosexuality and suicide are still high up the list. Nonetheless, there are important differences. For instance, we notice here that questions about religion and political self-placement, as well as some questions about confidence in institutions, are high on this list.
-
-These are, of course, by no means perfect measures of sensitivity. The LLM ratings are based on training data that is not very sensitive to cultural differences, and the measure based on missingness is only a weak indicator of respondents' unwillingness to discuss a subject. However, both strategies seem to capture aspects of sensitivity, and display results that are -- at least at first glance -- intuitive. Moreover, if the patterns of change of sensitive issues exhibit similar relationships when considering both of our measures, this would give us further confidence about the validity of our results.
 
 ## Results
 
@@ -867,97 +1055,261 @@ The first striking result is that most variables do not display considerable cha
 
 In our background section, we suggest that sensitive issues occupy an interesting position: they enjoy sustained public attention and individuals' attitudes seem particularly entrenched. We then hypothesize that these issues might display different patterns of cultural change, but our hypothesis is non-directional. Next, we test two ideas. First, we examine whether the sensitivity of an issue is predictive of how much change it has undergone. Second, we analyze whether sensitive issues seem to change more through *within-cohort changes* or *between-cohort differences* -- i.e. whether an issue's sensitivity is informative of its $\tau$.
 
-To see if sensitive issues display different rates of overall change, we fit two linear regression models where the outcome variable is overall change and the main independent variable is an issue's sensitivity. We fit one model for each one of our measures of sensitivity, and include varying intercepts for country. The following tables display the results for both models:
+To see if sensitive issues display different rates of overall change, we fit a linear regression model where the outcome variable is overall change and the main independent variable is an issue's median sensitivity in each country. Given that the outcome variable is truncated at zero -- a variable cannot display less than no change -- we use the lognormal link.  As mentioned above, the model includes varying intercepts and slopes at the level of country. Panel A in figure X shows the posterior distribution of the population-level coefficient for sensitivity in this model, in the log scale^[Full model results as well as assessments of fit are included in the supplementary materials]. The distribution is centered around 0.15, and a considerable amount of the mass lies below 0. The uncertainty in this posterior distribution suggests that -- in our data -- there is not a strong relationship between an issue's perceived sensitivity and the amount of change it displays. 
 
 ```{r}
-var_label(sens_df_joint) <- list(abschange = "Std. Change", 
-                                 sens_centered = "Sensitivity", 
-                                 gpt_sens_centered = "Sensitivity", 
-                                 pbetween = "Delta")
-
-sens_df_joint_missing <- sens_df_joint %>% 
-  select(abschange, 
-         country, 
-         sens_centered, 
-         pbetween) %>% 
-  rename(sensitivity = sens_centered)
-
-mod1 <- lme4::lmer(abschange ~ (1 | country) + sensitivity, 
-                   data = sens_df_joint_missing)
-
-s1 <- gtsummary::tbl_regression(mod1, tidy_fun = broom.mixed::tidy, 
-                                label=list("country.sd__(Intercept)" = "Country Intercept SD", 
-                                           "Residual.sd__Observation" = "Residuals SD", 
-                                           "sensitivity" = "Sensitivity"))
-
-sens_df_joint_gpt <- sens_df_joint %>% 
-  select(abschange, 
-         country, 
-         gpt_sens_centered, 
-         pbetween) %>% 
-  rename(sensitivity = gpt_sens_centered)
-
-mod2 <- lme4::lmer(abschange ~ (1 | country) + sensitivity, 
-                   data = sens_df_joint_gpt)
-s2 <- gtsummary::tbl_regression(mod2, tidy_fun = broom.mixed::tidy, 
-                                label=list("country.sd__(Intercept)" = "Country Intercept SD", 
-                                           "Residual.sd__Observation" = "Residuals SD", 
-                                           "sensitivity" = "Sensitivity"))
-tbl_merge_ex1 <-
-  tbl_merge(
-    tbls = list(s1, s2),
-    tab_spanner = c("Missingness", "LLM")
+# Our child qualities question maps on to a few in the WVS
+# Let's create those
+d_sens_complete <- d_sens_complete %>% 
+  mutate(
+    child_hard_work = child_qualities_1, 
+    child_feeling_responsibility = child_qualities_1, 
+    child_imagination = child_qualities_1, 
+    child_tolerance = child_qualities_1, 
+    child_thrift = child_qualities_1, 
+    child_determination = child_qualities_1, 
+    child_religion = child_qualities_1, 
+    child_unselfish = child_qualities_1, 
+    child_obedience = child_qualities_1
   )
 
+d_sens_long <- d_sens_complete %>% 
+  select(country, imp_family_1:just_suicide_1, proud_1, child_hard_work:child_obedience) %>% 
+  mutate(
+    across( 
+      .cols =2:62, 
+      as.numeric
+    )
+  ) %>% 
+  pivot_longer(
+    2:62, 
+    names_to = "question", 
+    values_to = "difficulty"
+  ) %>% 
+  mutate(
+    question = str_remove(question, "_1$"), 
+    variable = case_when( 
+      question == "imp_family" ~ "important_family", 
+      question == "imp_friends" ~ "important_friends", 
+      question == "imp_leisure" ~ "important_leisure", 
+      question == "imp_pol" ~ "important_politics", 
+      question == "imp_wrk" ~ "important_work", 
+      question == "imp_rel" ~ "important_religion", 
+      question == "child_qualities" ~ "child_independence", 
+      question == "neigh_race" ~ "neigh_diff_race", 
+      question == "neigh_drink" ~ "neigh_drink", 
+      question == "neigh_imm" ~ "neigh_imm", 
+      question == "neigh_aids" ~ "neigh_aids", 
+      question == "neigh_drug" ~ "neigh_drugs", 
+      question == "neigh_gay" ~ "neigh_gay", 
+      question == "trust" ~ "trust_people", 
+      question == "life_satisf" ~ "life_satisf", 
+      question == "choice_control" ~ "choice_control", 
+      question == "scarce_jobs_women" ~ "jobs_men_over_women", 
+      question == "scarce_jobs_imm" ~ "jobs_national_over_foreign", 
+      question == "housewife_fulfill" ~ "housewife_fulfilling", 
+      question == "left_right" ~ "politics_scale", 
+      question == "equal_incomes" ~  "income_eq", 
+      question == "private_public_busi" ~ "pvt_state_owned", 
+      question == "gvt_responsibility" ~ "gvt_responsibility", 
+      question == "comp_good_bad" ~ "competition_good_evil", 
+      question == "conf_church" ~ "confidence_churches", 
+      question == "conf_armed" ~ "confidence_armed_forces", 
+      question == "conf_press" ~ "confidence_press", 
+      question == "conf_unions" ~ "confidence_unions", 
+      question == "conf_police" ~ "confidence_police", 
+      question == "conf_parliament" ~ "confidence_parliament", 
+      question == "conf_civil" ~ "confidence_civil", 
+      question == "conf_tv" ~ "confidence_tv", 
+      question == "conf_gvt" ~ "confidence_government", 
+      question == "conf_pol_prt" ~ "confidence_political_parties", 
+      question == "conf_companies" ~ "confidence_major_companies", 
+      question == "conf_courts" ~ "confidence_justice_courts", 
+      question == "rel_services" ~ "attend_relig", 
+      question == "religiosity" ~ "religious_person", 
+      question == "belief_god" ~ "believe_god", 
+      question == "belief_hell" ~ "believe_hell", 
+      question == "imp_god" ~ "important_god", 
+      question == "just_gvt_benefits" ~  "just_gvt_benefits", 
+      question == "just_public_trans" ~ "just_fare_public_trans", 
+      question == "just_cheat_tax" ~ "just_cheat_taxes", 
+      question == "just_bribe" ~ "just_bribe", 
+      question == "just_homo" ~ "just_homosexuality", 
+      question == "just_prst" ~ "just_prostitution", 
+      question == "just_abort" ~ "just_abortion", 
+      question == "just_divorce" ~ "just_divorce", 
+      question == "just_euth" ~ "just_euthanasia", 
+      question == "just_suicide" ~ "just_suicide", 
+      question == "proud" ~ "proud_nationality", 
+      TRUE ~ question),
+  )
+
+# Center the results
+d_sens_long <- d_sens_long %>% 
+  group_by(
+    country
+  ) %>% 
+  mutate(
+    sens_ctd = scale(difficulty)[,1]
+  ) %>%  
+  ungroup()
+
+# Now calculate the median and mean
+summary_sens <- d_sens_long %>% 
+  group_by(country, 
+           variable) %>% 
+  summarise(
+    avg = mean(sens_ctd, na.rm = T), 
+    med = median(sens_ctd, na.rm = T)
+  ) %>% 
+  ungroup()
+
+results_sens <- results %>% 
+  left_join(., summary_sens, by = c("country", "variable"))
+
+saveRDS(results_sens, 
+        "data_for_analysis.rds")
+
+set.seed(43543)
+
+output1 <- capture.output(mod1 <- brms::brm(abschange ~ (med | country) + med, 
+                  data = results_sens, 
+                  family = "lognormal"))
+
+saveRDS(mod1, "model_abschange.rds")
+
+mix <- mixture(Beta, Beta)
+
+output2 <- capture.output(mod2 <- brm(bf(pbetween ~ 1, 
+               theta2 ~ (med | country) + med), 
+            results_sens, 
+            family = mix,
+            chains = 4, 
+            iter = 2000))
+
+saveRDS(mod2, "model_beta.rds")
+
+output3 <- capture.output(mod3 <- brm(pbetween ~ (med | country) + med, 
+            results_sens, 
+            chains = 4, 
+            iter = 2000))
+
+saveRDS(mod3, "model_linear.rds")
+
+prds_mod1 <- prepare_predictions(mod1)["dpars"]
+
+panel_a <- data.frame(prds_mod1$dpars$mu$fe$b) %>% 
+  ggplot(
+    aes(x = b_med)
+  ) +
+  geom_density(fill = "gray80", 
+               alpha = 0.8) +
+  geom_vline(aes(xintercept = 0), 
+             linetype = "dashed", 
+             col="darkred") +
+  labs(y = "", 
+       x = "Estimate of Sensitivity (log scale)", 
+       title = "Panel A") +
+  theme(text = element_text(size = 8)) 
+
+panel_b <- results_sens %>% 
+  ggplot(aes(x = pbetween)) +
+  geom_density(fill = "gray80", 
+               alpha = 0.8) +
+  labs(y = "", 
+       x = "Distribution of Tau", 
+       title = "Panel B") +
+  theme(text = element_text(size = 8)) 
+
+prds_mod2 <- prepare_predictions(mod2)["dpars"]
+
+panel_c <- data.frame(prds_mod2$dpars$theta2$fe$b) %>% 
+  ggplot(
+    aes(x = b_theta2_med)
+  ) +
+  geom_density(fill = "gray80", 
+               alpha = 0.8) +
+  geom_vline(aes(xintercept = 0), 
+             linetype = "dashed", 
+             col="darkred") +
+  labs(y = "", 
+       x = "Estimate of Sensitivity (log-odds scale)", 
+       title = "Panel C") +
+  theme(text = element_text(size = 8)) 
+
+panel_a + panel_b + panel_c
 ```
+In models with varying slopes and intercepts, it is difficult to interpret population-level effects, so it is more intuitive to plot the predictions that the model implies. Figure X shows these predictions with the x-axis representing centered sensitivity scales ranging from -1.5 standard deviations below the mean and 1.5 standard deviations above. The lines represent the mean prediction for each value of sensitivity. We notice that, while the relationship appears to be positive in countries like Argentina and South Africa, it is  flat in the rest of our sample. Thus, we find no compelling evidence to suggest a specific relationship between an issue's sensitivity and the amount of change it exhibits and, therefore, it is not possible to draw  any strong conclusions.
+
 ```{r}
-tbl_merge_ex1 %>%
-  as_kable_extra(booktabs = TRUE,
-                 longtable = TRUE,
-                 linesep = "") %>%
-  kableExtra::kable_styling(
-    position = "center",
-    latex_options = c("striped", "repeat_header"),
-    stripe_color = "gray!15"
+newdata <- expand_grid(
+  country = unique(results_sens$country), 
+  med = seq(from =-1.5, to= 1.5, by=0.05)
+)
+
+newdata$preds <- predict(mod1, newdata)
+
+newdata %>% 
+  ggplot(aes(x = med, 
+             y = preds[,1]), 
+         fill = country)  +
+  geom_line(linetype = "dashed")  +
+  geom_point(
+    data = results_sens, 
+    aes(x = med, 
+        y = abschange), 
+    pch = 23
+  ) +
+  facet_wrap(~country) + 
+  labs(
+    title = "Absolute Change and Sensitivity", 
+    y = "Abs. Change", 
+    x = "Centered Sensitivity"
   )
 ```
 
-Here, we have mixed evidence. When we use the sensitivity ratings based on unwillingness to answer the questions, we find that there no differences in rates of overall change between more and less sensitive issues. However, when we use the ratings by the LLM, we do see that there are some small differences: a one standard deviation increase in sensitivity would lead to a 0.07 standard deviations increase in overall change. Thus, even though we have some indications that sensitive issues tend to exhibit more overall change, given the contradictory evidence, it is not possible to draw strong conclusions.
+To model $\tau$ as a function of the sensitivity of the issues, it is necessary to make a few additional considerations. First, given that $\tau$ is a proportion, it is bounded between 0 and 1. Second, in our data, $\tau$ exhibits a clear bi-modality. We address this by fitting a finite-mixture model where we consider $\tau$ as produced by two different beta distributions, themselves bounded between 0 and 1. Panel B of Figure X shows the bi-modal distribution of $\tau$, which we are going to model as consisting of two beta distributions. 
 
-The next tables, in turn, display the coefficients for two regression models where the outcome variable is $\tau$ and the main independent variable is an issue's sensitivity. Again, we fit the models for each one of our measures of sensitivity, and we include varying intercepts for countries:
+Within the model, we also regress the probability of an issue belonging to the distribution with higher $\tau$ on that issue's perceived sensitivity. In other words, we ask the question: does the perceived sensitivity of an issue tell us whether it is more likely to have emerged from the beta distribution with higher average $\tau$? If this is the case, then a higher sensitivity should be associated with a larger proportion of change explained by *between-cohort differences*. As above, in the regression component, we include varying intercepts and slopes at the level of country.^[We also perform this analysis using gaussian linear regression and the results are substantially the same. We include those analyses in the supplementary materials]
+
+Panel C in Figure X  displays the posterior distribution for the population-level coefficient for the effect of sensitivity on the probability of belonging to the distribution with higher $\tau$^[Full model results as well as assessments of fit are included in the supplementary materials]. The coefficient is in the log-odds scale, but it is readily apparent that the majority of its mass lies above 0. The model suggests then that as an issue's sensitivity increases, so does the probability that it belongs to the distribution with higher average $\tau$. 
+
+However, results in the log-odds scales are notoriously difficult to interpret and given the overall complexity of the model, it is better to examine its predictions to understand the implications of the results. Figure X displays the models predicted outcomes, where the lines represent the average prediction at each value of sensitivity . We notice that the slopes consistently exhibit a slight, positive relationship. Again, we have variation between the countries: while a one standard deviation increase in sensitivity in Mexico leads to a predicted increase in $tau$ of around 0.158, in Sweden the increase is of around 0.147. Despite this variation, the evidence for a positive relationship is broadly consistent across countries. Thus, although the effect of sensitivity is not large, and there are differences across countries, our model suggests that -- on average -- we should expect more sensitive issues to change more through *between-cohort differences* as opposed to *within-cohort changes*.  
 
 ```{r}
-mod3 <- lme4::lmer(pbetween ~ (1 | country) + sensitivity, 
-                   data = sens_df_joint_missing)
-s3 <- gtsummary::tbl_regression(mod3, tidy_fun = broom.mixed::tidy, 
-                                label=list("country.sd__(Intercept)" = "Country Intercept SD", 
-                                           "Residual.sd__Observation" = "Residuals SD", 
-                                           "sensitivity" = "Sensitivity"))
-mod4 <- lme4::lmer(pbetween ~ (1 | country) + sensitivity, 
-                   data = sens_df_joint_gpt)
-s4 <- gtsummary::tbl_regression(mod4, tidy_fun = broom.mixed::tidy, 
-                                label=list("country.sd__(Intercept)" = "Country Intercept SD", 
-                                           "Residual.sd__Observation" = "Residuals SD", "sensitivity" = "Sensitivity"))
-tbl_merge_ex2 <- tbl_merge(
-    tbls = list(s3, s4),
-    tab_spanner = c("**Missingness**", "**LLM**")
+newdata <- expand_grid(
+  country = unique(results_sens$country), 
+  med = seq(from =-1.5, to= 1.5, by=0.05)
+)
+
+newdata$preds <- predict(mod2, newdata)
+
+newdata %>% 
+  ggplot(aes(x = med, 
+             y = preds[,1]), 
+         fill = country) +
+  # geom_ribbon(aes(
+  #   ymin = preds[,3], 
+  #   ymax = preds[,4]
+  # ), 
+  # col = "gray80", 
+  # alpha = 0.1) +
+  geom_line(linetype = "dashed") +
+  geom_point(
+    data = results_sens, 
+    aes(x = med, 
+        y = pbetween), 
+    pch = 23
+  ) +
+  facet_wrap(~country) + 
+  labs(
+    title = "Tau and Sensitivity", 
+    y = "Pbetween", 
+    x = "Centered Sensitivity"
   )
 
-tbl_merge_ex2 %>% 
-  as_kable_extra(
-    booktabs = TRUE,
-    longtable = TRUE,
-    linesep = ""
-  ) %>%
-  kableExtra::kable_styling(
-    position = "center",
-    latex_options = c("striped", "repeat_header"),
-    stripe_color = "gray!15"
-  )
+
 ```
-
-
-Here, both models are broadly consistent. The results suggests that as sensitivity increases, so does $\tau$. For the model that includes the LLM ratings, a one standard deviation increase in sensitivity leads to a 0.08 increase in $\tau$. In turn, for the model that operationalizes missingness as an unwillingness to answer questions, a one standard deviation increase in sensitivity is associated with a 0.05 increase in $\tau$. Although the coefficients are not large, this means that -- on average -- we should expect more sensitive issues to change more through *between-cohort differences* as opposed to *within-cohort changes*. Sensitive issues do seem to vary in terms of the mechanism that undergirds their variation across time: they appear to change more due to cohort replacement. These are small effects, but they are consistent with the theoretical mechanisms we discussed above. The fact that both models point in the same direction lends further confidence to the results.
 
 ## Discussion
 
@@ -967,13 +1319,13 @@ Building on previous research on cultural change, we seek to adjudicate the mech
 
 We not only want to examine the explanatory power of each mechanism, but we want to understand if different types of variables are changing due to different mechanisms. We contend that the idea of sensitivity allows us to get an initial handle on this question. Sensitive issues like gay civil rights and abortion have displayed change across many contexts in the last several decades. These changes have been contentious and have resulted in acrimonious divisions and political backlash. Sensitive issues are paradoxical in a way: at the aggregate level they have displayed considerable change, we have evidence of individual attitudinal updating around them, and yet they seem like the beliefs where agents are most firmly entrenched. Previous work, then, suggests that these issues might change differently than other topics that are considered perhaps more mundane.
 
-Operationalizing the concept of sensitivity, however, is difficult. In this paper, we use two strategies to tackle this challenge. First, we use a LLM to get sensitivity ratings for each of the variables we examined. These ratings are largely intuitive and plausible, but they are inevitable constrained by the data with which LLMs are trained. To complement these ratings, we examine patterns of missingness in our data. Based on the definition of sensitivity provided in this special issue, we hypothesize that unwillingness to answer a question could be a weak indicator of how sensitive a topic is. Thus, we calculate the proportion of this type of missing data -- where the participant did not answer --- for each variable and country. Again, the results here are intuitive, and they are weakly positively correlated with the LLM ratings. Having the two measures allow us to tackle the issue of sensitivity from multiple angles and in a more principled way.
+Operationalizing the concept of sensitivity, however, is difficult. In this paper, we tackled this challenge by collecting data from eight countries about how difficult it may be for people in those settings to discuss certain issues. Using the online marketplaces Prolific and CloudResearch, we collected data from 802 participants across the countries of interest. Each participant was presented with the survey questions that accompanied the relevant variables in the WVS -- translated to the appropriate language. Their task was to rate how difficult it would be for the *majority of people from their countries* to discuss the question at hand. While our data is not representative, we believe that the strategy of prompting participants to think about second-order beliefs yielded adequate approximations of perceptions of sensitivity in each setting. This is illustrated by the fact that our data captures general patterns of sensitivity -- e.g. around issues like abortion -- as well as country-specific trends. 
 
 Our results capture context-specific dynamics across different countries, while also revealing important commonalities in processes of cultural change. For instance, we show that stability is quite common across most of the issues we examine. Across most countries, attitudes towards homosexuality exhibit considerable change, and this change can be mostly attributed to *between-cohort differences*. In some countries, we see a similar pattern for other sensitive issues like attitudes around divorce and euthanasia. The variables that display more variation through *within-cohort change* tend to be related to confidence in institutions and the characteristics that are desirable in children. These issues also seem to -- at times -- capture important historical processes, like the restructuring of the armed forces in Japan.
 
 It is worth briefly discussing why issues like confidence in institutions would display more *within-cohort change*. These institutions change in meaning as their occupants come and go. Thus, what it means to support -- or have confidence in -- an institution might change depending on who currently occupies it. For a Democrat in the U.S., for example, the election of Donald Trump might have considerably changed their confidence in the presidency, even though none of their attitudes really varied. Similarly, a conservative Catholic in that country might currently look favorably at a Supreme Court that they might have distrusted a few decades ago. We would not say these individuals have changed their minds -- at least not in the ways that are most interesting to social scientists. What has changed is the meaning associated with those institutions.
 
-We explore differences between more or less sensitive issues more rigorously by examining whether our ratings of sensitivity are predictive of the extent to which variables have changed and how they have changed. We find mixed evidence about whether the sensitivity of issues is informative of how much they change, which prevents us from drawing strong conclusions in this regard. Nonetheless, out analysis suggests that sensitive issues tend to change more through cohort replacement than through *within-cohort change*. In other words, it seems that issues that are difficult to talk about change more privately.
+We explore differences between more or less sensitive issues more rigorously by examining whether our data about sensitivity is predictive of the extent to which variables have changed and how they have changed. We find mixed evidence about whether the sensitivity of issues is informative of how much they change. While we see a positive relationship in Argentina and South Africa, the relationship is non-existent in the other settings. This uncertainty prevents us from drawing strong conclusions about whether sensitive issues change more or less than their counterparts. Nonetheless, our analysis suggests that sensitive issues tend to change more through *cohort replacement* than through *within-cohort change*. Our model identifies a relationship between an issue's sensitivity and the proportion of its variation that is explained by *between-cohort differences*. The relationship is slight, but it is consistent across the settings in our sample. We find consistent evidence, then, that issues that are difficult to talk about change more privately.
 
 Now, this seems like an intuitive conclusion but it has important implications. First, it provides initial evidence that different types of variables change -- at the aggregate level -- through different mechanisms. Second, it sheds light on current heated discussions about the sensitive issues that are the center of public debate. In his work about transnational LGBT+ rights, Velasco [-@velascoTransnationalBacklashDeinstitutionalization2023] shows that there has been considerable backlash in reaction to some of the political victories of this community. Through the lens of attitudinal change, this presents a puzzle: how do we reconcile the variation in attitudes towards homosexuality with this forceful backlash? Well, if most of that change has occurred through cohort replacement, it means that older individuals, many who occupy positions of power, have not been swayed in their opposition to the expansion of civil rights for the LGBT+ community. As younger cohorts move further away from their predecessors, we should still expect the fight to be acrimonious while the latter are still a considerable -- but perhaps dwindling -- portion of the civil sphere. Moreover, we should expect these divisions to be particularly salient in contexts where older cohorts hold more anti-LGBTQ+ views, and therefore where inter-cohort average opinions might be further away. This is reflected in Velasco's cross-cultural analyses. The fact that some issues are difficult to talk about, then, might mean that when these topics change, they might display both considerable variation at the aggregate level and entrenchment at the individual level.
 
