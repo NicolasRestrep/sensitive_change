@@ -1,0 +1,147 @@
+---
+title: "Mechanisms of Change across Issues and Contexts"
+author: 
+  - Nicolas Restrepo Ochoa, Anthropology Department, Univerity of California at Davis.
+  - Stephen Vaisey, Sociology Department, Duke University.
+output:
+  pdf_document:
+  html_document:
+    toc: yes
+    theme: united
+header-includes:
+- \usepackage{setspace}
+- \doublespacing
+- \usepackage{lineno}
+- \linenumbers
+- \def\linenumberfont{\normalfont\tiny\sffamily}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Questions & Abbreviations 
+
+1. Please tell me whether family is very important in your life, not important at all in your life, or something in between. (important_family)
+2. Please tell me whether friends are very important in your life, not important at all in your life, or something in between. (important_friends)
+3. Please tell me whether leisure is very important in your life, not important at all in your life, or something in between. (important_leisure)
+4. Please tell me whether politics are very important in your life, not important at all in your life, or something in between. (important_politics)
+5. Please tell me whether work is very important in your life, not important at all in your life, or something in between. (important_work)
+6. Please tell me whether religion is very important in your life, not important at all in your life, or something in between. (important_religion)
+7. There are many qualities that children can be encouraged to learn at home. Which, if any, do you consider to be especially important? (child_<quality>)
+8. Would you rather not have people of a different race as neighbors? (neigh_diff_race)
+9. Would you rather not have heavy drinkers as neighbors? (neig_drink)
+10. Would you rather not have immigrants or foreign workers as neighbors? (neigh_imm)
+11. Would you rather not have people with AIDS as neighbors? (neigh_aids)
+12. Would you rather not have drug addicts as neighbors? (neigh_drugs)
+13. Would you rather not have gay people as neighbors? (neigh_gay)
+14. Would you say most people can be trusted or that you can never be too careful? (trust_people)
+15. All things considered, how satisfied are you with your life as a whole these days? (life_satisf)
+16. Some people feel they have completely free choice and control over their lives, while other people feel that what they do has no real effect on what happens to them. Please tell me whether you feel you have no choice and control at all over your life, a great deal of choice and control, or something in between. (choice_control)
+17. Do you agree or disagree with the idea that when jobs are scarce, men should have more right to a job than women? (jobs_men_over_women)
+18. Do you agree or disagree with the idea that when jobs are scarce, employers should give priority to people of this country over immigrants? (jobs_national_over_foreign)
+19. Do you agree or disagree with the idea that being a housewife is just as fulfilling as working for pay? (housewife_fulfilling)
+20. In political matters, people talk of “the left” and “the right.” How would you place your views on this scale, generally speaking? (politics_scale)
+21. Would you say that incomes should be made more equal, that there should be greater incentives for individual effort, or something in between? (income_eq)
+22. Would you say that businesses should be privately owned, publicly owned, or something in between? (pvt_state_owned)
+23. Would you that the government should take more responsibility to ensure that everyone is provided for, that people should take more responsibility to provide for themselves, or something in between? (gvt_responsibility)
+24. Would you say that competition is good, it is harmful, or something in between? (competition_good_evil)
+25. How much confidence do you have in churches? (confidence_churches)
+26. How much confidence do you have in the armed forces? (confidence_armed_forces)
+27. How much confidence do you have in the press? (confidence_press)
+28. How much confidence do you have in unions? (confidence_unions)
+29. How much confidence do you have in the police? (confidence_police)
+30. How much confidence do you have in parliament? (confidence_parliament)
+31. How much confidence do you have in civil services? (confidence_civil)
+32. How much confidence do you have in television? (confidence_television)
+33. How much confidence do you have in the government? (confidence_government)
+34. How much confidence do you have in political parties? (confidence_political_party)
+35. How much confidence do you have in major companies? (confidence_major_companies)
+36. How much confidence do you have in justice courts? (confidence_justice_courts)
+37. How often do you attend religious services? (attend_relig)
+38. Would you say you are religious, not religious, or an atheist? (religious_person)
+39. Do you believe in God? (believe_god)
+40. Do you believe in Hell? (believe_hell)
+41. Please tell me whether God is very important in your life, not important at all in your life, or something in between. (important_god)
+42. Please tell me whether you think claiming government benefits that you are not entitled to can always be justified, never be justified, or something in between. (just_gvt_benefits)
+43. Please tell me whether you think avoiding a fare in public transportation can always be justified, never be justified, or something in between. (just_fare_public_trans)
+44. Please tell me whether you think cheating on your taxes if you have a chance can always be justified, never be justified, or something in between. (just_cheat_taxes)
+45. Please tell me whether you think accepting a bribe on the course of your duties can always be justified, never be justified, or something in between. (just_bribe)
+46. Please tell me whether you think homosexuality can always be justified, never be justified, or something in between. (just_homosexuality)
+47. Please tell me whether you think prostitution can always be justified, never be justified, or something in between. (just_prostitution)
+48. Please tell me whether you think abortion can always be justified, never be justified, or something in between. (just_abortion)
+49. Please tell me whether you think divorce can always be justified, never be justified, or something in between. (just_divorce)
+50. Please tell me whether you think euthanasia always be justified, never be justified, or something in between. (just_euthanasia)
+51. Please tell me whether you think suicide always be justified, never be justified, or something in between. (just_suicide)
+52. How proud are you to be of the nationality of this country? (proud_nationality)
+
+## LLM Ratings 
+
+We used chatGPT to get sensitivity ratings for the questions above. Below, there is a reporoduction of the language we usted to prompt chatGPT for the ratings. 
+
+Researcher (R): *Can I ask you to rate some texts?*
+
+GPT (G): *Of course! I'd be happy to help you rate some texts. Please provide the texts you want me to evaluate, and let me know what criteria you'd like me to use for the rating.*
+
+R: *OK I'd like you to rate to what extent each of the following questions is about a 'sensitive topic'. By 'sensitive topic' we mean subjects that individuals may not wish to talk openly about.  These can include subjects such as mental health, witchcraft accusations, racism, forced marriage, son preference, bodily mutilation, some aspects of religion, and violence. Do you understand what I mean by 'sensitive topic'?*
+
+G: *Yes, I understand what you mean by a 'sensitive topic.' It refers to subjects that individuals may find uncomfortable, distressing, or taboo to discuss openly. These can encompass a wide range of topics, including mental health, witchcraft accusations, racism, forced marriage, son preference, bodily mutilation, certain aspects of religion, and violence. Please go ahead and provide the questions you'd like me to rate in terms of sensitivity.*
+
+R: *Could you rate them on a scale from 0 to 10 where 0 means "not sensitive at all" and 10 means "extremely sensitive"?*
+
+G: *Certainly! I can rate the questions on a scale from 0 to 10, where 0 means "not sensitive at all" and 10 means "extremely sensitive." Please provide the questions you'd like me to evaluate, and I'll rate them accordingly.* 
+
+We then provided the questions (as written above) one by one. These are the ratings provided by chatGPT as well as the reasoning behind them. 
+
+1. 2 - Most people are comfortable discussing the importance of family.
+2. 2 - Same as above for friends.
+3. 2 - Same as above for leisure.
+4. 3 - Some might find politics a sensitive subject, but generally it's less so.
+5. 2 - Work importance is usually not a very sensitive topic.
+6. 7 - Religion can be a very sensitive and personal topic for many people.
+7. 3 - Not highly sensitive but might touch on personal parenting beliefs.
+8. 8 - Questions about racial preferences can be highly sensitive and potentially offensive.
+9. 5 - Some might find this sensitive due to associations with addiction.
+10. 8 - Questions about preferences for immigrants or foreign workers can be highly sensitive and potentially offensive.
+11. 7 - Questions about preferences for people with AIDS can be sensitive due to stigma and fear.
+12. 7 - Similar to question about heavy drinkers, it's sensitive due to associations with addiction.
+13. 9 - Questions about preferences for gay neighbors can be highly sensitive and potentially offensive.
+14. 3 - Trust levels are not usually a sensitive topic.
+15. 4 - Life satisfaction can be sensitive for those struggling with mental health issues.
+16. 4 - Questions about control over life can be sensitive for some individuals.
+17. 7 - Gender bias in jobs can be a sensitive topic.
+18. 8 - Nationalism and jobs can be a highly sensitive topic.
+19. 6 - Questions on the fulfillment of being a housewife can be sensitive due to gender roles.
+20. 4 - Political beliefs can be a sensitive topic, though usually less so than specific policies or events.
+21. 4 - Income distribution can be a sensitive topic, reflecting economic and political beliefs.
+22. 5 - Public vs private ownership is politically sensitive.
+23. 5 - Government responsibility is a sensitive and politically charged topic.
+24. 4 - Views on competition may be sensitive to some, often reflecting deeper beliefs about society.
+25. 7 - Confidence in churches touches on religious and institutional trust which can be sensitive.
+26. 5 - Confidence in the armed forces can be a sensitive subject.
+27. 5 - Confidence in the press is sensitive given debates about media trustworthiness.
+28. 5 - Confidence in unions can be sensitive, depending on personal and political beliefs.
+29. 6 - Confidence in the police can be sensitive, especially in areas with ongoing debates about law enforcement.
+30. 5 - Confidence in parliament reflects political trust and can be sensitive.
+31. 4 - Confidence in civil services can be sensitive, reflecting views on government efficiency.
+32. 5 - Confidence in television touches on media trust and can be sensitive.
+33. 5 - Confidence in the government can be a sensitive topic.
+34. 5 - Confidence in political parties can be sensitive due to political beliefs.
+35. 4 - Confidence in major companies can be sensitive, reflecting views on corporate ethics and trust.
+36. 5 - Confidence in justice courts can be sensitive, reflecting views on justice and fairness.
+37. 7 - Frequency of religious service attendance can be sensitive, reflecting personal religious practices.
+38. 7 - Identifying as religious, not religious, or atheist can be very sensitive.
+39. 8 - Belief in God can be a very sensitive and personal topic.
+40. 7 - Belief in Hell can be a sensitive and personal topic.
+41. 8 - The importance of God in life can be a very sensitive and personal topic.
+42. 4 - Justification of claiming undue government benefits touches on personal ethics, can be sensitive.
+43. 3 - Justification of fare evasion can be sensitive but is generally less so.
+44. 4 - Tax cheating can be sensitive, reflecting personal ethics.
+45. 5 - Bribery is a sensitive topic, reflecting personal ethics and views on corruption.
+46. 8 - Homosexuality justification can be a very sensitive topic, depending on cultural and personal beliefs.
+47. 8 - Prostitution justification can be a very sensitive topic, depending on cultural and personal beliefs.
+48. 9 - Abortion justification is a highly sensitive and divisive topic.
+49. 6 - Divorce justification can be sensitive, particularly for those with personal experiences.
+50. 8 - Euthanasia justification can be a very sensitive and personal topic.
+51. 10 - Suicide justification is an extremely sensitive topic, touching on mental health and personal experiences.
+52. 4 - National pride can be a sensitive topic but is usually less so than specific political issues.
