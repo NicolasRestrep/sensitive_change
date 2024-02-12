@@ -1,0 +1,292 @@
+StartDate,EndDate,Status,IPAddress,Progress,Duration (in seconds),Finished,RecordedDate,ResponseId,RecipientLastName,RecipientFirstName,RecipientEmail,ExternalReference,LocationLatitude,LocationLongitude,DistributionChannel,UserLanguage,initial_screen_trans,consent,message_nonqualif,instructions ,PID,imp_family_1,imp_friends_1,imp_leisure_1,imp_pol_1,imp_wrk_1,imp_rel_1,child_qualities_1,neigh_race_1,neigh_drink_1,neigh_imm_1,neigh_aids_1,neigh_drug_1,neigh_gay_1,trust_1,life_satisf_1,choice_control_1,scarce_jobs_women_1,scarce_jobs_imm_1,housewife_fulfill_1,left_right_1,equal_incomes_1,private_public_busi_1,gvt_responsibility_1,comp_good_bad_1,conf_church_1,conf_armed_1,conf_press_1,conf_unions_1,conf_police_1,conf_parliament_1,conf_civil_1,conf_tv_1,conf_gvt_1,conf_pol_prt_1,conf_companies_1,conf_courts_1,rel_services_1,religiosity_1,belief_god_1,belief_hell_1,imp_god_1,just_gvt_benefits_1,just_public_trans_1,just_cheat_tax_1,just_bribe_1,just_homo_1,just_prst_1,just_abort_1,just_divorce_1,just_euth_1,just_suicide_1,att1_1,att2_1,att3_1,proud_1,end_message,random_id,PROLIFIC_PID
+Start Date,End Date,Response Type,IP Address,Progress,Duration (in seconds),Finished,Recorded Date,Response ID,Recipient Last Name,Recipient First Name,Recipient Email,External Data Reference,Location Latitude,Location Longitude,Distribution Channel,User Language,"Welcome! Bienvenido! Bienvenue! ようこそ ! Welkom ! Välkommen ! 
+
+Before we begin, we want to let you know that you can use the grey box on the top corner to translate any question into your preferred language. Try it! 
+
+Antes de empezar, queremos informarte que puedes usar el recuadro gris en la esquina superior para traducir cualquier pregunta a tu idioma preferido. ¡Inténtalo!
+Avant de commencer, nous voulons vous informer que vous pouvez utiliser la boîte grise dans le coin supérieur pour traduire n'importe quelle question dans votre langue préférée. Essayez !
+始める前に、お知らせしたいことがあります。右上の灰色のボックスを使って、どんな質問でも好きな言語に翻訳できるようになっています。試してみてくださいね！
+Voordat ons begin, wil ons jou laat weet dat jy die grys boks in die boonste hoek kan gebruik om enige vraag na jou voorkeurtaal te vertaal. Probeer dit gerus!
+Innan vi börjar vill vi informera dig om att du kan använda den grå rutan i det övre hörnet för att översätta vilken fråga som helst till ditt föredragna språk. Prova på det!","Thank you for participating!  
+This research project aims to study how comfortable different people feel about discussing certain questions. We will present you with certain questions that have been used in surveys in the past, and will ask you to tell us how comfortable you think most people from your country would feel with talking about those questions. The entire study should take approximately 15 minutes. 
+
+Key Information:  
+Your participation is entirely voluntary, and you may withdraw at any point. However, you must answer all questions, perform all tasks, and proceed to the final screen of the study in order to be compensated. For successful participation in the study, you will receive $2.50, paid by transfer to your Prolific account. 
+We will adhere, at all times, to strict standards of confidentiality. Information obtained through your participation will be accessible only to the research team. Your name will not be attached to the data in any way. Although the data collected may be made public or used for future research, your identity will always remain confidential.  
+You must be in the country specified during recruitment to qualify to participate in this study. If you are not, you will be redirected to the end of the survey after this page. Further, in accordance to Prolific policies, we may reject your work if the task was not completed correctly or the instructions were not followed.  
+The questions that you will evaluate cover a range of topics, from childrearing to substance abuse. We will not ask you about your experiences or your opinion, but rather about how most people in your country would feel about discussing these topics. However, there is a risk that some questions might reference potentially sensitive topics. If this is in any way distressing, please feel free to abstain from participation. There are no direct benefits for participating in this research.  
+If you have any questions you may contact us by email at sensitivityaroundtheglobe@gmail.com. If you have questions about your rights as a research subject, contact Duke University’s Campus Institutional Review Board at campusirb@duke.edu or at 919-684-3030 referencing protocol #2024-0223.  
+By clicking “I agree to participate”, you indicate that you understand the study description above, that you understand the qualifications necessary to participate in this study, that you will follow the instructions, and that you agree to participate. You may save and/or print this form.","Unfortunately, you do not qualify for participation in this study. You have either indicated that you do not consent to participating in this study or your IP address does not match the locations to which the project is restricted. 
+If you think this is an error, please feel free to reach out to us at sensitivityaroundtheglobe@gmail.com","Welcome, and thank you for deciding to take part in the study! Before you begin, please read the following instructions carefully:
+In our everyday lives, there are topics we find easier or more difficult to discuss with others. In this project we will present you with a series of questions and you will tell us how difficult you think it would be for most people from your country to talk about these issues. Bear in mind we are not asking you about your comfort with discussing the topics. We instead want you to think about what most people in your country would feel like discussing those questions. 
+Throughout the questions, you will be shown some active participation checks. They will consist of simple math operations – like 2+1 – that will help us know you are completing the task carefully. 
+Please remember to read all questions and instructions carefully so that you respond to all participation checks correctly. Failing to do so will result in loss of payment.","What is your Prolific ID?
+
+Please note that this response should auto-fill with the correct ID","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether family is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether friends are very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether leisure is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether politics are very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether work is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether religion is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""There are many qualities that children can be encouraged to learn at home. Which, if any, do you consider to be especially important?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have people of a different race as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have heavy drinkers as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have immigrants or foreign workers as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have people with AIDS as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have drug addicts as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you rather not have gay people as neighbors?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say most people can be trusted or that you can never be too careful?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""All things considered, how satisfied are you with your life as a whole these days?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Some people feel they have completely free choice and control over their lives, while other people feel that what they do has no real effect on what happens to them. Please tell me whether you feel you have no choice and control at all over your life, a great deal of choice and control, or something in between.
+"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you agree or disagree with the idea that when jobs are scarce, men should have more right to a job than women?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you agree or disagree with the idea that when jobs are scarce, employers should give priority to people of this country over immigrants?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you agree or disagree with the idea that being a housewife is just as fulfilling as working for pay?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""In political matters, people talk of “the left” and “the right.” How would you place your views on this scale, generally speaking?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say that incomes should be made more equal, that there should be greater incentives for individual effort, or something in between?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say that businesses should be privately owned, publicly owned, or something in between?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say that the government should take more responsibility to ensure that everyone is provided for, that people should take more responsibility to provide for themselves, or something in between?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say that competition is good, it is harmful, or something in between?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in churches?
+"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in the armed forces?
+"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in the press?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in unions?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in the police?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in parliament/congress?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in civil services?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in television?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in the government?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in political parties?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in major companies?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How much confidence do you have in justice courts?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How often do you attend religious services?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Would you say you are religious, not religious, or an atheist?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you believe in God?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Do you believe in Hell?"" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether God is very important in your life, not important at all in your life, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think claiming government benefits that you are not entitled to can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think avoiding a fare in public transportation can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think cheating on your taxes if you have a chance can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think accepting a bribe on the course of your duties can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think homosexuality can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think prostitution can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think abortion can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think divorce can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think euthanasia can always be justified, never be justified, or something in between."" - 1","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""Please tell me whether you think suicide always be justified, never be justified, or something in between."" - 1","What is the result of the following operation:
+5 - 3","What is the result of the following operation:
+4 + 1","What is the result of the following operation:
+6 - 5","How difficult would most people in your country find it to discuss the question:  
+
+ 
+""How proud are you to be of the nationality of this country?""","Thank you for your participation. We would like to tell you about the purpose of the study you have just completed. 
+As stated in the informed consent, this study was designed to examine how difficult people in different countries find it to discuss certain questions. Specifically, we took questions that have been asked for several years in the World Values Survey ( https://www.worldvaluessurvey.org/wvs.jsp ) and asked you to tell us how most of your compatriots would feel about discussing them. We wanted to examine how sensitive these questions might be across different national contexts. 
+Thank you again for your time and participation. If you have any questions regarding this study, please contact us at sensitivityaroundtheglobe@gmail.com
+Is there any feedback you want to give us?",random_id,PROLIFIC_PID
+"{""ImportId"":""startDate"",""timeZone"":""America/Denver""}","{""ImportId"":""endDate"",""timeZone"":""America/Denver""}","{""ImportId"":""status""}","{""ImportId"":""ipAddress""}","{""ImportId"":""progress""}","{""ImportId"":""duration""}","{""ImportId"":""finished""}","{""ImportId"":""recordedDate"",""timeZone"":""America/Denver""}","{""ImportId"":""_recordId""}","{""ImportId"":""recipientLastName""}","{""ImportId"":""recipientFirstName""}","{""ImportId"":""recipientEmail""}","{""ImportId"":""externalDataReference""}","{""ImportId"":""locationLatitude""}","{""ImportId"":""locationLongitude""}","{""ImportId"":""distributionChannel""}","{""ImportId"":""userLanguage""}","{""ImportId"":""QID61""}","{""ImportId"":""QID63""}","{""ImportId"":""QID60""}","{""ImportId"":""QID2""}","{""ImportId"":""QID64_TEXT""}","{""ImportId"":""QID3_1""}","{""ImportId"":""QID5_1""}","{""ImportId"":""QID6_1""}","{""ImportId"":""QID7_1""}","{""ImportId"":""QID8_1""}","{""ImportId"":""QID9_1""}","{""ImportId"":""QID10_1""}","{""ImportId"":""QID11_1""}","{""ImportId"":""QID12_1""}","{""ImportId"":""QID13_1""}","{""ImportId"":""QID14_1""}","{""ImportId"":""QID15_1""}","{""ImportId"":""QID16_1""}","{""ImportId"":""QID17_1""}","{""ImportId"":""QID18_1""}","{""ImportId"":""QID19_1""}","{""ImportId"":""QID20_1""}","{""ImportId"":""QID21_1""}","{""ImportId"":""QID22_1""}","{""ImportId"":""QID23_1""}","{""ImportId"":""QID24_1""}","{""ImportId"":""QID25_1""}","{""ImportId"":""QID26_1""}","{""ImportId"":""QID27_1""}","{""ImportId"":""QID28_1""}","{""ImportId"":""QID29_1""}","{""ImportId"":""QID30_1""}","{""ImportId"":""QID31_1""}","{""ImportId"":""QID32_1""}","{""ImportId"":""QID33_1""}","{""ImportId"":""QID34_1""}","{""ImportId"":""QID35_1""}","{""ImportId"":""QID36_1""}","{""ImportId"":""QID37_1""}","{""ImportId"":""QID38_1""}","{""ImportId"":""QID40_1""}","{""ImportId"":""QID39_1""}","{""ImportId"":""QID41_1""}","{""ImportId"":""QID42_1""}","{""ImportId"":""QID43_1""}","{""ImportId"":""QID44_1""}","{""ImportId"":""QID45_1""}","{""ImportId"":""QID46_1""}","{""ImportId"":""QID47_1""}","{""ImportId"":""QID48_1""}","{""ImportId"":""QID49_1""}","{""ImportId"":""QID50_1""}","{""ImportId"":""QID51_1""}","{""ImportId"":""QID52_1""}","{""ImportId"":""QID53_1""}","{""ImportId"":""QID54_1""}","{""ImportId"":""QID57_1""}","{""ImportId"":""QID58_1""}","{""ImportId"":""QID59_1""}","{""ImportId"":""QID55_1""}","{""ImportId"":""QID56_TEXT""}","{""ImportId"":""random_id""}","{""ImportId"":""PROLIFIC_PID""}"
+2024-01-23 09:52:21,2024-01-23 09:59:57,IP Address,83.251.227.84,100,455,True,2024-01-23 09:59:58,R_1Q9OOXExjajvuyO,,,,,59.3098,17.9796,anonymous,SV,Understood,I agree to participate,,Understood,659c29ab1bc3f38c24290ce8,3,3,7,9,2,10,3,8,4,10,10,4,9,4,3,4,10,8,7,8,7,4,6,3,7,6,4,3,4,4,3,2,3,3,3,7,10,7,8,9,9,3,4,7,9,8,6,8,3,3,7,2,5,1,3,,42704,659c29ab1bc3f38c24290ce8
+2024-01-23 09:58:37,2024-01-23 10:06:14,IP Address,94.191.137.167,100,456,True,2024-01-23 10:06:14,R_1ziiRqMPjcc3V97,,,,,59.3647,16.514,anonymous,EN,Understood,I agree to participate,,Understood,659568d99fa568bbc8089374,2,1,1,4,1,4,2,6,4,7,5,4,6,3,6,2,8,7,5,4,4,1,2,2,4,1,2,3,2,2,3,2,3,3,3,1,2,2,4,4,4,3,4,3,4,7,7,8,3,6,7,2,5,1,1,,48560,659568d99fa568bbc8089374
+2024-01-23 09:55:06,2024-01-23 10:08:56,IP Address,85.225.98.195,100,829,True,2024-01-23 10:08:57,R_2tyv0OOyp9jFGaI,,,,,59.2928,15.1918,anonymous,SV,Understood,I agree to participate,,Understood,65957f327a417f99186dc17d,4,4,4,7,4,4,8,3,7,4,3,6,2,3,6,4,3,4,6,7,2,5,4,5,8,3,4,3,2,8,4,7,2,3,8,3,4,4,4,7,5,4,7,6,1,4,6,6,7,6,4,2,5,1,2,inga just nu,10535,65957f327a417f99186dc17d
+2024-01-23 09:55:24,2024-01-23 10:09:55,IP Address,2.249.150.94,100,870,True,2024-01-23 10:09:55,R_7KpZQyNr0mwOHjb,,,,,56.6169,14.3197,anonymous,EN,Understood,I agree to participate,,Understood,659ab8017fa14c73800c7906,3,3,2,8,2,7,3,8,5,8,5,7,5,2,5,4,3,8,4,8,5,3,3,2,7,5,5,5,6,3,5,2,5,7,1,6,7,7,7,7,7,8,6,6,5,2,4,1,3,6,5,2,5,1,5,,34060,659ab8017fa14c73800c7906
+2024-01-23 10:02:51,2024-01-23 10:10:36,IP Address,87.96.161.253,100,465,True,2024-01-23 10:10:36,R_5Vax8K4CBqWaW3A,,,,,59.3247,18.056,anonymous,SV,Understood,I agree to participate,,Understood,658d28132568a34a66adc245,2,2,1,7,1,1,1,2,4,7,1,7,1,4,6,4,3,8,6,9,5,7,7,6,2,6,4,1,4,6,8,4,6,7,3,4,1,1,1,2,1,3,6,4,2,2,4,2,1,8,9,2,5,1,4,,20588,658d28132568a34a66adc245
+2024-01-23 10:02:13,2024-01-23 10:10:38,IP Address,95.194.204.143,100,504,True,2024-01-23 10:10:38,R_4ElQfOfHvgKn9No,,,,,57.7165,11.9708,anonymous,SV,Understood,I agree to participate,,Understood,5806957b3c163200010bce61,1,1,1,7,1,1,1,2,2,2,1,2,1,2,3,3,2,3,2,4,2,1,3,3,1,5,4,2,2,2,2,1,1,1,2,3,1,1,3,2,3,3,3,2,6,1,5,2,10,9,8,2,5,1,1,,16505,5806957b3c163200010bce61
+2024-01-23 10:04:58,2024-01-23 10:14:18,IP Address,194.132.238.135,100,560,True,2024-01-23 10:14:19,R_44paZkvnn7Af81J,,,,,59.6146,16.5528,anonymous,SV,Understood,I agree to participate,,Understood,65a2d049cdc09dd3ed28fb2d,3,2,1,4,3,1,2,10,3,10,10,6,10,2,9,7,9,10,6,9,2,3,1,2,1,1,1,1,5,1,6,1,1,1,1,1,1,1,1,1,1,3,2,10,3,9,7,1,1,8,8,2,5,1,6,,21292,65a2d049cdc09dd3ed28fb2d
+2024-01-23 09:57:50,2024-01-23 10:14:43,IP Address,84.216.186.210,100,1012,True,2024-01-23 10:14:43,R_6Y4i6uQNOvTMeeE,,,,,59.3241,18.0517,anonymous,EN,Understood,I agree to participate,,Understood,65823330d2f32e732f3139f0,1,1,1,7,1,1,8,10,1,10,10,6,10,2,9,6,3,1,1,10,9,6,5,1,2,2,8,9,9,4,9,2,8,2,4,7,1,1,1,1,2,10,1,6,10,9,9,8,9,6,9,2,5,1,2,no,80834,65823330d2f32e732f3139f0
+2024-01-23 10:04:02,2024-01-23 10:14:45,IP Address,178.251.132.90,100,643,True,2024-01-23 10:14:46,R_5MYeaJHmoTh53K8,,,,,59.3098,17.9796,anonymous,SV,Understood,I agree to participate,,Understood,659eb301508e260d8263c85e,3,3,2,9,7,9,8,7,10,8,2,9,4,2,9,7,1,9,4,7,9,6,8,8,9,6,2,3,9,7,4,4,3,4,3,3,8,9,9,10,9,8,9,7,3,3,3,5,2,10,10,2,5,1,9,Undersökningen tog längre tid än väntat.,27117,659eb301508e260d8263c85e
+2024-01-23 09:56:50,2024-01-23 10:22:34,IP Address,90.129.219.32,100,1543,True,2024-01-23 10:22:35,R_3fPjTvdLtoTGBW2,,,,,59.2603,18.0402,anonymous,EN,Understood,I agree to participate,,Understood,5e87b28549538b0fdf96b318,2,6,1,4,3,1,3,4,6,6,3,5,2,5,6,5,3,5,5,3,3,6,4,5,3,4,4,4,3,6,4,4,3,3,5,5,2,1,1,2,2,2,3,3,5,2,4,2,2,3,5,2,5,1,3,,76658,5e87b28549538b0fdf96b318
+2024-01-23 11:16:24,2024-01-23 11:30:17,IP Address,83.233.137.149,100,832,True,2024-01-23 11:30:18,R_81cq0OhGrWD7ia5,,,,,59.3247,18.056,anonymous,EN,Understood,I agree to participate,,Understood,647df23a62de26114fdcb29c,3,3,2,2,4,4,4,8,4,8,6,6,8,5,5,4,9,7,6,7,4,4,2,4,2,2,4,4,2,2,3,1,2,6,2,2,4,3,3,3,5,7,5,7,6,7,9,9,2,7,6,2,5,1,6,,50557,647df23a62de26114fdcb29c
+2024-01-26 10:25:16,2024-01-26 10:34:30,IP Address,85.225.111.26,100,553,True,2024-01-26 10:34:30,R_5KOfwpxwkwDjHyZ,,,,,59.2928,15.1918,anonymous,SV,Understood,I agree to participate,,Understood,656762206882f053b228014c,1,6,3,1,3,1,7,9,2,7,3,1,6,3,5,6,4,3,3,5,4,3,6,2,1,8,6,3,6,6,6,4,1,5,5,4,1,1,1,1,1,2,3,7,2,4,4,4,5,6,3,2,5,1,6,,49564,656762206882f053b228014c
+2024-01-26 10:27:15,2024-01-26 10:37:05,IP Address,87.227.60.205,100,589,True,2024-01-26 10:37:06,R_265XnnrmbAtAen1,,,,,57.7065,11.967,anonymous,EN,Understood,I agree to participate,,Understood,659c0dd0cf225fe6adb21c9d,2,1,1,7,2,3,6,7,6,8,3,7,4,4,6,3,6,8,7,8,4,6,6,3,3,6,3,4,7,4,4,2,6,2,3,4,2,2,7,3,3,7,7,7,2,3,7,5,6,7,7,2,5,1,8,"None of note. ",54931,659c0dd0cf225fe6adb21c9d
+2024-01-26 10:27:25,2024-01-26 10:38:34,IP Address,83.250.240.49,100,668,True,2024-01-26 10:38:35,R_8m4Skq7GN6vgtSq,,,,,59.167,18.1458,anonymous,EN,Understood,I agree to participate,,Understood,655776ec4d85768bea6db287,2,4,5,6,3,6,5,9,4,9,7,6,7,4,6,6,8,7,7,6,7,4,5,6,4,3,3,4,3,3,5,4,3,4,3,3,3,6,4,3,6,4,5,7,10,3,6,3,3,3,8,2,5,1,7,,80803,655776ec4d85768bea6db287
+2024-01-26 10:31:10,2024-01-26 10:39:41,IP Address,78.82.121.19,100,510,True,2024-01-26 10:39:41,R_20q4LWMcboZKcFq,,,,,59.3779,17.9155,anonymous,EN,Understood,I agree to participate,,Understood,65a7df9c25bc2be6d847e06b,3,2,3,7,4,6,3,6,3,4,7,3,8,6,4,7,3,4,8,7,4,4,3,6,6,6,6,7,8,7,3,7,4,7,4,7,3,8,7,5,6,7,3,6,6,7,6,7,5,7,8,2,5,1,3,,74737,65a7df9c25bc2be6d847e06b
+2024-01-26 10:30:25,2024-01-26 10:40:41,IP Address,85.231.64.149,100,615,True,2024-01-26 10:40:41,R_3d9UWo1v2jOnEuy,,,,,55.3641,13.1751,anonymous,EN,Understood,I agree to participate,,Understood,5cd083548702e10018e3b0a5,2,2,3,4,2,2,3,6,2,6,6,1,3,2,2,6,3,6,4,5,5,6,2,3,2,4,2,2,3,4,3,2,2,5,2,2,2,3,2,3,2,2,5,6,2,4,6,5,3,4,6,2,5,1,2,,80352,5cd083548702e10018e3b0a5
+2024-01-26 10:33:26,2024-01-26 10:44:06,IP Address,94.254.62.211,100,640,True,2024-01-26 10:44:07,R_2o24T6es9VZVGor,,,,,57.7065,11.967,anonymous,EN,Understood,I agree to participate,,Understood,65828bb5f93f57ce8cde040f,4,1,1,2,2,2,6,10,6,9,7,7,2,2,4,3,1,8,8,5,5,4,6,7,1,1,1,3,1,1,1,1,1,1,1,1,2,2,2,1,2,6,5,7,2,2,6,2,2,7,4,2,5,1,7,,13593,65828bb5f93f57ce8cde040f
+2024-01-26 10:29:26,2024-01-26 10:44:34,IP Address,83.188.50.103,100,908,True,2024-01-26 10:44:35,R_1e2MYkmlhIcCsFq,,,,,57.7065,11.967,anonymous,EN,Understood,I agree to participate,,Understood,6575fdf05832030b4585da84,1,1,1,7,5,5,3,9,8,9,8,9,7,3,1,4,9,8,3,2,1,3,3,4,7,7,4,3,8,4,7,2,6,6,1,9,6,3,2,3,3,4,8,7,3,9,4,9,4,8,7,2,5,1,1,,25757,6575fdf05832030b4585da84
+2024-01-26 10:38:25,2024-01-26 10:46:54,IP Address,85.226.177.68,100,509,True,2024-01-26 10:46:55,R_3rq4Ca5oCsDTNO2,,,,,59.6131,17.8495,anonymous,SV,Understood,I agree to participate,,Understood,57a1fc7fbaec1b0001698f3c,3,5,2,3,3,4,2,5,4,4,3,3,6,3,5,5,3,4,5,5,5,2,2,3,2,2,2,2,4,2,3,2,3,2,2,3,4,4,4,5,4,3,3,3,4,5,4,4,5,4,5,2,5,1,2,,52349,57a1fc7fbaec1b0001698f3c
+2024-01-26 10:36:37,2024-01-26 10:47:34,IP Address,178.16.214.36,100,657,True,2024-01-26 10:47:35,R_6rCp79OM8cPWARX,,,,,59.3098,17.9796,anonymous,SV,Understood,I agree to participate,,Understood,65b377d3f571a5a09c19164d,3,1,2,6,2,5,4,9,9,10,10,10,10,4,7,3,10,10,8,8,9,6,7,5,9,8,9,3,7,7,5,3,9,3,3,9,6,2,8,8,6,7,6,10,7,10,8,9,3,9,10,2,5,1,9,,30920,65b377d3f571a5a09c19164d
+2024-01-26 10:40:38,2024-01-26 10:48:01,IP Address,87.96.201.149,100,443,True,2024-01-26 10:48:02,R_2f28kCT5AtxQsoH,,,,,59.3247,18.056,anonymous,SV,Understood,I agree to participate,,Understood,65523885c1cefde9323677d7,2,4,1,8,2,3,2,7,5,7,3,3,7,3,4,8,8,6,7,6,3,5,5,7,2,4,3,4,4,4,3,3,4,6,2,2,2,4,6,2,4,8,2,3,7,8,7,9,6,6,9,2,5,1,6,,37012,65523885c1cefde9323677d7
+2024-01-26 10:38:09,2024-01-26 10:48:26,IP Address,213.238.252.171,100,617,True,2024-01-26 10:48:27,R_2dv8Y8TcUDiGmId,,,,,59.3565,17.9651,anonymous,EN,Understood,I agree to participate,,Understood,65969f5a435683075dc61b5d,1,2,1,1,3,1,3,9,2,8,7,2,8,1,1,1,10,10,8,3,7,1,7,8,3,3,1,3,1,1,2,1,1,2,1,2,1,1,2,1,1,7,4,9,1,9,2,3,3,10,7,2,5,1,8,,97602,65969f5a435683075dc61b5d
+2024-01-26 10:42:21,2024-01-26 10:49:55,IP Address,90.129.204.230,100,454,True,2024-01-26 10:49:56,R_7dKfz6ZXYknNFIc,,,,,59.384,17.8355,anonymous,EN,Understood,I agree to participate,,Understood,5ea6df209d688606829ac644,2,5,6,6,6,2,7,4,4,8,4,7,2,6,3,4,8,8,3,4,7,7,7,4,3,5,7,2,6,8,6,6,7,8,8,4,2,2,2,1,2,4,8,3,8,2,8,2,1,5,7,2,5,1,7,,24103,5ea6df209d688606829ac644
+2024-01-26 10:43:41,2024-01-26 10:50:24,IP Address,193.11.160.228,100,403,True,2024-01-26 10:50:25,R_8HSOn6PQMAVASeR,,,,,58.3937,13.8463,anonymous,EN,Understood,I agree to participate,,Understood,6107ca62e9040e3847a1bd17,4,3,6,6,6,3,6,7,4,8,6,3,7,6,8,7,6,5,7,7,4,3,7,4,3,6,6,6,6,6,6,6,6,6,4,6,3,3,5,5,5,7,4,7,7,7,6,7,4,7,6,2,5,1,3,,21185,6107ca62e9040e3847a1bd17
+2024-01-26 10:39:23,2024-01-26 10:51:23,IP Address,188.148.65.40,100,719,True,2024-01-26 10:51:23,R_7vmFgziLE9DmYed,,,,,58.3937,13.8463,anonymous,SV,Understood,I agree to participate,,Understood,65a32319470c978f615bb962,3,3,2,6,4,6,3,6,3,7,3,6,4,4,4,6,4,7,7,7,6,6,6,3,3,4,4,6,6,4,4,3,4,6,4,3,3,3,2,3,4,6,4,4,4,4,7,3,4,4,6,2,5,1,6,,73164,65a32319470c978f615bb962
+2024-01-26 10:45:26,2024-01-26 10:52:58,IP Address,78.67.69.19,100,452,True,2024-01-26 10:52:59,R_3HvMMFv9b4oAixr,,,,,59.2603,18.0402,anonymous,SV,Understood,I agree to participate,,Understood,655667a5b37fbcb31b22557e,1,6,1,1,1,1,4,7,1,1,2,3,1,3,7,6,7,5,1,1,7,4,1,1,1,7,6,3,7,5,4,7,1,2,3,3,1,1,1,1,1,1,3,1,3,1,7,1,1,7,8,2,5,1,8,,25336,655667a5b37fbcb31b22557e
+2024-01-26 10:45:13,2024-01-26 10:55:53,IP Address,207.189.202.55,100,640,True,2024-01-26 10:55:54,R_7qdTS7IXSg0ufH5,,,,,57.7963,14.1376,anonymous,EN,Understood,I agree to participate,,Understood,5fbfa7490dcefd0251d79dff,7,2,7,4,1,8,6,4,1,1,7,1,10,3,4,7,8,6,1,9,4,6,3,2,4,10,9,4,7,10,4,5,10,2,3,6,1,3,1,1,6,4,6,7,4,7,6,8,4,5,6,2,5,1,10,,65226,5fbfa7490dcefd0251d79dff
+2024-01-26 10:33:23,2024-01-26 10:56:16,IP Address,188.148.119.7,100,1373,True,2024-01-26 10:56:17,R_2ctF7B4cUpvev9t,,,,,56.0449,12.692,anonymous,EN,Understood,I agree to participate,,Understood,58acbfacea3d11000170e99a,2,1,1,1,1,4,1,1,1,6,2,1,1,2,2,2,6,2,7,3,1,3,4,1,5,1,1,3,1,4,1,2,3,1,1,1,1,3,3,1,3,1,1,1,1,4,2,4,4,7,3,2,5,1,1,Thank you!,61816,58acbfacea3d11000170e99a
+2024-01-26 10:47:51,2024-01-26 11:02:03,IP Address,90.224.249.211,100,851,True,2024-01-26 11:02:03,R_2yg9oOoGCp5t1tj,,,,,59.3098,17.9796,anonymous,SV,Understood,I agree to participate,,Understood,64971e71ba666687996c6072,1,6,1,2,2,1,6,5,4,6,5,5,4,5,2,6,7,6,3,1,2,3,2,3,2,6,2,3,3,2,1,1,2,2,2,3,2,1,1,1,2,7,3,6,7,2,2,6,2,3,7,2,5,1,2,,27800,64971e71ba666687996c6072
+2024-01-26 10:42:55,2024-01-26 11:02:36,IP Address,81.224.193.225,100,1180,True,2024-01-26 11:02:37,R_3Ck6Bgcg2MYZBrb,,,,,59.2328,18.2924,anonymous,EN,Understood,I agree to participate,,Understood,657b297793addf3ed383d005,1,1,1,1,1,3,1,5,1,5,5,5,1,1,5,1,1,5,5,5,3,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,3,3,1,3,1,1,1,1,1,3,1,1,5,5,2,5,1,5,I presume that the swedish translation was made by an AI or something like that because it was not great :),80714,657b297793addf3ed383d005
+2024-01-26 10:24:12,2024-01-26 11:04:50,IP Address,85.24.217.3,100,2438,True,2024-01-26 11:04:51,R_2MqC1IbGNAnC3Pr,,,,,56.0509,14.0158,anonymous,SV,Understood,I agree to participate,,Understood,6558c3c3734df7e4feef2587,6,4,1,7,4,8,1,1,3,4,2,3,2,4,4,7,5,3,2,4,7,7,6,1,6,6,7,6,4,6,3,6,7,6,4,3,8,7,7,1,8,2,4,6,6,1,4,1,4,6,6,2,5,1,6,,23065,6558c3c3734df7e4feef2587
+2024-01-26 10:59:19,2024-01-26 11:05:31,IP Address,37.123.143.61,100,371,True,2024-01-26 11:05:32,R_3oiERPFaFK2Eu2B,,,,,62.4909,17.3146,anonymous,SV,Understood,I agree to participate,,Understood,5eb9cd7890cdb110e681c8e4,1,1,1,7,1,6,1,9,3,9,8,2,10,3,3,7,1,10,7,6,2,3,3,6,2,6,2,1,3,3,1,1,2,3,2,2,1,3,7,3,8,1,6,7,3,4,3,3,3,9,7,2,5,1,2,,43303,5eb9cd7890cdb110e681c8e4
+2024-01-26 11:03:41,2024-01-26 11:11:51,IP Address,193.150.207.132,100,490,True,2024-01-26 11:11:52,R_2RMRi0N1lWZTBOV,,,,,59.3241,18.0517,anonymous,SV,Understood,I agree to participate,,Understood,65803cd578d5ef14e500b072,1,1,1,3,6,2,2,9,6,9,7,8,10,2,1,2,9,9,8,8,6,7,2,1,7,1,6,4,7,3,1,7,2,8,1,8,1,2,7,1,9,3,2,4,2,7,4,8,1,6,3,2,3,1,7,,78622,65803cd578d5ef14e500b072
+2024-01-26 10:57:12,2024-01-26 11:12:10,IP Address,89.255.226.118,100,897,True,2024-01-26 11:12:10,R_5RL6qPL7frj1MrL,,,,,59.3241,18.0517,anonymous,EN,Understood,I agree to participate,,Understood,65522be21b61682e671d50b8,1,2,1,3,2,2,3,8,6,10,8,2,7,4,3,5,6,10,6,8,2,1,4,3,6,2,3,1,2,6,2,1,7,7,2,3,2,5,5,1,2,6,2,7,6,7,6,7,5,5,6,2,5,1,1,,17376,65522be21b61682e671d50b8
+2024-01-26 10:34:04,2024-01-26 11:12:56,IP Address,212.247.52.66,100,2332,True,2024-01-26 11:12:57,R_4dyHtAxOOwGzvhW,,,,,57.7065,11.967,anonymous,EN,Understood,I agree to participate,,Understood,659587e6b184238c9a2f62f2,4,2,3,7,6,3,4,7,6,8,4,7,4,6,6,7,7,7,6,8,7,7,7,6,3,7,3,7,7,6,6,6,6,6,6,6,2,3,3,3,6,5,7,7,3,3,7,4,6,8,7,2,5,1,7,,75434,659587e6b184238c9a2f62f2
+2024-01-26 11:12:59,2024-01-26 11:18:14,IP Address,213.89.144.78,100,315,True,2024-01-26 11:18:15,R_88NChHeGDQcm6Pa,,,,,59.35,17.9167,anonymous,SV,Understood,I agree to participate,,Understood,656e0220772443817238eba8,10,9,10,1,3,1,6,1,10,2,1,8,1,9,2,1,1,1,10,10,1,3,7,8,1,1,1,2,2,1,2,1,3,2,2,2,1,1,1,1,1,1,1,5,3,1,1,8,10,3,9,2,5,1,10,,50082,656e0220772443817238eba8
+2024-01-26 11:23:52,2024-01-26 11:32:07,IP Address,78.82.183.33,100,495,True,2024-01-26 11:32:07,R_2bK9UBWajVSabm7,,,,,55.6078,12.9982,anonymous,EN,Understood,I agree to participate,,Understood,5ab41678e1546900019b4b15,1,1,1,3,2,3,3,7,4,7,6,3,6,3,3,3,2,5,3,4,2,2,2,2,4,3,2,4,2,4,5,1,3,3,3,4,1,1,3,5,3,4,4,7,5,6,6,6,3,7,8,2,5,1,5,I found this an interesting study,44649,5ab41678e1546900019b4b15
+2024-01-26 11:30:15,2024-01-26 11:35:49,IP Address,92.244.202.152,100,333,True,2024-01-26 11:35:50,R_5tg0Ol3cmly52a4,,,,,57.1847,14.0444,anonymous,SV,Understood,I agree to participate,,Understood,65465d4d346db4f28cfaf3ef,7,6,6,6,7,6,10,7,6,7,7,7,7,7,10,4,7,7,7,6,7,7,6,6,6,6,6,6,8,7,6,6,6,6,7,7,6,4,6,7,7,7,4,7,6,7,7,7,6,7,6,2,5,1,4,inga,40493,65465d4d346db4f28cfaf3ef
+2024-01-26 11:31:36,2024-01-26 11:38:46,IP Address,90.227.33.197,100,429,True,2024-01-26 11:38:46,R_4LII6TDlnuy0RLM,,,,,59.3779,17.9155,anonymous,EN,Understood,I agree to participate,,Understood,6581c0e7703c9d00a5d2e6da,7,3,4,6,4,7,2,7,3,7,5,4,7,7,7,4,3,7,4,6,4,5,4,3,4,5,4,3,4,7,4,7,5,4,4,6,6,5,6,3,6,6,3,5,5,8,7,7,4,7,8,2,5,1,4,,19047,6581c0e7703c9d00a5d2e6da
+2024-01-26 11:35:14,2024-01-26 11:42:52,IP Address,85.227.199.125,100,457,True,2024-01-26 11:42:52,R_25tgqXcQhuV3Rio,,,,,58.4016,15.6462,anonymous,SV,Understood,I agree to participate,,Understood,603d31e09649cfb5ebf7eb68,2,2,3,8,6,2,1,9,2,9,2,1,1,6,2,7,10,8,2,4,2,6,3,6,3,4,4,2,3,7,2,2,6,8,4,6,2,2,1,1,2,7,4,8,9,3,6,1,7,3,9,2,5,1,7,,21024,603d31e09649cfb5ebf7eb68
+2024-01-26 11:30:17,2024-01-26 11:50:47,IP Address,31.208.186.80,100,1229,True,2024-01-26 11:50:47,R_12lhQtQlqsYFKiz,,,,,59.3247,18.056,anonymous,EN,Understood,I agree to participate,,Understood,6032903277ccb729ab92972d,1,1,1,2,1,3,1,6,1,6,5,1,2,7,5,5,5,4,8,5,6,6,9,2,2,1,1,6,2,3,1,1,1,3,1,2,1,2,5,2,3,9,7,10,10,2,7,5,5,6,8,2,5,1,3,,88049,6032903277ccb729ab92972d
+2024-01-26 11:54:57,2024-01-26 12:00:37,IP Address,80.217.96.174,100,340,True,2024-01-26 12:00:38,R_2nluba7xv62I9Cz,,,,,55.6078,12.9982,anonymous,EN,Understood,I agree to participate,,Understood,654a43113dad876fdf956870,1,4,1,3,2,1,6,7,3,7,1,2,6,6,6,8,1,4,1,7,1,1,6,7,5,1,1,4,3,1,6,6,1,1,5,8,1,1,1,1,1,2,2,6,1,6,4,1,1,1,1,2,5,1,3,,68934,654a43113dad876fdf956870
+2024-01-26 11:45:43,2024-01-26 12:03:14,IP Address,83.254.144.58,100,1050,True,2024-01-26 12:03:15,R_13eTPT8S7INqyX6,,,,,59.8551,17.6343,anonymous,SV,Understood,I agree to participate,,Understood,65a05c095068c51fec46dddb,5,1,1,6,1,5,3,7,6,8,4,5,4,2,2,2,4,8,6,8,4,6,4,3,2,2,1,4,3,2,2,1,2,2,2,2,4,2,4,1,5,6,2,5,4,4,8,3,3,5,7,2,5,1,8,,70763,65a05c095068c51fec46dddb
+2024-01-26 12:04:04,2024-01-26 12:11:37,IP Address,81.231.20.142,100,453,True,2024-01-26 12:11:38,R_3SHn1inRgVw0w8S,,,,,57.7259,11.7707,anonymous,EN,Understood,I agree to participate,,Understood,5ed2fdcb5353e829674f861e,4,3,3,6,4,3,4,4,4,9,4,6,4,4,4,3,3,9,7,7,6,4,7,6,6,6,7,6,6,6,6,6,7,7,4,5,2,3,2,4,3,4,4,4,6,6,8,6,4,8,7,2,5,1,7,,38253,5ed2fdcb5353e829674f861e
+2024-01-26 12:05:28,2024-01-26 12:14:19,IP Address,90.231.209.78,100,531,True,2024-01-26 12:14:20,R_2oI0rME1avbhFBA,,,,,59.3241,18.0517,anonymous,EN,Understood,I agree to participate,,Understood,5e2df2855e01ef3e5d01ab58,2,1,1,3,2,1,2,8,4,8,4,1,4,1,3,3,3,7,4,1,2,1,4,3,1,3,1,4,6,2,2,1,2,2,2,1,1,1,1,1,1,6,3,1,2,4,6,2,2,5,1,2,5,1,7,No,34272,5e2df2855e01ef3e5d01ab58
+2024-01-26 12:10:54,2024-01-26 12:15:55,IP Address,90.227.37.50,100,300,True,2024-01-26 12:15:56,R_2OJpLbc5gVIqHWe,,,,,58.9402,11.1788,anonymous,EN,Understood,I agree to participate,,Understood,5e738761c4c4982e6cb81e32,1,1,1,4,3,1,10,1,3,1,3,1,1,10,9,7,2,1,8,7,5,8,7,2,2,1,6,1,8,8,8,8,7,10,6,9,1,1,1,4,2,1,6,1,1,1,1,1,6,8,1,2,5,1,1,,51755,5e738761c4c4982e6cb81e32
+2024-01-26 12:14:09,2024-01-26 12:33:49,IP Address,98.128.180.54,100,1180,True,2024-01-26 12:33:50,R_12LYpKZNWGutlLI,,,,,55.6078,12.9982,anonymous,SV,Understood,I agree to participate,,Understood,5dd6023dcaee3e5b7ba7a5bc,1,1,1,1,1,2,1,2,4,7,1,6,1,2,5,7,1,3,1,4,4,6,4,4,1,4,3,2,8,2,7,5,1,1,2,6,3,2,2,1,4,3,3,9,1,1,7,1,2,10,10,2,5,1,6,,70424,5dd6023dcaee3e5b7ba7a5bc
+2024-01-26 12:34:13,2024-01-26 12:43:53,IP Address,85.228.0.243,100,579,True,2024-01-26 12:43:53,R_2es18q5VZRsvPlY,,,,,59.3241,18.0517,anonymous,SV,Understood,I agree to participate,,Understood,6569ec49c11fdd022b5c6e81,3,6,4,2,3,4,1,8,3,7,8,6,7,4,6,4,7,5,6,4,3,2,4,4,4,4,3,3,5,3,3,4,3,4,3,4,4,4,6,7,6,5,4,5,4,7,7,3,4,8,7,2,5,1,8,,88306,6569ec49c11fdd022b5c6e81
+2024-01-26 12:33:18,2024-01-26 12:45:50,IP Address,78.70.133.109,100,752,True,2024-01-26 12:45:50,R_4nGzXBaPpeOYoAF,,,,,56.9066,12.503,anonymous,SV,Understood,I agree to participate,,Understood,658339af55c2b7005ec27ef3,1,1,1,2,1,2,1,10,1,9,8,3,10,2,3,2,8,9,1,4,3,2,3,1,2,3,1,1,2,1,1,1,3,2,1,1,5,4,1,2,2,4,6,3,2,3,5,10,1,5,9,2,5,1,7,,44635,658339af55c2b7005ec27ef3
+2024-01-26 12:51:32,2024-01-26 12:53:56,IP Address,217.208.176.147,100,144,True,2024-01-26 12:53:57,R_88ivG86txQWeRKp,,,,,59.3974,13.5055,anonymous,EN,Understood,I agree to participate,,Understood,60e052e35d0658f5716b1d19,5,8,6,4,4,3,4,3,4,3,5,3,4,3,3,4,3,4,4,4,6,3,6,3,4,5,5,4,3,7,3,2,4,3,4,4,7,6,4,4,3,3,6,8,3,5,7,4,6,4,3,2,5,1,3,,97709,60e052e35d0658f5716b1d19
+2024-01-26 12:21:59,2024-01-26 12:54:16,IP Address,62.20.209.135,100,1936,True,2024-01-26 12:54:16,R_2thibV0t6jefUqs,,,,,58.4016,15.6462,anonymous,EN,Understood,I agree to participate,,Understood,6596c37abed52f5d980a7ae7,3,1,3,9,6,7,3,7,4,8,7,4,2,6,3,3,6,6,6,8,4,6,6,3,6,3,1,6,4,8,4,2,8,9,2,4,7,6,8,7,6,7,2,10,4,1,6,3,2,7,7,2,5,1,6,,53912,6596c37abed52f5d980a7ae7
+2024-01-26 12:49:55,2024-01-26 12:57:36,IP Address,81.233.10.99,100,461,True,2024-01-26 12:57:37,R_2hEc2GavjoCsMkW,,,,,59.3779,17.9155,anonymous,SV,Understood,I agree to participate,,Understood,6470b898db27d7dae24e98c4,3,7,3,6,3,5,6,9,8,8,9,9,9,8,6,9,8,8,7,8,5,6,6,6,5,2,6,5,4,4,8,3,3,4,3,3,3,6,7,7,4,6,7,7,3,6,7,6,7,7,9,2,5,1,8,,54951,6470b898db27d7dae24e98c4
+2024-01-26 12:57:16,2024-01-26 13:05:08,IP Address,91.130.42.47,100,472,True,2024-01-26 13:05:09,R_7cZYmKMJj6ocbSt,,,,,59.2006,17.8401,anonymous,SV,Understood,I agree to participate,,Understood,654bc97090a0e42935a7569e,4,5,2,4,4,5,4,6,7,8,8,4,3,4,5,7,2,8,5,4,5,3,5,4,2,3,2,2,2,2,2,2,2,2,1,2,2,3,5,2,3,5,4,6,3,5,7,7,3,8,7,2,5,1,8,,45797,654bc97090a0e42935a7569e
+2024-01-26 13:00:08,2024-01-26 13:08:35,IP Address,90.230.125.241,100,507,True,2024-01-26 13:08:36,R_8wSH1qfCkATlvUJ,,,,,62.3772,17.3203,anonymous,SV,Understood,I agree to participate,,Understood,64677dfa0db6926b99829e1f,1,1,1,2,4,1,3,7,9,7,6,8,6,2,3,5,2,3,6,2,4,6,2,1,1,3,4,3,1,2,2,2,3,2,1,1,1,1,1,1,1,4,6,6,6,6,8,8,6,6,8,2,5,1,3,,10546,64677dfa0db6926b99829e1f
+2024-01-26 12:58:56,2024-01-26 13:11:11,IP Address,213.112.112.229,100,734,True,2024-01-26 13:11:12,R_7HnRGCmMoqzKnCU,,,,,59.3565,17.9651,anonymous,EN,Understood,I agree to participate,,Understood,65956af1c14c87a8836547a4,2,2,3,7,3,7,2,7,2,6,2,3,6,3,7,7,2,7,4,2,8,8,6,7,3,7,8,6,9,7,7,7,7,9,7,3,2,7,3,3,2,6,3,3,3,7,2,7,6,8,3,2,5,1,1,"good survey ",17327,65956af1c14c87a8836547a4
+2024-01-26 13:03:09,2024-01-26 13:11:31,IP Address,185.177.164.141,100,501,True,2024-01-26 13:11:31,R_8LoyzpJv7czBj1L,,,,,56.1666,14.8622,anonymous,EN,Understood,I agree to participate,,Understood,60a175ae6556e3a7f22c2923,1,1,1,7,1,3,5,2,4,8,3,7,8,1,1,3,3,1,1,3,3,2,1,1,4,6,6,8,6,7,4,1,7,7,4,4,1,1,1,1,2,7,1,8,8,2,7,1,3,5,3,2,5,1,1,,62211,60a175ae6556e3a7f22c2923
+2024-01-26 13:07:02,2024-01-26 13:16:37,IP Address,83.188.240.234,100,574,True,2024-01-26 13:16:37,R_6OPGptGQqp9KWRH,,,,,59.3241,18.0517,anonymous,EN,Understood,I agree to participate,,Understood,659c583ab44bbfadb4a78118,2,7,3,9,7,3,1,3,2,9,9,2,3,8,8,3,10,10,2,7,4,6,8,3,3,7,8,9,8,9,8,7,8,10,7,7,9,6,7,8,4,6,8,1,9,7,10,3,9,7,10,2,5,1,3,,24323,659c583ab44bbfadb4a78118
+2024-01-26 12:50:22,2024-01-26 13:18:38,IP Address,155.4.130.14,100,1696,True,2024-01-26 13:18:40,R_21TzYHprmrSBnHt,,,,,57.7065,11.967,anonymous,SV,Understood,I agree to participate,,Understood,5ff1fcbb83f6af62e94e8294,1,1,2,1,3,2,1,4,3,4,3,6,4,2,8,4,3,6,5,6,4,3,6,4,2,3,2,1,2,2,2,5,2,2,5,2,3,3,1,1,3,6,2,1,3,5,4,4,2,5,4,2,5,1,2,,41355,5ff1fcbb83f6af62e94e8294
+2024-01-26 13:13:43,2024-01-26 13:22:26,IP Address,213.114.232.65,100,523,True,2024-01-26 13:22:27,R_1O8EWXvWSGse1fi,,,,,59.384,17.8355,anonymous,EN,Understood,I agree to participate,,Understood,5f99a558093c0502ff4095b8,1,6,2,9,5,1,1,8,2,8,3,4,8,4,4,4,2,8,7,9,9,6,3,4,1,4,2,2,5,3,7,3,4,4,5,3,1,1,1,2,1,3,4,9,8,5,7,7,4,7,1,2,5,1,5,,59134,5f99a558093c0502ff4095b8
+2024-01-26 13:14:16,2024-01-26 13:22:29,IP Address,178.31.75.108,100,493,True,2024-01-26 13:22:31,R_1svIS7ydhx4QPuO,,,,,59.2928,15.1918,anonymous,EN,Understood,I agree to participate,,Understood,5c8905f06f0eea0015ab1374,4,3,4,6,4,7,4,3,3,4,5,3,3,4,4,4,2,5,6,6,6,6,5,6,6,4,5,4,2,6,4,5,6,6,6,7,4,8,7,3,6,4,3,3,2,4,6,4,2,8,7,2,5,1,4,,84079,5c8905f06f0eea0015ab1374
+2024-01-26 13:15:14,2024-01-26 13:25:30,IP Address,155.4.133.63,100,616,True,2024-01-26 13:25:31,R_6Gdmoe0zwaMDgJy,,,,,55.6078,12.9982,anonymous,EN,Understood,I agree to participate,,Understood,657615e1e7c27d3bee065027,1,1,1,7,3,7,3,10,10,10,10,2,4,2,8,7,8,10,9,8,2,3,1,5,3,4,3,3,4,3,2,4,3,3,4,3,2,7,3,7,6,2,2,7,2,3,8,2,2,10,10,2,5,1,3,,97392,657615e1e7c27d3bee065027
+2024-01-26 13:20:49,2024-01-26 13:28:41,IP Address,85.229.2.183,100,472,True,2024-01-26 13:28:41,R_3j6TLNa5JtrAQVa,,,,,59.2491,18.0755,anonymous,EN,Understood,I agree to participate,,Understood,5ea95b161e683e03e9db9ef7,1,1,1,7,1,1,1,1,1,3,1,3,1,2,1,7,7,5,3,7,2,2,3,1,3,1,3,1,5,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,6,1,3,2,4,4,2,5,1,7,,87902,5ea95b161e683e03e9db9ef7
+2024-01-26 13:27:27,2024-01-26 13:35:24,IP Address,155.4.33.212,100,476,True,2024-01-26 13:35:25,R_6VfKpChEn85zetq,,,,,60.4751,15.3837,anonymous,SV,Understood,I agree to participate,,Understood,658446324634f5056c48e817,2,2,1,6,6,4,3,9,7,8,4,9,2,6,5,5,10,9,5,2,7,3,6,3,8,3,3,3,4,5,3,5,5,4,5,5,8,7,8,7,7,9,7,9,10,3,10,3,1,9,9,2,5,1,2,,35823,658446324634f5056c48e817
+2024-01-26 13:36:50,2024-01-26 13:45:35,IP Address,94.254.41.216,100,525,True,2024-01-26 13:45:36,R_6IVR9PgD0hGoNq8,,,,,59.6146,16.5528,anonymous,EN,Understood,I agree to participate,,Understood,5b968231f8c3ff0001b857ae,2,8,1,7,5,6,7,9,9,8,4,2,2,6,7,4,2,8,2,7,3,4,5,7,6,7,5,4,7,6,4,6,7,7,6,6,3,5,4,8,3,6,2,6,7,2,7,2,6,2,8,2,5,1,6,,26742,5b968231f8c3ff0001b857ae
+2024-01-26 13:50:48,2024-01-26 13:59:43,IP Address,90.225.81.159,100,534,True,2024-01-26 13:59:44,R_2vyLHMphc9yV0w9,,,,,57.3013,13.5284,anonymous,SV,Understood,I agree to participate,,Understood,659728beba0087a45343bace,10,9,10,9,7,7,8,1,8,1,7,8,3,8,3,3,5,4,5,7,6,8,8,8,7,7,7,9,6,6,9,9,8,9,9,5,5,10,10,10,7,4,9,4,5,3,5,2,4,5,5,2,5,1,9,,19511,659728beba0087a45343bace
+2024-01-26 14:00:18,2024-01-26 14:09:26,IP Address,95.193.43.149,100,548,True,2024-01-26 14:09:26,R_594VUyFPJ21ewvl,,,,,59.3247,18.056,anonymous,SV,Understood,I agree to participate,,Understood,6582f4d59675c9edbbf39bfa,2,2,3,5,4,1,6,2,3,8,2,3,2,2,2,2,2,7,3,5,6,5,7,4,2,2,4,6,6,4,3,2,5,6,4,2,1,2,2,1,2,4,6,6,3,2,8,2,4,1,3,2,5,1,9,Översättningen till svenska var något knackig.,59856,6582f4d59675c9edbbf39bfa
+2024-01-26 13:51:01,2024-01-26 14:11:01,IP Address,94.191.137.39,100,1200,True,2024-01-26 14:11:02,R_6X0xelLVv8YxJSB,,,,,59.3333,18.05,anonymous,EN,Understood,I agree to participate,,Understood,6557e570d7c9eaeeb2932b1d,1,1,3,1,1,1,3,7,7,9,1,8,1,8,7,2,7,9,2,10,6,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,2,3,2,1,1,4,4,1,2,1,2,5,1,4,,81939,6557e570d7c9eaeeb2932b1d
+2024-01-26 14:35:15,2024-01-26 14:44:30,IP Address,83.251.14.146,100,554,True,2024-01-26 14:44:30,R_15Q5f36ieMgekWl,,,,,65.5864,22.1457,anonymous,SV,Understood,I agree to participate,,Understood,5838559cd38ecd000114c2c9,3,8,2,4,3,10,2,9,3,10,9,2,7,4,1,3,10,10,5,7,8,3,5,1,3,6,2,2,3,3,2,2,3,2,2,7,9,7,10,2,9,6,4,8,7,3,8,7,6,7,9,2,5,1,10,,75447,5838559cd38ecd000114c2c9
+2024-01-26 14:39:07,2024-01-26 14:50:04,IP Address,83.233.138.91,100,657,True,2024-01-26 14:50:05,R_3prEiNNrGNo0Amt,,,,,59.3247,18.056,anonymous,EN,Understood,I agree to participate,,Understood,5f4ea09e962e2b0c03ca3bed,1,4,1,5,1,4,3,1,3,1,2,2,1,2,7,5,1,6,1,6,1,1,4,3,2,6,4,4,3,3,2,3,3,5,3,1,1,5,5,7,5,4,3,2,5,1,6,5,1,2,7,2,5,1,2,"No, thank you!",11880,5f4ea09e962e2b0c03ca3bed
+2024-01-26 14:44:32,2024-01-26 14:51:29,IP Address,83.255.52.68,100,417,True,2024-01-26 14:51:30,R_1CKDUqCb1uhC3U5,,,,,56.1604,13.7687,anonymous,SV,Understood,I agree to participate,,Understood,656f94ed904a54c0c02bdc2a,5,3,1,1,4,6,1,9,6,8,5,5,7,4,6,3,8,7,3,3,8,5,4,3,4,6,1,5,6,5,2,1,8,5,1,6,4,3,3,7,3,6,3,7,7,7,7,8,7,6,7,2,5,1,6,,62688,656f94ed904a54c0c02bdc2a
+2024-01-26 14:37:29,2024-01-26 14:55:22,IP Address,95.202.117.246,100,1072,True,2024-01-26 14:55:23,R_4RlmzTBfXhsvPDq,,,,,59.2794,18.6846,anonymous,SV,Understood,I agree to participate,,Understood,6468e3c29dde66534b4d39fa,3,4,2,4,6,8,5,8,2,7,2,3,10,3,10,8,9,7,8,9,4,5,3,2,8,2,1,1,4,4,1,6,1,2,1,2,7,9,10,1,10,7,6,8,6,8,7,7,7,4,7,2,5,1,9,,81230,6468e3c29dde66534b4d39fa
+2024-01-26 14:37:29,2024-01-26 14:56:48,IP Address,81.231.34.166,100,1159,True,2024-01-26 14:56:49,R_4huLq6AACGSUUEX,,,,,61.6461,17.0849,anonymous,SV,Understood,I agree to participate,,Understood,65514c6082f787a17bca0c71,4,3,2,6,3,4,4,7,3,6,4,3,4,6,5,6,4,3,4,3,5,6,5,5,3,7,5,2,6,5,5,3,5,4,4,5,2,4,3,3,3,4,4,4,2,5,8,3,5,6,7,2,5,1,7,,76253,65514c6082f787a17bca0c71
+2024-01-26 14:47:34,2024-01-26 14:57:38,IP Address,82.196.111.118,100,603,True,2024-01-26 14:57:38,R_2qEB0ZXCnay6aaH,,,,,59.4284,17.9653,anonymous,EN,Understood,I agree to participate,,Understood,6564e1e6b1534f19c449b18f,2,1,1,3,1,4,4,6,6,4,1,6,1,5,3,4,1,7,6,4,6,1,2,4,6,2,3,6,3,3,4,4,2,3,4,5,1,4,3,8,5,5,1,1,1,1,2,2,1,4,4,2,5,1,6,,40567,6564e1e6b1534f19c449b18f
+2024-01-26 14:48:14,2024-01-26 14:59:34,IP Address,82.209.140.218,100,680,True,2024-01-26 14:59:35,R_3eaIdQUssEDno6L,,,,,59.3247,18.056,anonymous,SV,Understood,I agree to participate,,Understood,651c113911b5e19ea424a3b1,7,6,3,7,7,2,7,9,4,9,4,8,4,6,6,7,1,8,3,10,8,7,8,6,2,7,5,3,4,8,4,6,8,8,5,6,2,2,1,2,1,6,7,7,7,4,5,4,3,6,6,2,5,1,10,"Nej tack, inget speciellt.",98095,651c113911b5e19ea424a3b1
+2024-01-26 14:50:13,2024-01-26 15:07:57,IP Address,83.233.244.142,100,1063,True,2024-01-26 15:07:57,R_3uyTN53W5BhY380,,,,,59.3247,18.056,anonymous,EN,Understood,I agree to participate,,Understood,5e1fa7a528b7b62ca600adc7,3,4,4,8,4,9,4,7,8,8,8,7,7,7,4,7,3,7,7,3,7,9,7,6,9,7,8,4,8,8,7,3,9,7,8,10,8,4,8,9,7,7,4,4,4,3,8,3,3,8,7,2,5,1,4,,56722,5e1fa7a528b7b62ca600adc7
+2024-01-26 15:01:11,2024-01-26 15:24:34,IP Address,188.150.165.48,100,1402,True,2024-01-26 15:24:34,R_1c2ydVR40DkSBfU,,,,,59.2539,17.7853,anonymous,EN,Understood,I agree to participate,,Understood,65959b14d677879036710db0,2,3,3,4,3,2,2,6,3,8,9,7,3,6,7,8,7,9,8,8,2,5,4,6,3,5,4,5,7,5,7,4,4,6,3,6,1,4,3,1,5,6,6,7,6,3,8,9,7,8,10,2,5,1,6,,43636,65959b14d677879036710db0
+2024-01-26 15:18:15,2024-01-26 15:26:25,IP Address,94.191.152.13,100,489,True,2024-01-26 15:26:26,R_2LUs736cFeI1dHM,,,,,59.3333,18.05,anonymous,SV,Understood,I agree to participate,,Understood,657f08b938428b854dc12a94,1,1,1,1,1,2,1,8,2,8,8,2,5,7,4,2,7,2,5,2,2,1,1,1,1,3,3,2,3,3,2,1,2,3,1,3,2,6,1,1,2,3,7,9,7,1,3,4,1,7,5,2,5,1,3,,34539,657f08b938428b854dc12a94
+2024-01-26 15:11:24,2024-01-26 15:31:23,IP Address,92.33.207.182,100,1198,True,2024-01-26 15:31:24,R_2aYfAC8bEYsO8WB,,,,,59.3241,18.0517,anonymous,EN,Understood,I agree to participate,,Understood,65a04bff3f91fc3cf7f3991b,1,1,1,7,1,1,2,1,3,10,1,1,6,8,8,6,10,9,4,9,1,4,5,7,3,4,6,5,3,5,2,3,4,8,8,6,4,3,2,3,2,5,4,6,1,9,1,7,8,7,10,2,5,1,1,"These were very important questions ",18852,65a04bff3f91fc3cf7f3991b
+2024-01-26 15:12:08,2024-01-26 15:34:26,IP Address,83.187.175.6,100,1337,True,2024-01-26 15:34:26,R_5YbQovf9jvTgaVP,,,,,55.6013,12.9964,anonymous,SV,Understood,I agree to participate,,Understood,656ee9f847e7cb2f69ca0b62,3,3,2,4,1,7,3,3,4,2,4,3,3,3,3,3,1,6,8,7,2,4,3,4,3,7,7,4,3,7,3,3,7,7,6,7,7,4,7,7,6,6,4,2,3,2,7,2,4,4,7,4,5,4,6,,12697,656ee9f847e7cb2f69ca0b62
+2024-01-26 15:24:29,2024-01-26 15:36:53,IP Address,95.194.198.204,100,743,True,2024-01-26 15:36:53,R_2rZ2pMAYUrOGlmE,,,,,57.7165,11.9708,anonymous,SV,Understood,I agree to participate,,Understood,656099605368dac0ddc74ceb,2,3,2,2,5,7,7,9,3,7,5,6,7,3,6,2,8,8,9,6,8,7,7,9,9,2,7,9,3,2,7,7,3,4,3,3,6,6,7,7,3,8,5,8,2,7,8,8,1,9,9,2,5,1,7,,76428,656099605368dac0ddc74ceb
+2024-01-26 15:43:07,2024-01-26 15:51:14,IP Address,83.187.178.13,100,486,True,2024-01-26 15:51:14,R_2oruD5RbK2qNY2Z,,,,,57.7065,11.967,anonymous,EN,Understood,I agree to participate,,Understood,6585ad19278e6c65a64b35d0,10,9,9,9,6,2,7,7,9,8,9,2,8,4,4,7,6,4,3,7,7,6,7,7,2,9,3,8,4,4,7,3,7,2,4,6,1,8,2,1,4,6,6,3,1,4,3,7,8,3,1,2,5,1,6,,68258,6585ad19278e6c65a64b35d0
+2024-01-26 15:52:06,2024-01-26 16:01:57,IP Address,83.250.17.172,100,591,True,2024-01-26 16:01:58,R_7Ep2nRO7bdr8viS,,,,,59.3241,18.0517,anonymous,SV,Understood,I agree to participate,,Understood,6501b43108116395a10bed96,1,6,2,7,4,3,2,9,6,10,6,6,7,6,6,4,2,8,4,7,4,8,7,6,6,6,6,7,6,6,8,6,8,7,6,9,4,3,3,3,4,8,6,4,4,6,4,4,3,6,7,2,5,1,7,,68503,6501b43108116395a10bed96
+2024-01-26 16:01:16,2024-01-26 16:07:39,IP Address,90.233.210.35,100,383,True,2024-01-26 16:07:40,R_2kHblMm2w3DwF9j,,,,,59.3247,18.056,anonymous,SV,Understood,I agree to participate,,Understood,5ea62c8bba2bb363b85cbbd2,5,3,1,1,1,8,7,3,2,1,4,1,7,6,6,5,7,1,7,6,7,1,6,2,1,1,1,1,2,1,2,2,1,1,2,2,7,7,8,1,7,7,5,7,5,7,10,8,5,9,9,2,5,1,10,,54427,5ea62c8bba2bb363b85cbbd2
+2024-01-26 16:03:23,2024-01-26 16:15:39,IP Address,92.33.218.221,100,735,True,2024-01-26 16:15:39,R_1dM5NM8565IAUWy,,,,,59.6146,16.5528,anonymous,SV,Understood,I agree to participate,,Understood,65841a4c224fe86d9a85edc3,1,1,1,7,2,7,7,1,1,1,1,1,2,7,1,5,7,7,6,5,6,4,1,2,3,3,2,5,4,7,3,1,3,8,4,7,2,2,7,3,4,4,8,6,1,3,4,7,1,7,6,2,5,1,7,,40980,65841a4c224fe86d9a85edc3
+2024-01-26 16:08:25,2024-01-26 16:17:56,IP Address,81.170.198.18,100,571,True,2024-01-26 16:17:56,R_5pLM3TCsvVHDOyr,,,,,58.3246,15.1279,anonymous,EN,Understood,I agree to participate,,Understood,576b661b6aed2e00017053e6,1,1,1,1,1,1,3,6,5,6,4,4,4,1,2,2,7,8,3,1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,4,3,2,1,6,5,2,5,1,6,"It would have been helpful with a clearer definition of ""finding it difficult"". In some cases I think it would be hard for ""most of the people"" to discuss some of the subjects, just because people have no clear definitions of the terms used. But, I answered more from a standpoint of ""will this be difficult to discuss because of the subject matter"" rather than the complexity. ",63023,576b661b6aed2e00017053e6
+2024-01-26 16:10:41,2024-01-26 16:18:46,IP Address,84.17.36.249,100,484,True,2024-01-26 16:18:46,R_6BKRxCH0KguDXTr,,,,,59.3241,18.0517,anonymous,EN,Understood,I agree to participate,,Understood,5eb64825c23fbf5300fb5bd9,1,1,2,2,3,1,8,3,1,4,4,2,1,3,6,3,2,3,4,1,4,6,5,5,1,3,2,3,2,3,4,4,3,3,3,2,1,1,1,1,1,2,5,1,1,2,3,3,2,5,4,2,5,1,5,,61120,5eb64825c23fbf5300fb5bd9
+2024-01-26 17:06:39,2024-01-26 17:14:14,IP Address,192.176.116.232,100,454,True,2024-01-26 17:14:15,R_2K1fDwzKIvZrqSU,,,,,59.5116,15.9977,anonymous,SV,Understood,I agree to participate,,Understood,5f2b39296b363d566e8e4c1c,3,1,1,4,4,2,4,10,4,10,8,6,7,5,6,6,3,6,6,3,3,6,5,6,2,3,2,2,4,1,3,1,1,1,5,6,2,1,3,4,1,1,4,4,4,7,7,7,4,9,7,2,5,1,9,,11332,5f2b39296b363d566e8e4c1c
+2024-01-26 17:16:45,2024-01-26 17:21:55,IP Address,2.248.101.121,100,309,True,2024-01-26 17:21:55,R_6CHjItKhwv3TYMb,,,,,59.0514,16.5828,anonymous,SV,Understood,I agree to participate,,Understood,658474bbd8b7813803995dba,7,7,8,6,4,4,8,2,9,9,6,9,10,3,3,3,7,10,8,10,10,9,2,2,3,7,2,2,3,8,8,8,2,6,7,3,3,6,1,4,7,3,4,9,3,9,8,8,9,3,3,2,5,1,10,,30866,658474bbd8b7813803995dba
+2024-01-26 18:04:54,2024-01-26 18:11:11,IP Address,83.250.70.25,100,377,True,2024-01-26 18:11:12,R_2q9aNuRBFxhVfI0,,,,,56.0449,12.692,anonymous,EN,Understood,I agree to participate,,Understood,659b3627966a4d31ded34856,1,9,7,3,1,1,7,1,2,3,2,1,1,8,3,7,1,1,1,1,1,7,1,3,1,1,3,2,3,1,1,1,1,1,3,8,2,8,1,1,3,3,1,1,8,1,3,3,9,7,7,2,5,1,7,,84282,659b3627966a4d31ded34856
+2024-01-26 18:35:51,2024-01-26 18:47:28,IP Address,213.64.117.44,100,697,True,2024-01-26 18:47:29,R_5MW4Ob3PivfG5jj,,,,,56.2036,12.5709,anonymous,EN,Understood,I agree to participate,,Understood,5c5e0399943a720001850c2e,3,2,3,1,6,2,2,9,6,10,4,7,7,7,4,2,7,10,6,2,3,2,2,2,3,2,2,2,3,2,2,2,3,2,2,2,2,2,2,2,2,6,2,3,4,3,3,6,3,7,7,2,5,1,6,,83694,5c5e0399943a720001850c2e
+2024-01-26 18:48:35,2024-01-26 18:58:01,IP Address,83.248.12.93,100,565,True,2024-01-26 18:58:02,R_2FrAUreJCd1PJJw,,,,,56.0449,12.692,anonymous,EN,Understood,I agree to participate,,Understood,65522c53e0cd37d2b0cbac5c,4,4,1,2,3,2,4,7,8,3,9,8,7,1,2,7,7,6,6,3,4,1,7,1,5,3,7,8,4,3,5,5,7,4,5,5,2,8,3,5,3,6,1,3,4,9,10,9,6,9,8,2,5,1,1,,51305,65522c53e0cd37d2b0cbac5c
+2024-01-26 19:03:27,2024-01-26 19:11:22,IP Address,95.193.148.105,100,474,True,2024-01-26 19:11:22,R_729CL2rUwXUVYH1,,,,,59.3241,18.0517,anonymous,SV,Understood,I agree to participate,,Understood,5b87e45064620e00018f1a3e,1,1,1,1,1,3,1,10,5,10,10,10,10,8,1,10,9,1,1,1,9,1,1,1,1,3,1,8,5,1,4,2,1,1,1,3,1,1,1,1,1,1,1,5,10,5,5,10,2,10,10,2,5,1,10,,79640,5b87e45064620e00018f1a3e
+2024-01-26 19:47:44,2024-01-26 19:58:31,IP Address,95.192.9.223,100,647,True,2024-01-26 19:58:32,R_3yH5ChSS2IY1PkB,,,,,57.1063,12.2417,anonymous,SV,Understood,I agree to participate,,Understood,653fce3d7af750fa63a97525,1,1,1,2,2,1,2,7,2,6,5,2,6,3,6,2,3,6,3,7,3,1,2,1,1,1,1,2,2,2,1,1,1,1,1,1,1,2,2,1,2,2,1,2,1,5,3,3,1,5,3,2,5,1,6,,13241,653fce3d7af750fa63a97525
+2024-01-26 22:42:39,2024-01-26 22:54:35,IP Address,83.254.83.88,100,715,True,2024-01-26 22:54:36,R_5fqMWKniARfV5w5,,,,,63.2852,18.7138,anonymous,SV,Understood,I agree to participate,,Understood,658077f450172f207b4e7172,4,4,4,8,2,7,6,4,5,9,1,2,3,4,6,4,5,7,4,7,7,8,3,3,6,7,5,7,3,5,4,7,7,8,8,7,6,6,4,4,7,7,3,4,5,3,5,3,4,7,8,2,5,1,3,,63653,658077f450172f207b4e7172
+2024-01-26 22:40:31,2024-01-26 22:55:02,IP Address,84.216.140.117,100,870,True,2024-01-26 22:55:03,R_3dNyKdbwoVRUeVb,,,,,59.4786,18.2931,anonymous,SV,Understood,I agree to participate,,Understood,6599d03f7fa14c73800c6181,1,2,1,3,2,1,7,6,4,7,7,7,3,1,2,6,3,7,3,9,2,4,6,2,2,4,2,7,2,7,2,1,2,4,3,7,1,1,1,1,2,3,3,1,4,2,8,4,7,8,3,2,5,1,2,Något jag tänkte på när det kom frågor gällande grannar så tänker jag mig att de flesta skulle uppleva den som känslig eller svår. Inte för att de har något särskilt emot en viss grupp av människor utan för att det kan anses som en chockande fråga.,77390,6599d03f7fa14c73800c6181
+2024-01-26 22:47:30,2024-01-26 22:57:32,IP Address,90.129.200.33,100,601,True,2024-01-26 22:57:32,R_2NgqHVmAbtXxdSv,,,,,59.2603,18.0402,anonymous,SV,Understood,I agree to participate,,Understood,5c61cbf25434430001870681,2,1,2,1,1,2,4,8,10,3,10,8,9,7,2,2,2,2,6,1,1,2,3,1,3,1,1,3,1,9,1,1,2,4,1,1,2,2,1,1,3,4,1,8,4,9,1,2,8,1,1,2,5,1,1,,85433,5c61cbf25434430001870681
+2024-01-26 23:12:29,2024-01-26 23:20:50,IP Address,213.204.219.104,100,501,True,2024-01-26 23:20:51,R_7j51cKTbRQhLPsl,,,,,59.271,17.8914,anonymous,SV,Understood,I agree to participate,,Understood,657707f25b62409ab0ecd22d,1,2,1,6,5,7,1,8,8,8,10,3,10,8,9,9,9,10,10,3,9,8,5,2,8,6,3,3,6,1,7,7,5,4,1,1,2,5,7,8,7,3,1,7,7,3,10,6,1,10,10,2,5,1,8,,52146,657707f25b62409ab0ecd22d
+2024-01-26 23:37:18,2024-01-26 23:42:43,IP Address,94.191.136.116,100,325,True,2024-01-26 23:42:44,R_57x3lWEiiEVhZeS,,,,,59.3333,18.05,anonymous,SV,Understood,I agree to participate,,Understood,65539b82f2e23eff9dea5258,6,7,6,7,6,3,6,6,4,6,6,6,4,6,6,7,2,7,6,6,6,6,7,7,6,3,6,6,6,6,6,8,6,6,7,6,6,6,7,7,6,10,3,6,7,1,10,6,7,6,7,2,5,1,4,,69710,65539b82f2e23eff9dea5258
+2024-01-26 23:41:34,2024-01-26 23:48:56,IP Address,83.253.25.253,100,441,True,2024-01-26 23:48:57,R_8nhYxcpY7uxh5LV,,,,,55.6078,12.9982,anonymous,EN,Understood,I agree to participate,,Understood,60acb1d0fcec4536b658dacb,2,1,1,8,3,2,1,7,5,7,8,4,2,5,3,2,1,7,8,3,4,3,2,5,3,6,2,1,4,4,2,2,3,6,4,2,2,2,5,5,3,3,6,1,1,3,8,7,2,5,6,2,5,1,2,,33119,60acb1d0fcec4536b658dacb
+2024-01-27 00:52:29,2024-01-27 01:03:43,IP Address,155.4.85.101,100,673,True,2024-01-27 01:03:44,R_3ESWWCx1LvaCYrT,,,,,57.9312,12.5188,anonymous,SV,Understood,I agree to participate,,Understood,65215b76313c48c555e4291e,2,1,1,2,2,1,1,8,3,6,5,3,7,2,4,2,8,7,3,3,3,3,3,1,1,3,3,3,2,2,2,1,1,3,2,1,2,2,1,2,1,5,4,7,8,2,6,5,3,3,4,2,5,1,2,,91779,65215b76313c48c555e4291e
+2024-01-27 01:03:00,2024-01-27 01:11:48,IP Address,83.187.166.84,100,527,True,2024-01-27 01:11:48,R_6IZ5muOVm4jQ8SJ,,,,,57.7065,11.967,anonymous,EN,Understood,I agree to participate,,Understood,656c8a92622228a7227c4155,3,4,4,3,7,3,8,9,3,2,7,2,9,3,3,3,8,2,8,7,3,4,3,4,3,3,3,9,2,4,8,3,3,2,8,2,3,9,2,9,2,3,7,7,3,2,9,3,3,2,9,2,5,1,8,,37672,656c8a92622228a7227c4155

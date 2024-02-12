@@ -1,5 +1,5 @@
 ---
-title: "Mechanisms of Change across Issues and Contexts"
+title: "Opinions on Hard-to-Discuss Topics Change More via Cohort Replacement"
 author: 
   - Nicolas Restrepo Ochoa, Anthropology Department, Univerity of California at Davis.
   - Stephen Vaisey, Sociology Department, Duke University.
@@ -17,7 +17,24 @@ header-includes:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = F, message = F, warning = F)
+
+library(tidyverse)
+library(countrycode)
+library(janitor)
+library(splines)
+library(performance)
+library(ggrepel)
+library(hrbrthemes)
+library(patchwork)
+library(broom)
+library(broom.mixed)
+library(gtsummary)
+library(labelled)
+library(brms)
+theme_set(theme_bw())
+
+
 ```
 
 ## Questions & Abbreviations 
@@ -75,73 +92,526 @@ knitr::opts_chunk$set(echo = TRUE)
 51. Please tell me whether you think suicide always be justified, never be justified, or something in between. (just_suicide)
 52. How proud are you to be of the nationality of this country? (proud_nationality)
 
-## LLM Ratings 
+## Descriptive Summaries - Survey Data 
 
-We used chatGPT to get sensitivity ratings for the questions above. Below, there is a reporoduction of the language we usted to prompt chatGPT for the ratings. 
+The following plots present the distributions for the sensitivity scores in our data.
 
-Researcher (R): *Can I ask you to rate some texts?*
+We will begin with the USA: 
 
-GPT (G): *Of course! I'd be happy to help you rate some texts. Please provide the texts you want me to evaluate, and let me know what criteria you'd like me to use for the rating.*
+```{r, warning=F, message=F}
+usa_d <- read_csv("Data/usa_data_full.csv") %>% mutate(country = "USA")
+# Keep only the real answers (no headers, pretests or rejections)
+usa_d <- usa_d[-c(1:5, 16:17, 19) ,]
 
-R: *OK I'd like you to rate to what extent each of the following questions is about a 'sensitive topic'. By 'sensitive topic' we mean subjects that individuals may not wish to talk openly about.  These can include subjects such as mental health, witchcraft accusations, racism, forced marriage, son preference, bodily mutilation, some aspects of religion, and violence. Do you understand what I mean by 'sensitive topic'?*
+swe_d <- read_csv("Data/swe_data_full.csv") %>% mutate(country = "SWE")
+swe_d <- swe_d[-c(1:2),]
 
-G: *Yes, I understand what you mean by a 'sensitive topic.' It refers to subjects that individuals may find uncomfortable, distressing, or taboo to discuss openly. These can encompass a wide range of topics, including mental health, witchcraft accusations, racism, forced marriage, son preference, bodily mutilation, certain aspects of religion, and violence. Please go ahead and provide the questions you'd like me to rate in terms of sensitivity.*
+zaf_d <- read_csv("Data/zaf_data_full.csv") %>% mutate(country = "ZAF")
+zaf_d <- zaf_d[-c(1:2),]
 
-R: *Could you rate them on a scale from 0 to 10 where 0 means "not sensitive at all" and 10 means "extremely sensitive"?*
+mex_d <- read_csv("Data/mex_data_full.csv") %>% mutate(country = "MEX")
+mex_d <- mex_d[-c(1:2),]
 
-G: *Certainly! I can rate the questions on a scale from 0 to 10, where 0 means "not sensitive at all" and 10 means "extremely sensitive." Please provide the questions you'd like me to evaluate, and I'll rate them accordingly.* 
+jpn_d <- read_csv("Data/jpn_data_full.csv") %>% mutate(country = "JPN")
+jpn_d <- jpn_d[-c(1:2),]
 
-We then provided the questions (as written above) one by one. These are the ratings provided by chatGPT as well as the reasoning behind them. 
+can_d <- read_csv("Data/can_data_full.csv") %>% mutate(country = "CAN")
+can_d <- can_d[-c(1:2),]
 
-1. 2 - Most people are comfortable discussing the importance of family.
-2. 2 - Same as above for friends.
-3. 2 - Same as above for leisure.
-4. 3 - Some might find politics a sensitive subject, but generally it's less so.
-5. 2 - Work importance is usually not a very sensitive topic.
-6. 7 - Religion can be a very sensitive and personal topic for many people.
-7. 3 - Not highly sensitive but might touch on personal parenting beliefs.
-8. 8 - Questions about racial preferences can be highly sensitive and potentially offensive.
-9. 5 - Some might find this sensitive due to associations with addiction.
-10. 8 - Questions about preferences for immigrants or foreign workers can be highly sensitive and potentially offensive.
-11. 7 - Questions about preferences for people with AIDS can be sensitive due to stigma and fear.
-12. 7 - Similar to question about heavy drinkers, it's sensitive due to associations with addiction.
-13. 9 - Questions about preferences for gay neighbors can be highly sensitive and potentially offensive.
-14. 3 - Trust levels are not usually a sensitive topic.
-15. 4 - Life satisfaction can be sensitive for those struggling with mental health issues.
-16. 4 - Questions about control over life can be sensitive for some individuals.
-17. 7 - Gender bias in jobs can be a sensitive topic.
-18. 8 - Nationalism and jobs can be a highly sensitive topic.
-19. 6 - Questions on the fulfillment of being a housewife can be sensitive due to gender roles.
-20. 4 - Political beliefs can be a sensitive topic, though usually less so than specific policies or events.
-21. 4 - Income distribution can be a sensitive topic, reflecting economic and political beliefs.
-22. 5 - Public vs private ownership is politically sensitive.
-23. 5 - Government responsibility is a sensitive and politically charged topic.
-24. 4 - Views on competition may be sensitive to some, often reflecting deeper beliefs about society.
-25. 7 - Confidence in churches touches on religious and institutional trust which can be sensitive.
-26. 5 - Confidence in the armed forces can be a sensitive subject.
-27. 5 - Confidence in the press is sensitive given debates about media trustworthiness.
-28. 5 - Confidence in unions can be sensitive, depending on personal and political beliefs.
-29. 6 - Confidence in the police can be sensitive, especially in areas with ongoing debates about law enforcement.
-30. 5 - Confidence in parliament reflects political trust and can be sensitive.
-31. 4 - Confidence in civil services can be sensitive, reflecting views on government efficiency.
-32. 5 - Confidence in television touches on media trust and can be sensitive.
-33. 5 - Confidence in the government can be a sensitive topic.
-34. 5 - Confidence in political parties can be sensitive due to political beliefs.
-35. 4 - Confidence in major companies can be sensitive, reflecting views on corporate ethics and trust.
-36. 5 - Confidence in justice courts can be sensitive, reflecting views on justice and fairness.
-37. 7 - Frequency of religious service attendance can be sensitive, reflecting personal religious practices.
-38. 7 - Identifying as religious, not religious, or atheist can be very sensitive.
-39. 8 - Belief in God can be a very sensitive and personal topic.
-40. 7 - Belief in Hell can be a sensitive and personal topic.
-41. 8 - The importance of God in life can be a very sensitive and personal topic.
-42. 4 - Justification of claiming undue government benefits touches on personal ethics, can be sensitive.
-43. 3 - Justification of fare evasion can be sensitive but is generally less so.
-44. 4 - Tax cheating can be sensitive, reflecting personal ethics.
-45. 5 - Bribery is a sensitive topic, reflecting personal ethics and views on corruption.
-46. 8 - Homosexuality justification can be a very sensitive topic, depending on cultural and personal beliefs.
-47. 8 - Prostitution justification can be a very sensitive topic, depending on cultural and personal beliefs.
-48. 9 - Abortion justification is a highly sensitive and divisive topic.
-49. 6 - Divorce justification can be sensitive, particularly for those with personal experiences.
-50. 8 - Euthanasia justification can be a very sensitive and personal topic.
-51. 10 - Suicide justification is an extremely sensitive topic, touching on mental health and personal experiences.
-52. 4 - National pride can be a sensitive topic but is usually less so than specific political issues.
+aus_d <- read_csv("Data/aus_data_full.csv") %>% mutate(country = "AUS")
+aus_d <- aus_d[-c(1:2),]
+
+arg_d <- read_csv("Data/arg_data_full.csv") %>% mutate(country = "ARG")
+arg_d <- arg_d[-c(1:8,60),]
+
+
+usa_ds <- usa_d %>% 
+  select(23:77,81)
+
+swe_ds <- swe_d %>% 
+  select(23:77,81)
+
+zaf_ds <- zaf_d %>% 
+  select(23:77,81)
+
+mex_ds <- mex_d %>% 
+  select(23:77,81)
+
+jpn_ds <- jpn_d %>% 
+  select(23:77,81)
+
+can_ds <- can_d %>% 
+  select(23:77,81)
+
+aus_ds <- aus_d %>% 
+  select(23:77,81)
+
+arg_ds <- arg_d %>% 
+  select(22:76,81)
+
+d_sens_complete <- rbind(usa_ds,
+                         swe_ds,
+                         zaf_ds,
+                         mex_ds,
+                         jpn_ds,
+                         can_ds,
+                         aus_ds, 
+                         arg_ds)
+
+d_sens_complete <- d_sens_complete %>% 
+  mutate(
+    across( 
+      .cols =1:55, 
+      as.numeric
+    )
+  )
+
+# If attention check succesful then 1, else 0
+# Count attention checks
+d_sens_complete <- d_sens_complete %>% 
+  mutate(ac1 = if_else(att1_1 == 2, 1, 0), 
+         ac2 = if_else(att2_1 == 5, 1, 0), 
+         ac3 = if_else(att3_1 == 1, 1, 0), 
+         ac = ac1+ac2+ac3)
+rm(usa_d,
+   swe_d,
+   zaf_d,
+   mex_d,
+   jpn_d,
+   can_d,
+   aus_d)
+
+rm(usa_ds,
+   swe_ds,
+   zaf_ds,
+   mex_ds,
+   jpn_ds,
+   can_ds,
+   aus_ds)
+
+# Keep only respondents with 2 or more attention checks
+d_sens_complete <- d_sens_complete %>% 
+  filter(ac >=2)
+
+d_sens_long <- d_sens_complete %>% 
+  select(country, everything()) %>% 
+  mutate(
+    across( 
+      .cols = 2:56, 
+      as.numeric
+    )
+  ) %>% 
+  pivot_longer(
+    2:56, 
+    names_to = "question", 
+    values_to = "difficulty"
+  ) %>% 
+  mutate(
+    question = str_remove(question, "_1$"), 
+    variable = case_when( 
+      question == "imp_family" ~ "important_family", 
+      question == "imp_friends" ~ "important_friends", 
+      question == "imp_leisure" ~ "important_leisure", 
+      question == "imp_pol" ~ "important_politics", 
+      question == "imp_wrk" ~ "important_work", 
+      question == "imp_rel" ~ "important_religion", 
+      question == "child_qualities" ~ "child_independence", 
+      question == "neigh_race" ~ "neigh_diff_race", 
+      question == "neigh_drink" ~ "neigh_drink", 
+      question == "neigh_imm" ~ "neigh_imm", 
+      question == "neigh_aids" ~ "neigh_aids", 
+      question == "neigh_drug" ~ "neigh_drugs", 
+      question == "neigh_gay" ~ "neigh_gay", 
+      question == "trust" ~ "trust_people", 
+      question == "life_satisf" ~ "life_satisf", 
+      question == "choice_control" ~ "choice_control", 
+      question == "scarce_jobs_women" ~ "jobs_men_over_women", 
+      question == "scarce_jobs_imm" ~ "jobs_national_over_foreign", 
+      question == "housewife_fulfill" ~ "housewife_fulfilling", 
+      question == "left_right" ~ "politics_scale", 
+      question == "equal_incomes" ~  "income_eq", 
+      question == "private_public_busi" ~ "pvt_state_owned", 
+      question == "gvt_responsibility" ~ "gvt_responsibility", 
+      question == "comp_good_bad" ~ "competition_good_evil", 
+      question == "conf_church" ~ "confidence_churches", 
+      question == "conf_armed" ~ "confidence_armed_forces", 
+      question == "conf_press" ~ "confidence_press", 
+      question == "conf_unions" ~ "confidence_unions", 
+      question == "conf_police" ~ "confidence_police", 
+      question == "conf_parliament" ~ "confidence_parliament", 
+      question == "conf_civil" ~ "confidence_civil", 
+      question == "conf_tv" ~ "confidence_tv", 
+      question == "conf_gvt" ~ "confidence_government", 
+      question == "conf_pol_prt" ~ "confidence_political_parties", 
+      question == "conf_companies" ~ "confidence_major_companies", 
+      question == "conf_courts" ~ "confidence_justice_courts", 
+      question == "rel_services" ~ "attend_relig", 
+      question == "religiosity" ~ "religious_person", 
+      question == "belief_god" ~ "believe_god", 
+      question == "belief_hell" ~ "believe_hell", 
+      question == "imp_god" ~ "important_god", 
+      question == "just_gvt_benefits" ~  "just_gvt_benefits", 
+      question == "just_public_trans" ~ "just_fare_public_trans", 
+      question == "just_cheat_tax" ~ "just_cheat_taxes", 
+      question == "just_bribe" ~ "just_bribe", 
+      question == "just_homo" ~ "just_homosexuality", 
+      question == "just_prst" ~ "just_prostitution", 
+      question == "just_abort" ~ "just_abortion", 
+      question == "just_divorce" ~ "just_divorce", 
+      question == "just_euth" ~ "just_euthanasia", 
+      question == "just_suicide" ~ "just_suicide", 
+      question == "proud" ~ "proud_nationality", 
+      TRUE ~ question),
+  )
+
+d_sens_long %>% 
+  filter(country == "USA") %>% 
+  group_by(
+    variable
+  ) %>% 
+  mutate(
+    avg = mean(difficulty)
+  ) %>% 
+  ungroup() %>% 
+  ggplot( 
+    aes( x = fct_reorder(variable, avg), 
+         y = difficulty)
+    ) +
+  geom_boxplot() + 
+  coord_flip() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "USA",
+    y = "Difficulty", 
+    x = ""
+  )
+```
+
+Let's now look at Sweden: 
+
+```{r}
+d_sens_long %>% 
+  filter(country == "SWE") %>% 
+  group_by(
+    variable
+  ) %>% 
+  mutate(
+    avg = mean(difficulty, na.rm = T)
+  ) %>% 
+  ungroup() %>% 
+  ggplot( 
+    aes( x = fct_reorder(variable, avg), 
+         y = difficulty)
+    ) +
+  geom_boxplot() + 
+  coord_flip() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "SWE",
+    y = "Difficulty", 
+    x = ""
+  )
+```
+
+Let's examine South Africa: 
+
+```{r}
+d_sens_long %>% 
+  filter(country == "ZAF") %>% 
+  group_by(
+    variable
+  ) %>% 
+  mutate(
+    avg = mean(difficulty)
+  ) %>% 
+  ungroup() %>% 
+  ggplot( 
+    aes( x = fct_reorder(variable, avg), 
+         y = difficulty)
+    ) +
+  geom_boxplot() + 
+  coord_flip() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "ZAF",
+    y = "Difficulty", 
+    x = ""
+  )
+```
+
+Let's examine the responses for Mexico: 
+
+```{r}
+d_sens_long %>% 
+  filter(country == "MEX") %>% 
+  group_by(
+    variable
+  ) %>% 
+  mutate(
+    avg = mean(difficulty)
+  ) %>% 
+  ungroup() %>% 
+  ggplot( 
+    aes( x = fct_reorder(variable, avg), 
+         y = difficulty)
+    ) +
+  geom_boxplot() + 
+  coord_flip() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "MEX",
+    y = "Difficulty", 
+    x = ""
+  )
+```
+
+Let's examine the responses for Japan:
+
+```{r}
+d_sens_long %>% 
+  filter(country == "JPN") %>% 
+  group_by(
+    variable
+  ) %>% 
+  mutate(
+    avg = mean(difficulty)
+  ) %>% 
+  ungroup() %>% 
+  ggplot( 
+    aes( x = fct_reorder(variable, avg), 
+         y = difficulty)
+    ) +
+  geom_boxplot() + 
+  coord_flip() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "JPN",
+    y = "Difficulty", 
+    x = ""
+  )
+```
+
+
+Now, let's see the results from Canada: 
+
+```{r}
+d_sens_long %>% 
+  filter(country == "CAN") %>% 
+  group_by(
+    variable
+  ) %>% 
+  mutate(
+    avg = mean(difficulty, na.rm = T)
+  ) %>% 
+  ungroup() %>% 
+  ggplot( 
+    aes( x = fct_reorder(variable, avg), 
+         y = difficulty)
+    ) +
+  geom_boxplot() + 
+  coord_flip() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "CAN",
+    y = "Difficulty", 
+    x = ""
+  )
+```
+
+Let's now look at Australia: 
+
+```{r, message=F, warning=FALSE}
+d_sens_long %>% 
+  filter(country == "AUS") %>% 
+  group_by(
+    variable
+  ) %>% 
+  mutate(
+    avg = mean(difficulty, na.rm = T)
+  ) %>% 
+  ungroup() %>% 
+  ggplot( 
+    aes( x = fct_reorder(variable, avg), 
+         y = difficulty)
+    ) +
+  geom_boxplot() + 
+  coord_flip() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "AUS",
+    y = "Difficulty", 
+    x = ""
+  )
+```
+
+We finish by looking at the data from Argentina: 
+
+```{r, message = F, warning=F}
+
+d_sens_long %>% 
+  filter(country == "ARG") %>% 
+  group_by(
+    variable
+  ) %>% 
+  mutate(
+    avg = mean(difficulty, na.rm = T)
+  ) %>% 
+  ungroup() %>% 
+  ggplot( 
+    aes( x = fct_reorder(variable, avg), 
+         y = difficulty)
+    ) +
+  geom_boxplot() + 
+  coord_flip() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "ARG",
+    y = "Difficulty", 
+    x = ""
+  )
+```
+
+## Models
+
+### Absolute Change and Sensitivity
+
+We use this space to outline the specifications of the models we fit, as well as present the results in a more detailed manner. The first model we fit regresses the absolute change displayed by a variable on its sensitivity score. Given that the outcome variable has strictly positive values, we use the lognormal link. The model could be expressed as follows: 
+
+$$ \text{Change}_i \sim \text{log-normal}(\mu_i, \sigma) $$
+$$ \mu_i \sim \alpha_{\text{country}[i]} + \beta_{\text{country}[i]}S_i$$
+$$ \begin{pmatrix} \alpha_{\text{country}} \\ \beta_{\text{country}} \end{pmatrix} \; \sim \text{MVN} \bigg[ \begin{pmatrix} \alpha_{\text{country}} \\ \beta_{\text{country}}   \end{pmatrix} \;, S \bigg]$$
+$$ S = \begin{pmatrix} \sigma_\alpha & 0 \\ 0 & \sigma_\beta \end{pmatrix} \; R \begin{pmatrix} \sigma_\alpha & 0 \\ 0 & \sigma_\beta \end{pmatrix} \; $$
+
+Table 1 displays the posterior estimates for the model:
+
+```{r}
+mod_change <- read_rds("model_abschange.rds")
+
+tidy(mod_change) %>% 
+  mutate(across(
+    .cols = 5:8, 
+    round, 
+    2), 
+    term = str_replace(term, "med", "sensitivity")) %>% 
+  kableExtra::kable(format = "latex",
+    align = "c",
+    booktabs = TRUE,
+    longtable = TRUE,
+    linesep = "",
+    ) %>%
+  kableExtra::kable_styling(
+      position = "left",
+      latex_options = c("striped", "repeat_header"),
+      stripe_color = "gray!15"
+    )
+```
+
+The posterior predictions for the model look reasonable: 
+
+```{r}
+pp_check(mod_change) +
+  labs(title = "Posterior Predictions", 
+       subtitle = "Model for Absolute Change")
+```
+
+### Tau and Sensitivity 
+
+Before we explore the model that features on the main text, we will present the results for a model that uses gaussian linear regression to examine the relationship between $\tau$ and an issue's sensitivity. Even though the conclusions are similar, the gaussian model exhibits poor ability to retrodict the data. Once we have established this shortcoming, the rationale behind the mixed model becomes clearer. 
+
+The gaussian linear model can be expressed as follows: 
+
+$$ \tau_i \sim \text{Normal}(\mu_i, \sigma) $$
+$$ \mu_i \sim \alpha_{\text{country}[i]} + \beta_{\text{country}[i]}S_i$$
+$$ \begin{pmatrix} \alpha_{\text{country}} \\ \beta_{\text{country}} \end{pmatrix} \; \sim \text{MVN} \bigg[ \begin{pmatrix} \alpha_{\text{country}} \\ \beta_{\text{country}}   \end{pmatrix} \;, S \bigg]$$
+$$ S = \begin{pmatrix} \sigma_\alpha & 0 \\ 0 & \sigma_\beta \end{pmatrix} \; R \begin{pmatrix} \sigma_\alpha & 0 \\ 0 & \sigma_\beta \end{pmatrix} \; $$
+
+Table 2 displays the posterior estimates for the model: 
+
+```{r}
+mod_linear <- read_rds("model_linear.rds")
+
+tidy(mod_linear) %>% 
+  mutate(across(
+    .cols = 5:8, 
+    round, 
+    2), 
+    term = str_replace(term, "med", "sensitivity")) %>% 
+  kableExtra::kable(format = "latex",
+    align = "c",
+    booktabs = TRUE,
+    longtable = TRUE,
+    linesep = "",
+    ) %>%
+ kableExtra::kable_styling(
+      position = "left",
+      latex_options = c("striped", "repeat_header"),
+      stripe_color = "gray!15"
+    )
+```
+
+However, when we check the posterior predictions of the model, we notice considerable discrepancies with the data: 
+
+```{r}
+pp_check(mod_linear) +
+    labs(title = "Posterior Predictions", 
+       subtitle = "Linear Model, Tau and Sensitivity")
+```
+
+The data is clearly bimodal and our model is not capturing this. Our model mostly predicts values of $\tau$ in a region where they are quite sparse in our data. 
+
+As we explain in the text, a way to deal with this problem is to fit a mixture model. We are going to stipulate that the bimodal distributed pictured above is a combination of two distributions. In this case, we choose two beta distributions, because they are bounded between 0 and 1, just like our data. 
+
+Then, in the same model, we ask whether the sensitivity of an issue is associated with the probability of its $\tau$ being drawn from the beta distribution with higher values on average. If this is the case, then there is a positive relationship between an issue's sensitivity and its $\tau$. 
+
+We could express the model as follows. We have two distirbutions, and we want to estimate the probability that a given value of $\tau$ is drawn from one or the other. Given that the outcome is binary, we can express it as a bernoulli trial (Franke, 2023): 
+
+$$ g_i \sim \text{Bernoulli}(p) $$
+Our two distributions -- call them $0$ and $1$ -- are two Beta distributions with their respective parameters: 
+
+$$ g_0 \sim Beta(\alpha_0, \beta_0) $$
+$$ g_1 \sim Beta(\alpha_1, \beta_1) $$
+Our central target our knowledge is: given a value of $\tau$, what distribution is it more likely to have come from?
+
+$$ \tau_i \sim Beta(\alpha_{g_i}, \beta_{g_i}) $$
+
+But then, we also examine whether the probability $p$ of being in a given group is associated with an issue's sensitivity. As above, we include varying intercepts and slopes at the level of country: 
+
+$$ g_i \sim \text{Bernoulli}(p) $$
+$$ \text{logit}(p_i) \sim \alpha_{\text{country}[i]} + \beta_{\text{country}[i]}S_i$$
+$$ \begin{pmatrix} \alpha_{\text{country}} \\ \beta_{\text{country}} \end{pmatrix} \; \sim \text{MVN} \bigg[ \begin{pmatrix} \alpha_{\text{country}} \\ \beta_{\text{country}}   \end{pmatrix} \;, S \bigg]$$
+$$ S = \begin{pmatrix} \sigma_\alpha & 0 \\ 0 & \sigma_\beta \end{pmatrix} \; R \begin{pmatrix} \sigma_\alpha & 0 \\ 0 & \sigma_\beta \end{pmatrix} \; $$
+
+Table 3 displays the posterior estimates from the model: 
+
+
+```{r}
+mod_beta <- read_rds("model_beta.rds")
+
+tidy(mod_beta) %>% 
+  mutate(across(
+    .cols = 5:8, 
+    round, 
+    2), 
+    term = str_replace(term, "med", "sensitivity"), 
+    term = str_replace(term, "theta2", "p")) %>% 
+  kableExtra::kable(format = "latex",
+    align = "c",
+    booktabs = TRUE,
+    longtable = TRUE,
+    linesep = "",
+    ) %>%
+ kableExtra::kable_styling(
+      position = "left",
+      latex_options = c("striped", "repeat_header"),
+      stripe_color = "gray!15"
+    )
+```
+
+Though the substantial conclusions are not much different, the posterior predictive checks look more in line with the data:
+
+```{r}
+pp_check(mod_beta) +
+  labs(title = "Posterior Predictions", 
+       subtitle = "Mixed Model, Tau and Sensitivity")
+```
+

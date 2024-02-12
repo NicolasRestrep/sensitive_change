@@ -1,8 +1,8 @@
 ---
-title: "Mechanisms of Change across Issues and Contexts"
+title: "Opinions on Hard-to-Discuss Topics Change More via Cohort Replacement"
 author: 
-  - Nicolas Restrepo Ochoa, Anthropology Department, Univerity of California at Davis.
-  - Stephen Vaisey, Sociology Department, Duke University.
+  - Nicolas Restrepo Ochoa[^NRO]
+  - Stephen Vaisey[^SV]
 output:
   pdf_document:
   html_document:
@@ -15,7 +15,7 @@ header-includes:
 - \linenumbers
 - \def\linenumberfont{\normalfont\tiny\sffamily}
 bibliography: sensitive_issues.bib
-abstract: "Cohort replacement---the replacement of older cohorts by their successors who developed under different conditions---is an important process for creating cultural change. Research on public opinion in the United States indicates that most aggregate change is best understood as the result of cohort replacement, rather than of individuals changing their minds.  However, some publicly salient sensitive issues, like gay rights, appear to be exceptions. Why exactly these issues have different patterns of change is not well understood. A key reason is that previous work is limited by its focus on a single national context and the lack of a systematic comparison between more and less sensitive issues. We use data from the 1981-2020 World Values Surveys to compare aggregate changes in public opinion in 8 countries. We compare the trajectories of more sensitive and less sensitive issues to see if the pattern observed in the United States is generalizable. We find common trends-–-like changes in attitudes towards homosexuality-–-across most countries, as well as context-specific patterns that follow recognizable historical processes. Our key finding is that sensitive issues seem to change more through cohort replacement. In short, issues that are difficult to talk about change more privately."
+abstract: "Cohort replacement---the replacement of older cohorts by their successors who developed under different conditions---is an important process for creating cultural change. Research on public opinion in the United States indicates that most aggregate change is best understood as the result of cohort replacement, rather than of individuals changing their minds.  However, some publicly salient sensitive issues, like gay rights, appear to be exceptions. This is also suggested by comparative work on OECD countries. Why exactly these issues have different patterns of change is not well understood. Some key reasons are that most previous work is limited by its focus on a single national context or has lacked a systematic comparison between more and less sensitive issues. We use data from the 1981-2020 World Values Surveys to compare aggregate changes in public opinion in 8 countries. We compare the trajectories of more sensitive and less sensitive issues to see if they display different patterns of change. Like previous work, we find common trends-–-like changes in attitudes towards homosexuality-–-across most countries, but we also find context-specific patterns that follow recognizable historical processes. Our key finding is that sensitive issues seem to change more through cohort replacement. In short, issues that are difficult to talk about change more privately."
 ---
 
 ```{r setup, include=FALSE}
@@ -33,62 +33,68 @@ library(broom)
 library(broom.mixed)
 library(gtsummary)
 library(labelled)
+library(brms)
+library(kableExtra)
 theme_set(theme_bw())
 ```
 
+[^NRO]: Anthropology Department, University of California at Davis.  
+[^SV]: Sociology Department, Duke University.
+
 Words: `r wordcountaddin::word_count("manuscript.Rmd")`
+
+\newpage
 
 ## Introduction
 
-Much of the scholarly interest in culture lies in trying to understand how it changes. Cultural trends like secularization [@bergerSecularizationDesecularization2002; @chavesSecularizationDecliningReligious1994] or the rise of (and backlash against) gender equality [@velascoTransnationalBacklashDeinstitutionalization2023] continue to receive sustained academic attention. Recent work on opinion change in the U.S. suggests that these changes happen primarily through cohort replacement [@vaiseyCulturalFragmentationAcquired2016a; @kileyMeasuringStabilityChange2020]. In other words, culture changes as young people, raised under different conditions, replace those that came before them. Nonetheless, some salient issues, like attitudes about homosexuality, seem to be exceptions, where individuals exhibit considerable durable change beyond adulthood [@kileyMeasuringStabilityChange2020]. This suggests that certain cultural issues might change in response to different underlying mechanisms. This is precisely what we explore in this paper.
+Much of the scholarly interest in culture lies in trying to understand how it changes. Cultural trends like secularization [@bergerSecularizationDesecularization2002; @chavesSecularizationDecliningReligious1994; @tormosRhythmModernizationHow2021] or the rise of (and backlash against) gender equality [@velascoTransnationalBacklashDeinstitutionalization2023] continue to receive sustained academic attention. Recent work on opinion change in the U.S. suggests that these changes happen primarily through cohort replacement [@vaiseyCulturalFragmentationAcquired2016a; @kileyMeasuringStabilityChange2020]. In other words, culture changes as young people, raised under different conditions, replace those that came before them. Nonetheless, some salient issues, like attitudes about homosexuality, seem to be exceptions, where individuals exhibit considerable durable change beyond adulthood [@kileyMeasuringStabilityChange2020; @tormosRhythmModernizationHow2021]. This suggests that certain cultural issues might change in response to different underlying mechanisms. This is precisely what we explore in this paper.
 
-We have two main goals in this article. First, we will examine whether there are systematic differences in the patterns of change across different variables, especially in relation to how sensitive---that is, how difficult to discuss---they are considered to be. We have evidence that individuals do update their beliefs about particularly salient issues. However, these issues tend to be also hotly debated, and difficult to talk about, where we expect interlocutors to be firmly entrenched in their beliefs. The sensitivity of an topic might be a useful gateway to start asking how different variables change through varying mechanisms. Second, we want to move beyond U.S. data and examine cross-cultural variation in how different issues change. In short, we want to dig deeper into the mechanisms that underpin change for different cultural issues, and we want to examine whether these mechanisms of change are consistent across contexts.
+We have two main goals in this article. First, we examine whether there are systematic differences in the patterns of change across different variables, especially in relation to how sensitive---that is, how difficult to discuss---they are. Individuals do update their beliefs about particularly salient issues; however, these issues tend to be difficult to talk about because interlocutors are often firmly entrenched in their beliefs. The sensitivity of a topic might be a useful gateway to start asking how different beliefs change via different mechanisms. Second, following the work of Törmos and colleagues [-@tormosRhythmModernizationHow2021; -@tormosPatternsChangeJustifiability2023], we want to move beyond U.S. data and examine cross-cultural variation in how different issues change. We approach this comparative work slightly differently, using methods that have – up to date – mainly been implemented to explore change in the U.S. context. In short, we want to dig deeper into the mechanisms that underpin change for different cultural issues, and we want to examine whether these mechanisms of change are consistent across contexts.
 
-We investigate these questions use data from the World Value Survey (WVS) [@inglehartWorldValuesSurveys2000]. Though the data is cross-sectional and therefore cannot answer any questions about individual-level change, we can use it to adjudicate between different mechanisms that might account for population-level cultural change. To do this, we propose a straightforward method[^1]. We begin by positing an idealized model, where, after the critical period of youth, individuals do not change their beliefs. Under these assumptions, all cultural change can be explained by *between-cohort differences* and all we need to know to estimate a person's opinion on a given issue is to know their year of birth. Then, we consider another model, where the average opinion of each cohort is allowed to change linearly over time. We contend that, when fitted to the WVS data, the relative explanatory power of these two models provides an indication of the mechanism that might be responsible for change for a given issue. If the proportion of the variance explained is relatively unchanged when we move from the first model to the second one, then this suggests a given issue is changing primarily through cohort replacement. If the second model improves greatly on the first, then this would point towards the importance of *within-cohort change* in accounting for the trends.
-
-[^1]: All necessary code and data to reproduce this paper is available on: <https://github.com/NicolasRestrep/sensitive_change> .
+We investigate these questions using data from the World Value Survey (WVS) [@inglehartWorldValuesSurveys2000]. Though the data are cross-sectional and therefore cannot directly answer questions about individual-level change, we can use them to adjudicate between different mechanisms that might account for population-level cultural change. To do this, we propose a straightforward method^[All necessary code and data to reproduce this paper is available on: <https://github.com/NicolasRestrep/sensitive_change> .]. We begin by positing an idealized model, where, after the critical period of youth, individuals do not change their beliefs. Under these assumptions, all cultural change can be explained by *between-cohort differences* and all we need to know to estimate a person's opinion on a given issue is to know their year of birth. Then, we consider another model, where the average opinion of each cohort is allowed to change linearly over time. We contend that, when fitted to the WVS data, the relative explanatory power of these two models provides an indication of the mechanism that might be responsible for change for a given issue. If the proportion of the variance explained is relatively unchanged when we move from the first model to the second one, then this suggests a given issue is changing primarily through cohort replacement. If the second model improves greatly on the first, then this would point towards the importance of *within-cohort change* in accounting for the trends.
 
 To examine patterns of change across different types of cultural issues, we fit these models to 56 different variables, measured between 1981-2020, across 8 countries. We select the countries -- Argentina, Australia, Canada, Japan, Mexico, South Africa, Sweden, and the USA -- based on completeness, seeking to cover the longest time-spans possible with this survey. We also choose to focus on variables that have been asked in all the waves of the WVS, and that cover a wide-range of topics and different levels of sensitivity, from the justifiability of euthanasia to whether imagination is a desirable attribute in children.
 
-Our results produce several key insights. We show that, consistent with previous work on opinion change over the past four or five decades, large differences are uncommon. Nonetheless, just like work on attitudinal change in the U.S. [@kileyMeasuringStabilityChange2020], we find that the variable that has changed most consistently across the countries is related to attitudes about homosexuality. Furthermore, we show that for the variables that change the most, a considerable proportion of this variation can be attributed to cohort replacement. Perhaps most relevant to our questions about the mechanisms of change, we see a pattern across the sensitivity of different cultural issues. We find that change in more sensitive topics can be explained mostly by *between-cohort differences*, and variation in less sensitive issues can be attributed more to *within-cohort change*. This provides some preliminary evidence for the idea that different issues do change through varying mechanisms.
+Our results lead to several key insights. We show that, consistent with previous work on opinion change over the past five decades, large differences are uncommon. Nonetheless, echoing work on attitudinal change in the U.S. [@kileyMeasuringStabilityChange2020] and previous work using the WVS [@tormosRhythmModernizationHow2021], we find that the variable that has changed most consistently across the countries is related to attitudes about homosexuality. Furthermore, we show that for the variables that change the most, a considerable proportion of this variation can be attributed to cohort replacement. Perhaps most relevant to our questions about the mechanisms of change, we see a pattern across the sensitivity of different cultural issues. We find that change in more sensitive topics can be explained mostly by *between-cohort differences*, and variation in less sensitive issues can be attributed more to *within-cohort change*. This provides some evidence for the claim that different issues do change through varying mechanisms.
 
-### Cultural change and its elements
 
-Cultural change has been a central preoccupation of social scientists. Most social theories seek to address, to different extents, how societies change and evolve, and often the first criticism that is leveled at any account of the social world is whether it is capable of *"accounting for change"* [@martinThinkingTheory2015]. Recently, as new data sources with longer time series have come available, there has been a renewed interest in trying to tackle cultural change. This newer work has focused on linking individual mechanisms of attitudinal updating to large-scale processes of change [@kileyMeasuringStabilityChange2020; @keskinturkReligiousBeliefAlignment2021; @bartelsGenerationalModelPolitical2014]. When it comes to matters of opinion, *societies* do not change; *individuals* change, as does the composition of individuals in a population. The aggregation of those individual processes of updating is what can be measured as shifts at the population level. This is not just pretentious wordplay, but a fundamental point in the study of social change: theories of large-scale cultural change are -- at their core -- accounts of how individuals update their beliefs and habits.
+## Cultural change and its elements
 
-Large-scale change can occur through several individual-level mechanisms. Individuals might tend to update their beliefs in a particular way as they age. For instance, they might veer away from direct action and radical politics as they accrue wealth and have more to lose in the case of a structural societal change [@mcadamBiographicalConsequencesActivism1989]. The type of trends we expect to happen throughout an individual's lifetime are often described as *age effects* [@fosseAnalyzingAgeperiodcohortData2019]. Large-scale change might also happen as new information or events affect a whole cross-section of the population. During a time for war, for example, we might expect individuals -- across all age-groups -- to shift in their sentiment towards the armed forces or their country in general. These are what are known as *period effects* [@fosseAnalyzingAgeperiodcohortData2019]. It is also possible to think that certain historical moments leave a mark on those individuals who grow up under those conditions [@elderChildrenGreatDepression2018a]. These individuals, then, would have distinctive attitudes, due to the circumstances of their upbringing, that they would then carry throughout their lives. Regarding how old they are or the cultural zeitgeist at any given moment, we could be able to tell something about these individuals' believes and behaviors by knowing when they were born. These are called *cohort effects* [@elderChildrenGreatDepression2018a; @fosseAnatomyCohortAnalysis2023].
+Cultural change has been a central preoccupation of social scientists. Most social theories seek to address, to different extents, how societies change and evolve. One of the first criticisms leveled at any account of the social world is whether it is capable of *"accounting for change"* [@martinThinkingTheory2015]. Recently, as new data sources with longer time series have become available, there has been a renewed interest in trying to understand cultural change. This newer work has focused on linking individual mechanisms of attitudinal updating to large-scale processes of change [@kileyMeasuringStabilityChange2020; @keskinturkReligiousBeliefAlignment2021; @bartelsGenerationalModelPolitical2014; @tormosRhythmModernizationHow2021]. When it comes to matters of opinion, *societies* do not change; *individuals* change, as does the composition of individuals in a population. The aggregation of those individual processes of updating is what can be measured as shifts at the population level. This is not just pretentious wordplay, but a fundamental point in the study of social change: theories of large-scale cultural change are -- at their core -- accounts of how individuals update their beliefs and habits.
 
-Disentangling these different sources of cultural change is a well-known challenge [@bellImpossibilitySeparatingAge2013]. In the framework of a standard regression, examining these three sources of variation would entail perfect collinearity [@fosseAnalyzingAgeperiodcohortData2019]. This is simply because, if we know an individual's age and the current year, we also know precisely when they were born. Though this is not the place to provide a full review of the work that has been done around the estimation of age-period-cohort effects (cf. [@fosseAnalyzingAgeperiodcohortData2019]), it suffices to mention that researchers have devised several strategies o try to disaggregate these three sources of change. Nonetheless, all strategies involve a kind of compromise - e.g. turning continuous categories like year into categorical chunks to avoid collinearity [@vaiseyCulturalFragmentationAcquired2016a]. Fortunately for us, we do not need to disentangle all three of these effects. Instead, for theoretical reasons, we can focus on the contrast between a model in which only cohort replacement matters and one where within-cohort change (by whatever mechanism) is also an important mechanism of aggregate change.
+Large-scale change can occur through several individual-level mechanisms. Individuals might tend to update their beliefs in a particular way as they age. For instance, they might veer away from direct action and radical politics as they accrue wealth and have more to lose in the case of a structural societal change [@mcadamBiographicalConsequencesActivism1989]. The type of trends we expect to happen throughout an individual's lifetime are often described as *age effects* [@fosseAnalyzingAgeperiodcohortData2019]. Large-scale change might also happen as new information or events affect a whole cross-section of the population. During a time for war, for example, we might expect individuals -- across all age-groups -- to change how they view the armed forces or their country in general. These are what are known as *period effects* [@fosseAnalyzingAgeperiodcohortData2019]. It is also possible to think that certain historical moments leave a mark on those individuals who grow up under those conditions [@elderChildrenGreatDepression2018a]. These individuals, then, would have distinctive attitudes, due to the circumstances of their upbringing, that they would then carry throughout their lives. Regarding how old they are or the cultural zeitgeist at any given moment, we could be able to tell something about these individuals' beliefs and behaviors by knowing when they were born. These are called *cohort effects* [@elderChildrenGreatDepression2018a; @fosseAnatomyCohortAnalysis2023].
 
-### Two models of individual-level change
+Disentangling these different sources of cultural change is a well-known challenge [@bellImpossibilitySeparatingAge2013]. In the framework of a standard regression, examining these three sources of variation would entail perfect collinearity [@fosseAnalyzingAgeperiodcohortData2019]. This is simply because, if we know an individual's age and the current year, we also know precisely when they were born. Though this is not the place to provide a full review of the work that has been done around the estimation of age-period-cohort effects (cf. [@fosseAnalyzingAgeperiodcohortData2019; @tormosRhythmModernizationHow2021]), it suffices to mention that researchers have devised several strategies to disaggregate these three sources of change. Nonetheless, all strategies involve a kind of compromise - e.g. turning continuous categories like year into categorical chunks to avoid collinearity [@vaiseyCulturalFragmentationAcquired2016a]. Fortunately for us, we do not need to disentangle all three of these effects. Instead, for theoretical reasons, we can focus on the contrast between a model in which only cohort replacement matters and one where within-cohort change (by whatever mechanism) is also an important mechanism of aggregate change.
 
-Broadly speaking, there are two main models that can help us think about how change unfolds at the individual level. The first one has been called the "settled-dispositions" model [@kileyMeasuringStabilityChange2020; @underwoodCohortSuccessionExplains2022]. The main argument here is that an individuals' beliefs and preferences are mainly forged during a critical period of socialization. Thus, after the learning associated with one's formative years, attitudes remain relatively stable across the lifetime. This has the further implication that individuals raised in similar socio-historical contexts will share certain attitudinal dispositions that they will then carry throughout their lives [@elderChildrenGreatDepression2018a; @gerberRationalLearningPartisan1998; @ryderCohortConceptStudy1985]. The "settled-dispositions" has a longstanding history in the social sciences, from Parsons's [-@balesFamilySocializationInteraction2014] work on the internalization of values to Mannheim's [-@mannheimProblemGenerations1970] "Problem of Generations". Perhaps the most telling evidence for the widespread influence of this model is that most of our theories of socialization acknowledge -- either explicitly or implicitly -- its validity. The very idea of socialization requires the assumption that certain dispositions, acquired during the critical period of upbringing, are particularly sticky, proving influential throughout the life-course [@guhinWhateverHappenedSocialization2021].
+## Two models of individual-level change
 
-The second model portrays individuals as constantly open to revisiting their beliefs. This model of "active updating" is based on social theories that portray the self as continuously under construction [@grossPragmatistTheorySocial2009]. Individuals then are always open to novel information -- including biographical information gained through aging -- and, thus, highly sensitive to changes in their cultural and social contexts. This implies that cultural moments would play a much bigger in shaping individuals' attitudes. In other words, individuals will reconsider their attitudes in light of the cultural trends and/or political movements that happen to be popular at a particular historical moment. Visions of history as propelled by the zeitgeist of an epoch -- which takes hold across whole swathes of the population -- rely implicitly on the idea that individuals are attuned to the "spirit of the age", ready to change their attitudes as new information arises.
+Broadly speaking, there are two main models that can help us think about how change happens at the individual level. The first one has been called the "settled dispositions" model [@kileyMeasuringStabilityChange2020; @underwoodCohortSuccessionExplains2022]. The main argument here is that an individuals' beliefs and preferences are mainly forged during a critical period of socialization. Thus, after one's formative years, beliefs remain relatively stable across the lifetime. This has the further implication that individuals raised in similar socio-historical contexts will share certain attitudinal dispositions that they carry throughout their lives [@elderChildrenGreatDepression2018a; @gerberRationalLearningPartisan1998; @ryderCohortConceptStudy1985]. The settled dispositions model has a longstanding history in the social sciences, from Parsons's [-@balesFamilySocializationInteraction2014] work on the internalization of values to Mannheim's [-@mannheimProblemGenerations1970] "Problem of Generations". Perhaps the most telling evidence for the widespread influence of this model is that most of our theories of socialization acknowledge -- either explicitly or implicitly -- its validity. The very idea of socialization requires the assumption that certain dispositions, acquired during the critical period of upbringing, are particularly sticky, proving influential throughout the life course [@guhinWhateverHappenedSocialization2021].
 
-Trying to adjudicate the explanatory power of the two models has been at the center of research about large-scale change for the past two decades. The "settled-dispositions" and "active-updating" models assume quite different theories about how change occurs throughout an individual's life, and -- as a consequence -- provide widely diverging accounts of social change. In practical terms, Lizardo and Vaisey [-@vaiseyCulturalFragmentationAcquired2016a] argue that the differences between these models can be boiled down to a rather simple question: *to predict a person's attitudes at a given point are we better off knowing the current year or their date of birth?*
+The second model assumes that individuals as constantly open to revisiting their beliefs. This model of "active updating" is based on social theories that portray the self as continuously under construction [@grossPragmatistTheorySocial2009]. Individuals, on this view, are always open to novel information -- including biographical information gained through aging -- and therefore sensitive to changes in their cultural and social contexts. This implies that cultural moments would play a much bigger in shaping individuals' attitudes [@tormosRhythmModernizationHow2021]. In other words, individuals will reconsider their attitudes in light of the cultural trends and/or political movements happening at a particular historical moment. Visions of historical change as changes in the *zeitgeist* rely implicitly on the idea that individuals are attuned to the "spirit of the age", ready to change their beliefs as new information arises.
 
-These two broad models have vastly different implications for the patterns we should expect to see at the collective level. If the "active updating" model were the dominant process in the social world, we would expect individuals to be highly receptive to new information and the changing characteristics of the environment. We would expect then cultural change to happen swiftly, following particular events or shocks. An unexpected economic downturn might lead the members of a group -- regardless of age -- to be more conservative in their financial choices. A series of catastrophic climate disasters might lead them to update their beliefs on human-induced climate change. In other words, extraneous changes will be reflected directly in aggregate cultural attitudes, as the population updates their attitudes in light of new information and/or circumstances. The "settled-dispositions" model paints a rather different picture. If this model were true, we should expect agents, who have passed their formative years, to be less swayed by new information. Thus, cohorts raised under the unfavorable economic circumstances or the perilous climate will develop attitudes based on these formative experiences. These beliefs, however, will only change aggregate attitudes about fiscal policy or man-made climate change, as their predecessors, raised under different circumstances, die and give way to their new ideas [@ryderCohortConceptStudy1985]. Aggregate social change in this scenario will be gradual, and the consequences of extraneous circumstances will become apparent as younger cohorts, who experience them during their critical periods, replace those than came before them.
+Although no scholars believe that either model provides a complete account of change, attempts to compare the explanatory power of the two models has been at the center of research about large-scale change for the past two decades [@tormosRhythmModernizationHow2021]. The "settled dispositions" and "active updating" models assume quite different theories about how change occurs throughout an individual's life, and -- as a consequence -- provide diverging accounts of social change. In practical terms, Lizardo and Vaisey [-@vaiseyCulturalFragmentationAcquired2016a] argue that the differences between these models can be boiled down to a rather simple question: *to predict a person's attitudes are we better off knowing the current year or their date of birth?*
 
-Recent work on attitudinal change suggests that the "settled-dispositions" model explains the bulk of aggregate social change [@vaiseyCulturalFragmentationAcquired2016a; @kileyMeasuringStabilityChange2020; @underwoodCohortSuccessionExplains2022]. Lizardo and Vaisey [-@vaiseyCulturalFragmentationAcquired2016a], for instance, compare the explanatory power of both models in cross-sectional time-series data from the US. They find that most attitudes remain relatively stable within cohorts, giving weight to the idea that aggregate change is most adequately explained by cohort succession. Moreover, when looking at individual-level longitudinal data, there is evidence that points in the same direction [@kileyMeasuringStabilityChange2020; @bartelsGenerationalModelPolitical2014]. Cohorts seem to share certain dispositions, which appear to remain remarkably stable across the life-course. Thus, for both cross-sectional and individual-level longitudinal data, across many different issues, there is consistent evidence that highlights the explanatory value of the "settled-dispositions" model.
+These two broad models have vastly different implications for the patterns we should expect to see at the collective level. If the "active updating" model were the dominant process in the social world, we would expect individuals to be highly receptive to new information and the changing environment. We would expect cultural change to happen swiftly, following particular events or shocks [@tormosRhythmModernizationHow2021]. An unexpected economic downturn might lead the members of a group -- regardless of age -- to be more conservative in their financial choices. A series of catastrophic climate disasters might lead them to update their beliefs on human-induced climate change. In other words, exogenous changes will be reflected directly in aggregate cultural attitudes, as the population updates their attitudes in light of new information and/or circumstances. The "settled dispositions" model paints a rather different picture. It assumes that individuals beyond their formative years will be less swayed by new information. Thus, cohorts raised under the unfavorable economic circumstances or the perilous climate will develop attitudes based on these formative experiences even if the later external environment is different. These beliefs, however, will only change aggregate attitudes about fiscal policy or man-made climate change, as their predecessors, raised under different circumstances, die and give way to their new ideas [@ryderCohortConceptStudy1985]. Aggregate social change in this scenario will be gradual, and the consequences of exogenous circumstances will become apparent as younger cohorts, who experience them during their critical periods, replace those that came before.
 
-### Variation in mechanisms of change across issues
+Recent work on attitudinal change suggests that the "settled dispositions" model is better able to explain aggregate social change [@vaiseyCulturalFragmentationAcquired2016a; @kileyMeasuringStabilityChange2020; @underwoodCohortSuccessionExplains2022]. Lizardo and Vaisey [-@vaiseyCulturalFragmentationAcquired2016a], for instance, compare the explanatory power of both models in cross-sectional time-series data from the U.S. They find that most attitudes remain relatively stable within cohorts, giving weight to the idea that aggregate change is most adequately explained by cohort succession. Moreover, when looking at individual-level longitudinal data, there is evidence that points in the same direction [@kileyMeasuringStabilityChange2020; @bartelsGenerationalModelPolitical2014]. Cohorts seem to share certain dispositions, which appear to remain remarkably stable across the life-course. Thus, for both cross-sectional and individual-level longitudinal data, across many different issues, there is consistent evidence that highlights the explanatory value of the "settled dispositions" model.
 
-At this point, readers might be -- understandably -- conjuring up counter-examples of rapid cultural change. It is important to highlight that arguing that cultural change occurs primarily through cohort replacement does not mean stating that this is the only mechanism. Recent work by Lersch [-@lerschChangePersonalCulture2023] shows that individuals do exhibit some change in adulthood, even if this change is small relative to persistent between-person differences. Moreover, Kiley and Vaisey [-@kileyMeasuringStabilityChange2020] show that there are certain issues where we do observe considerable durable change, even among adults. In the U.S., for instance, there is evidence of within-individual updating with regards to attitudes towards homosexuality, a particularly salient issue for the past few decades in the United States. It is possible that for certain issues, that enjoy enough sustained public attention, we might observe attitudinal updating even among people with relatively settled dispositions. This evidence suggests therefore that it may be more accurate to think about updating across an individual's lifetime as probabilistic, where attitudes are more difficult -- but not impossible -- to change after the critical period of socialization. But certain issues do seem to exhibit change across the life-course, either because of particular biographical trajectories [-@lerschChangePersonalCulture2023] or perhaps because they seem to capture the public's attention [@zallerNatureOriginsMass1992]. The goal is trying to understand what it is about these issues that makes them more likely to be updated even in adulthood, and whether there are cross-cultural patterns in what these issues are.
+## Variation in mechanisms of change across issues
 
-Sensitivity is a concept that perhaps allows us to get an initial handle on this question. Campbell and Mace (this issue) define sensitive issues as those topics that are difficult to talk about. At first glance, we see that issues like gay civil rights or abortion -- which have exhibited considerable change in the last few decades -- are just such issues. In this sense, given the difficulty around discussing these topics, we should expect individuals to not change their attitudes around them much. This would mean that the swift changes we have observed -- at the aggregate level -- around this subjects should be mostly attributed to cohort replacement.
+At this point, readers might be -- understandably -- conjuring up counter-examples of rapid cultural change. It is important to highlight that arguing that cultural change occurs *primarily* through cohort replacement does not mean that this is the only mechanism. Recent work by Lersch [-@lerschChangePersonalCulture2023] shows that individuals do exhibit some change in adulthood, even if this change is small relative to persistent between-person differences. Kiley and Vaisey [-@kileyMeasuringStabilityChange2020] show that there are certain issues where we do observe considerable durable change, even among adults. In the U.S., for instance, there is evidence of intraindividual updating on attitudes towards homosexuality, a particularly salient issue for the past few decades in the United States. In his work, Törmos [-@tormosRhythmModernizationHow2021] also shows that across the OECD countries, cohorts also exhibit considerable change in terms of their opinions towards homosexuality. It is possible then that for certain issues that enjoy enough sustained public attention, we might observe attitudinal updating even among people with relatively settled dispositions. This evidence suggests, therefore, that it may be more accurate to think about updating across an individual's lifetime as probabilistic, where attitudes are more difficult -- but not impossible -- to change after the critical period of socialization. But certain issues do seem to exhibit change across the life-course, either because of particular biographical trajectories [-@lerschChangePersonalCulture2023] or perhaps because they seem to capture the public's attention [@zallerNatureOriginsMass1992] or both [@tormosRhythmModernizationHow2021]. The goal is trying to understand what it is about these issues that makes them more likely to be updated even in adulthood, and whether there are cross-cultural patterns in what these issues are.
 
-Nonetheless, as Kiley and Vaisey's [-@kileyMeasuringStabilityChange2020] work shows, these issues are also the ones where we do see evidence of individual updating. We should remember that these issues were not always considered sensitive, but rather there have been concerted efforts to bring them to the forefront of political discussions. For example, work on the history of public opinion for abortion rights suggests that the topic was not central for conservative thinking in the middle of the 20th century [@hollandTinyYouWestern2020]. This issue became sensitive through intentional efforts by the Christian right to shed light on this topic and to bring it into the core of the conservative political identity [@hollandTinyYouWestern2020].
+Sensitivity is a concept that might allow us to get an initial handle on this question. Campbell and Mace (this issue) define sensitive issues as those topics that are difficult to talk about. At first glance, we see that issues like gay civil rights or abortion -- which have exhibited considerable change in the last few decades -- are just such issues. It is possible to think about two main mechanisms that can lead individuals to hold firm to their beliefs around difficult-to-discuss issues. One is more intrapersonal: the very sensitivity of the issues might mean that they constitute key elements in individuals’ worldviews. These pillars then are not open for discussion or revision. Another explanation is more interactional. Sensitive issues are difficult to talk about and thus we talk about them less often or only with a select crowd. We gain less information about what other individuals believe, and thus external cues that might prompt reexamination are hard to come by. This would result in a scenario akin to pluralistic ignorance, where individuals’ reticence to discuss certain topics precludes active conversations that might lead to attitudinal updating. Both mechanisms lead to a similar conclusion: we should expect individuals to not change their attitudes around sensitive issues much. This would mean that the swift changes we have observed -- at the aggregate level -- around these subjects should be mostly attributed to cohort replacement. 
 
-This leaves us at a crossroads. Sensitive issues should change more slowly, and yet we have evidence of individual updating around these topics, even among those whose attitudes should be stable. The media are filled with discussions about these subjects, yet they are particularly difficult to bring up at family dinners. Sensitive issues then occupy an interesting position. For many of them, we should expect there to be a lot of inter-cohort disagreement and, thus, we should expect them to change through cohort replacement. However, given that the differences between the average attitudes of different cohorts is large, even gradual change might lead to considerable variation at the level of public opinion. Moreover, given that these issues dominate public discussion, we should also expect them to lead to more attitudinal updating among those who are less likely to revise their opinions. Therefore, so-called "sensitive issues" might change differently than other topics that are less salient and emotionally fraught. This is precisely what we seek to test in our analyses.
+Nonetheless, as Kiley and Vaisey's [-@kileyMeasuringStabilityChange2020] and Törmos’s [-@tormosRhythmModernizationHow2021] work shows, these issues are also the ones where we do see evidence of individual updating. We should remember that these issues were not always considered sensitive, but rather there have been concerted efforts to bring them to the forefront of political discussions. For example, work on the history of public opinion for abortion rights suggests that the topic was not central for conservative thinking in the middle of the 20th century [@hollandTinyYouWestern2020]. This issue became sensitive through intentional efforts by the Christian right to shed light on this topic and to bring it into the core of the conservative political identity [@hollandTinyYouWestern2020].
+
+This leaves us at a crossroads. Sensitive issues should change more slowly, and yet we have evidence of individual updating around these topics, even among those whose attitudes should be stable. The media are filled with discussions about these subjects, yet they are particularly difficult to bring up at family dinners. Sensitive issues then occupy an interesting position. For many of them, we should expect there to be a lot of inter-cohort disagreement and, thus, we should expect them to change through cohort replacement. However, given that the differences between the average attitudes of different cohorts is large, even gradual change might lead to considerable variation at the level of public opinion. Moreover, given that these issues dominate public discussion, we should also expect them to lead to more attitudinal updating among those who are less likely to revise their opinions. Therefore, so-called "sensitive issues" might change differently than other topics that are less emotionally fraught. This is what we seek to test in our analyses.
 
 ## Methods
-
 ### Disentangling within-cohort and between-cohort differences
 
-The above discussion suggests that the goal is not disentangling the relative importance of age, period, and cohort effects, but rather adjudicating the relative explanatory power of the two broad models of individual-level updating. Both goals are not equivalent. If the settled-dispositions model is dominant, then we should expect most group-level cultural change to be driven by differences between cohorts, as younger individuals move away from the attitudes of those that came before them. In turn, if the "attitudinal updating" model is more explanatory, then we should see evidence of considerable changes within cohorts, as they are exposed to new information and/or as they age. The central distinction, then, is between the relative importance of *between-cohort differences* and *within-cohort change*, with issues like *period* and *age effects* already enveloped in the latter.
+Our discussion above suggests that the goal is not disentangling the full range of age, period, and cohort effects, but rather adjudicating the relative explanatory power of the two broad models of individual-level updating. This objective is simpler and more attainable. If the settled dispositions model is dominant, then we should expect most group-level cultural change to be driven by differences between cohorts, as younger individuals move away from the attitudes of those that came before them. In turn, if the active updating model is more explanatory, then we should see evidence of considerable changes within cohorts, as they are exposed to new information and/or as they age. The central distinction, then, is between the relative importance of *between-cohort differences* and *within-cohort change*, with temporary *period effects* and *age effects* subsumed in the latter.
 
-To clarify the distinction between patterns of large-scale change mainly driven by *between cohort differences* or *within-cohort change*, it is useful to envision two idealized models of aggregate change. First, imagine a scenario where after the critical period of socialization, cohorts settle into their dispositions and then hardly deviate from their averages. If we were able to track the data by cohort it would look like overlapping horizontal lines, with different intercepts on the y-axis. Change, at the aggregate level, would look like a gradual shift towards the averages of the younger cohorts. Figure 1 illustrates both dynamics. In this case, knowing a person's year of birth would tell us reliably their opinion. Cohort would also explain all the variation in aggregate change, given that -- in this idealized scenario -- all change occurs through cohort replacement and, therefore, large-scale variation is exclusively the result of *between-cohort differences*.
+To clarify the distinction between patterns of large-scale change mainly driven by *between-cohort differences* or *within-cohort change*, it is useful to envision two idealized models of aggregate change. First, imagine a scenario where after the critical period of socialization, cohorts settle into their dispositions and then hardly deviate from their averages. If we were able to track the data by cohort it would look like overlapping horizontal lines, with different intercepts on the y-axis. Change, at the aggregate level, would look like a gradual shift towards the averages of the younger cohorts. Figure 1 illustrates both dynamics. In this case, knowing a person's year of birth would give us a good estimate of their opinion. Cohort differences would also explain all the variation in aggregate change, given that -- in this idealized scenario -- all change occurs through cohort replacement.
+
 
 ```{r}
 set.seed(2607)
@@ -107,113 +113,117 @@ cohort_1960 <- tibble(
 
 all_cohorts <- rbind(cohort_1920, cohort_1940, cohort_1960)
 
-cohort_plot <- all_cohorts %>% 
-  mutate(cohort = rep(c("1920", 
-                        "1940", 
-                        "1960"), 
-                      times = c(63, 63, 43))) %>% 
-  ggplot(aes(x = year, 
-             y = opinion, 
-             color = cohort, 
-             group = cohort)) +
+cohort_plot <- all_cohorts %>%
+  mutate(cohort = rep(c("1920",
+                    	"1940",
+                    	"1960"),
+                  	times = c(63, 63, 43))) %>%
+  ggplot(aes(x = year,
+         	y = opinion,
+         	color = cohort,
+         	group = cohort)) +
   geom_point(pch = 23) +
-  geom_segment(aes(xend = 2020, 
-                   x = 1978, 
-                   y = 0.5, 
-                   yend = 0.5), 
-               col = "blue") +
-  geom_segment(aes(xend = 2020, 
-                   x = 1958, 
-                   y = 0.3, 
-                   yend = 0.3), 
-               col = "forestgreen") +
-  geom_segment(aes(xend = 2000, 
-                   x = 1938, 
-                   y = 0.1, 
-                   yend = 0.1), 
-               col = "red") +
-  labs(y = "Opinion", 
-       x = "Year", 
-       color = "Cohort", 
-       title = "Opinions by Cohort")
+  geom_segment(aes(xend = 2020,
+               	x = 1978,
+               	y = 0.5,
+               	yend = 0.5),
+           	col = "blue") +
+  geom_segment(aes(xend = 2020,
+               	x = 1958,
+               	y = 0.3,
+               	yend = 0.3),
+           	col = "forestgreen") +
+  geom_segment(aes(xend = 2000,
+               	x = 1938,
+               	y = 0.1,
+               	yend = 0.1),
+           	col = "red") +
+  labs(y = "Opinion",
+   	x = "Year",
+   	color = "Cohort",
+   	title = "Opinions by Cohort")
 
 
-aggregate_change <- all_cohorts %>% 
-  mutate(cohort = rep(c("1920", 
-                        "1940", 
-                        "1960"), 
-                      times = c(63, 63, 43))) %>% 
-  group_by(year) %>% 
-  summarise(avg = mean(opinion)) %>% 
+aggregate_change <- all_cohorts %>%
+  mutate(cohort = rep(c("1920",
+                    	"1940",
+                    	"1960"),
+                  	times = c(63, 63, 43))) %>%
+  group_by(year) %>%
+  summarise(avg = mean(opinion)) %>%
   ggplot(
-    aes(x = year, 
-        y = avg)
+	aes(x = year,
+    	y = avg)
   ) +
   geom_point(pch = 23) +
   geom_line(color = "firebrick") +
   labs(
-    y = "Avg. Opinion", 
-    x = "Year", 
-    title = "Aggregate Change"
+	y = "Avg. Opinion",
+	x = "Year",
+	title = "Aggregate Change"
   )
 
 cohort_plot + aggregate_change
 ```
 
-Now, imagine another scenario where cohorts do update their attitudes around an issue, either because as individuals get older they tend to change their beliefs or because an issue has been particularly salient in public discussions. In other words, we would assume that there are, in addition to initial *between-cohort differences*, *within-cohort changes* in this example, which can be either *period* or *age* effects. In this stylized example, we can imagine an issue -- like attitudes towards homosexuality -- that has become increasingly important in the public sphere since the middle of the 20th century and where individuals seem to have updated their beliefs. Figure 2 shows this second example. We notice here that we see *within cohort changes*, due to common trends experienced by all members of the group. This, in turn, translates into much steeper cultural change at the aggregate level. Cultural change here is not only due to the overall differences between cohorts - and their replacement - but also due to variation in opinions, in the same direction, within cohorts.
+
+Now, imagine another scenario where adults do update their attitudes around an issue, either because as individuals get older they tend to change their beliefs or because an issue has been particularly salient in public discussions. In other words, we would assume that there are, in addition to initial *between-cohort differences*, *within-cohort changes*, which can be either *period* or *age* effects (for our purposes, this distinction is unimportant). In this stylized example, we can imagine an issue -- like attitudes towards homosexuality -- that has become increasingly important in the public sphere since the middle of the 20th century and where individuals seem to have updated their beliefs. Figure 2 shows this second example. Here we see *within cohort changes*, due to common trends experienced by all members of the group. This, in turn, translates into much steeper cultural change at the aggregate level. Cultural change here is not only due to the overall differences between cohorts - and their replacement - but also due to changes in the same direction within cohorts.
+
 
 ```{r}
-coh_plot_period <- all_cohorts %>% 
-  mutate(cohort = rep(c("1920", 
-                        "1940", 
-                        "1960"), 
-                      times = c(63, 63, 43)), 
-         opinion = if_else(
-           year <1960, 
-           opinion, 
-           opinion + (year-1938)*0.01
-         )) %>% 
-  ggplot(aes(x = year, 
-             y = opinion, 
-             color = cohort, 
-             group = cohort)) +
+coh_plot_period <- all_cohorts %>%
+  mutate(cohort = rep(c("1920",
+                    	"1940",
+                    	"1960"),
+                  	times = c(63, 63, 43)),
+     	opinion = if_else(
+       	year <1960,
+       	opinion,
+       	opinion + (year-1938)*0.01
+     	)) %>%
+  ggplot(aes(x = year,
+         	y = opinion,
+         	color = cohort,
+         	group = cohort)) +
   geom_point(pch = 23) +
-  geom_smooth(method = "lm", 
-              se=F) +
-  labs(y = "Opinion", 
-       x = "Year", 
-       color = "Cohort", 
-       title = "Opinions by Cohort") 
-  
+  geom_smooth(method = "lm",
+          	se=F) +
+  labs(y = "Opinion",
+   	x = "Year",
+   	color = "Cohort",
+   	title = "Opinions by Cohort")
+ 
 
-aggregate_change_period <- all_cohorts %>% 
-  mutate(cohort = rep(c("1920", 
-                        "1940", 
-                        "1960"), 
-                      times = c(63, 63, 43)), 
-         opinion = if_else(
-           year <1960, 
-           opinion, 
-           opinion + (year-1938)*0.01
-         )) %>% 
-group_by(year) %>% 
-  summarise(avg = mean(opinion)) %>% 
+aggregate_change_period <- all_cohorts %>%
+  mutate(cohort = rep(c("1920",
+                    	"1940",
+                    	"1960"),
+                  	times = c(63, 63, 43)),
+     	opinion = if_else(
+       	year <1960,
+       	opinion,
+       	opinion + (year-1938)*0.01
+     	)) %>%
+group_by(year) %>%
+  summarise(avg = mean(opinion)) %>%
   ggplot(
-    aes(x = year, 
-        y = avg)
+	aes(x = year,
+    	y = avg)
   ) +
   geom_point(pch = 23) +
   geom_line(color = "firebrick") +
   labs(
-    y = "Avg. Opinion", 
-    x = "Year", 
-    title = "Aggregate Change"
+	y = "Avg. Opinion",
+	x = "Year",
+	title = "Aggregate Change"
   )
 
 coh_plot_period + aggregate_change_period
 ```
 
-A more extreme variant of this example would be one where all cohorts start from the same average opinion -- regardless of the current year -- and endure the same *within-cohort changes*. In other words, we can imagine a scenario where there are no initial *between-cohort differences* and all age-groups follow the same trends in opinion change. Figure 3 illustrates such a case:
+
+A more extreme variant of this example would be one where all cohorts start from the same average opinion -- regardless of the current year -- and experience the same *within-cohort changes*. In other words, we can imagine a scenario where there are no initial *between-cohort differences* and all age-groups follow the same trends in opinion change. Figure 3 illustrates such a case:
+
 
 ```{r}
 
@@ -234,54 +244,55 @@ cohort_1960 <- tibble(
 
 all_cohorts_same <- rbind(cohort_1920, cohort_1940, cohort_1960)
 
-coh_plot_period <- all_cohorts_same %>% 
-  mutate(cohort = rep(c("1920", 
-                        "1940", 
-                        "1960"), 
-                      times = c(63, 63, 43))) %>% 
-  group_by(cohort) %>% 
-  mutate(year0 = year-min(year)+1, 
-         opinion = opinion + year0 * 0.01) %>% 
-  ungroup()  %>% 
-  ggplot(aes(x = year, 
-            y = opinion, 
-            color = cohort, 
-            group = cohort)) +
+coh_plot_period <- all_cohorts_same %>%
+  mutate(cohort = rep(c("1920",
+                    	"1940",
+                    	"1960"),
+                  	times = c(63, 63, 43))) %>%
+  group_by(cohort) %>%
+  mutate(year0 = year-min(year)+1,
+     	opinion = opinion + year0 * 0.01) %>%
+  ungroup()  %>%
+  ggplot(aes(x = year,
+        	y = opinion,
+        	color = cohort,
+        	group = cohort)) +
   geom_point(pch = 23) +
-  geom_smooth(method = "lm", 
-              se=F) +
-  labs(y = "Opinion", 
-       x = "Year", 
-       color = "Cohort", 
-       title = "Opinions by Cohort") 
+  geom_smooth(method = "lm",
+          	se=F) +
+  labs(y = "Opinion",
+   	x = "Year",
+   	color = "Cohort",
+   	title = "Opinions by Cohort")
 
-aggregate_change_period <- all_cohorts_same %>% 
-  mutate(cohort = rep(c("1920", 
-                        "1940", 
-                        "1960"), 
-                      times = c(63, 63, 43))) %>% 
-  group_by(cohort) %>% 
-  mutate(year0 = year-min(year)+1, 
-         opinion = opinion + year0 * 0.01) %>% 
-  ungroup() %>% 
-  group_by(year) %>% 
-  summarise(avg = mean(opinion)) %>% 
+aggregate_change_period <- all_cohorts_same %>%
+  mutate(cohort = rep(c("1920",
+                    	"1940",
+                    	"1960"),
+                  	times = c(63, 63, 43))) %>%
+  group_by(cohort) %>%
+  mutate(year0 = year-min(year)+1,
+     	opinion = opinion + year0 * 0.01) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  summarise(avg = mean(opinion)) %>%
   ggplot(
-    aes(x = year, 
-        y = avg)
+	aes(x = year,
+    	y = avg)
   ) +
   geom_point(pch = 23) +
   geom_line(color = "firebrick") +
   labs(
-    y = "Avg. Opinion", 
-    x = "Year", 
-    title = "Aggregate Change"
+	y = "Avg. Opinion",
+	x = "Year",
+	title = "Aggregate Change"
   )
 
 coh_plot_period + aggregate_change_period
 ```
 
-Based on these idealized models, we propose a simple test that can help us differentiate the relative contribution of *within-cohort change* and *between-cohort differences* for understanding aggregate cultural change. We can fit two models to the same data. One would be a linear regression where the outcome variable is regressed over the cohort of each respondent:
+
+Based on these idealized models, we propose a simple test that can help us differentiate the relative contribution of *within-cohort change* and *between-cohort differences* for understanding aggregate cultural change. We can fit two models to the same data. One would be a linear regression where the outcome variable is regressed on the cohort of each respondent:
 
 $$ y_i \sim N(\mu, \sigma^2) $$ $$ \mu = \alpha + \beta_{\text{cohort}[i]} $$
 
@@ -289,18 +300,18 @@ The second model would be similar but it would also include an interaction effec
 
 $$ y_i \sim N(\mu, \sigma^2) $$
 
-$$ \mu = \alpha + \beta_{\text{cohort}[i]} + \phi_{\text{year}[i]} + \zeta_{\text{cohort[i]} * \text{year[i]}} $$
+$$ \mu = \alpha + \beta_{\text{cohort}[i]} + \phi \times \text{year}_i + \zeta_{\text{cohort[i]}} \times \text{year}_i $$
 
 ```{r}
 # Functions ----
 getmod_lm_b2 <- function(df) {
   lm(y ~ cohort10t,
-     data = df)
+ 	data = df)
 }
 
 getmod_lm_bw2 <- function(df) {
   lm(y ~ ns(year0, df = 2) * cohort10t,
-     data = df)
+ 	data = df)
 }
 
 # get R2
@@ -310,74 +321,458 @@ get_r2 <- function(mod) {
 }
 
 
-all_cohorts_replace <- all_cohorts %>% 
-  mutate(cohort = rep(c("1920", 
-                        "1940", 
-                        "1960"), 
-                      times = c(63, 63, 43)), 
-         year0 = year-1938)
+all_cohorts_replace <- all_cohorts %>%
+  mutate(cohort = rep(c("1920",
+                    	"1940",
+                    	"1960"),
+                  	times = c(63, 63, 43)),
+     	year0 = year-1938)
 
 mod1 <- lm(opinion ~ cohort, all_cohorts_replace)
-mod2 <- lm(opinion ~ ns(year0, df = 2) * cohort, 
-           data = all_cohorts_replace)
+mod2 <- lm(opinion ~ ns(year0, df = 2) * cohort,
+       	data = all_cohorts_replace)
 
-first_mod_r2 <- round(get_r2(mod1)/get_r2(mod2), 2) 
+first_mod_r2 <- round(get_r2(mod1)/get_r2(mod2), 2)
 
 
 all_cohorts_period <- all_cohorts %>%
   mutate(
-    cohort = rep(c("1920",
-                   "1940",
-                   "1960"),
-                 times = c(63, 63, 43)),
-    year0 = year - 1938,
-    opinion = if_else(year < 1960,
-                      opinion,
-                      opinion + (year - 1938) * 0.01)
+	cohort = rep(c("1920",
+               	"1940",
+               	"1960"),
+             	times = c(63, 63, 43)),
+	year0 = year - 1938,
+	opinion = if_else(year < 1960,
+                  	opinion,
+                  	opinion + (year - 1938) * 0.01)
   )
 
 mod3 <- lm(opinion ~ cohort, all_cohorts_period)
-mod4 <- lm(opinion ~ ns(year0, df = 2) * cohort, 
-           data = all_cohorts_period)
+mod4 <- lm(opinion ~ ns(year0, df = 2) * cohort,
+       	data = all_cohorts_period)
 
-second_mod_r2 <- round(get_r2(mod3)/get_r2(mod4), 2) 
+second_mod_r2 <- round(get_r2(mod3)/get_r2(mod4), 2)
 
 all_cohorts_nodiff <- all_cohorts_same %>%
-  mutate(cohort = rep(c("1920", 
-                        "1940", 
-                        "1960"), 
-                      times = c(63, 63, 43))) %>% 
-  group_by(cohort) %>% 
-  mutate(year0 = year-min(year)+1, 
-         opinion = opinion + year0 * 0.01) %>% 
+  mutate(cohort = rep(c("1920",
+                    	"1940",
+                    	"1960"),
+                  	times = c(63, 63, 43))) %>%
+  group_by(cohort) %>%
+  mutate(year0 = year-min(year)+1,
+     	opinion = opinion + year0 * 0.01) %>%
   ungroup()
 
 mod5 <- lm(opinion ~ cohort, all_cohorts_nodiff)
-mod6 <- lm(opinion ~ ns(year0, df = 2) * cohort, 
-           data = all_cohorts_nodiff)
+mod6 <- lm(opinion ~ ns(year0, df = 2) * cohort,
+       	data = all_cohorts_nodiff)
 
-third_mod_r2 <- round(get_r2(mod5)/get_r2(mod6), 2) 
+third_mod_r2 <- round(get_r2(mod5)/get_r2(mod6), 2)
 ```
 
-We then compare the variance explained by each model. Specifically, we divide the variance explained by the first model over that accounted for by the second one.
+We then compare the variance explained by each model. The second model will always account for more of the variance than the first because the first is a restricted subset of the second. Therefore by dividing the variance explained by the first model over that accounted for by the second one, we have a measure that represents the proportion of variance explained that is preserved when only *between-cohort differences* matter - i.e. when we remove the effect of survey year from the model. We call this proportion $\tau$:
 
 $$ \tau = \frac{V(BD)}{V(BD+WC)} $$
 
-$\tau$ then could be interpreted as the proportion of variance explained that is preserved when only *between-cohort differences* matter - i.e. when we remove the effect of time from the model. As the number gets closer to one, then, this would be an indication that change in a given variable is mostly accounted for by cohort replacement as opposed to period effects. For example, in our rather simple scenarios, $\tau$ for the first case would be `r first_mod_r2` and in the second case would be `r second_mod_r2`. For the third -- admittedly extreme -- case, $\tau$ would be `r third_mod_r2`. Almost all variance explained is preserved in the first case when we take the effect of year out of the model. In the second case, we do seem to lose information, as we expected. In the third case, almost *none* of the variance explained is preserved when we do not consider *within-cohort changes*, as these explain almost all the change in aggregate opinion in this case. This simple test, then, is a useful indicator to begin to differentiate the mechanisms that underpin the large-scale opinion change.
+Values of $\tau$ closer to one indicate that change in a variable is mostly accounted for by cohort replacement as opposed to period effects. For example, in our rather simple scenarios, $\tau$ for the first case would be `r first_mod_r2` and in the second case would be `r second_mod_r2`. For the third -- admittedly extreme -- case, $\tau$ would be `r third_mod_r2`. Almost all variance explained is preserved in the first case when we take the effect of survey year out of the model. In the second case, we do seem to lose information, as we expected. In the third case, almost *none* of the variance explained is preserved when we do not consider *within-cohort changes*, as these explain almost all the change in aggregate opinion in this case. This simple test, then, is a useful indicator to begin to differentiate the mechanisms that underpin the large-scale opinion change.
 
-At this point it is important to discuss an important assumption in this approach. The second model we fit assumes that *within-cohort change* is linear. This means that we are unable to capture within-cohort fluctuations that might be caused by temporary shocks -- e.g. a temporary increase in support of defense spending after a terrorist attack. While we acknowledge that these fluctuations are an important component of *within-cohort change*, they cannot account for monotonic aggregate changes over time. When social scientists discuss cultural change, they often mean *directional* change. In other words, we tend to be interested in variation that follows a trend, like the secularization of group or the expansion/erosion of civil liberties. Given that we are interested in how average opinions, within cohorts, have changed in a single direction across time, the linear assumption is warranted. However, this does prevent us from drawing any conclusions about any *non-linear* changes that might happen within cohorts, which can certainly be important for understanding opinion change.
+At this point it is important to discuss an important assumption in this approach. The second model we fit assumes that *within-cohort change* is linear. This means that we are unable to capture within-cohort fluctuations that might be caused by temporary shocks -- e.g. a temporary increase in support of defense spending after a terrorist attack. While we acknowledge that these fluctuations are an important component of *within-cohort change*, they cannot account for monotonic aggregate changes over time. When social scientists discuss cultural change, they typically mean *directional* change. In other words, we tend to be interested in variation that follows a trend, like secularization or the liberalization of attitudes about sexuality. Given that we are interested in how average opinions have changed in a single direction across our observation period, the linear assumption is warranted. However, this does prevent us from drawing any conclusions about any *non-linear* changes that might happen within cohorts, which can certainly be important for understanding opinion change.
 
-### Data
+### Data & Analysis
 
-To understand mechanisms of change, across different contexts and issues, we use the World Values Survey (WVS) [@inglehartWorldValuesSurveys2000]. The WVS is a large-scale effort to collect comparable attitudinal data across multiple countries, which started in 1981. For each country and each wave, the WVS collects high-quality, nationally representative samples, and covers a wide range of questions from views on gender equality to socio-economic indices. The survey, however, is not longitudinal, which means that we are unable to track any within-individual changes across time. However, it allows us to examine trends in aggregate opinion across time for different countries.
+To understand mechanisms of change, across different contexts and issues, we use the World Values Survey (WVS) [@inglehartWorldValuesSurveys2000]. The WVS, which began in 1981, is a large-scale effort to collect comparable attitudinal data across multiple countries. For each country and each wave, the WVS collects high-quality, nationally representative samples, and covers a wide range of questions from views on gender equality to socioeconomic indices. The survey, however, is not longitudinal, which means that we are unable to track any within-individual changes across time. However, it allows us to examine trends in aggregate opinion across time for different countries. 
 
-Our method will be most insightful when we have information about aggregate information in each country across a considerable span of time. This is a challenge because not all countries feature in every wave, and not all questions were asked in the times when we do have samples. We decide to select countries based on completeness: those for which we have the most measures. This leads us to eight countries: Argentina (ARG), Australia (AUS), Canada (CAN), Japan (JPN), Mexico (MEX), South Africa (ZAF), Sweden (SWE), and the USA. This is not comprehensive or particularly diverse sample of countries. We are missing some of the world's most populous countries -- India and China -- and we do not have a majority-Muslim country. However, given that these mechanisms of social change have yet to be tested across different societies, an initial comparison -- albeit limited -- is valuable. We also select the variables for our analysis based on relevance and completeness. In terms of the former, we choose variables that reflect cultural attitudes that could plausibly change over time. This includes a wide range of items, from opinions about child-bearing to attitudes about the acceptability of euthanasia. We also select the variables based on whether they have been asked in all the waves for the countries selected. After implementing both criteria we are left with 56 variables that cover a wide variety of issues, some everyday and some highly sensitive. The full list of items, alongside their respective questions and the abbreviations we use below, is available in the supplementary materials.
+Previous work has used the WVS to examine different mechanisms of social change to great effect [-@tormosRhythmModernizationHow2021; @tormosPatternsChangeJustifiability2023]. Our work builds on this literature in two ways. First, we build a method that borrows from work that has previously been implemented exclusively in the U.S. and integrate it with this – more comparative – line of work. Second, we not only compare trends across countries, but also across different types of variables simultaneously to examine whether mechanisms of social change vary along these two axes. 
 
-### Analysis
+Our method will be most insightful when we have information about aggregate information in each country across a considerable time span. This is a challenge because not all countries feature in every wave, and not all questions were asked in the times when we do have samples. For our analysis, we selected countries based on completeness: those for which we have the most measures over the longest period. This led us to eight countries: Argentina (ARG), Australia (AUS), Canada (CAN), Japan (JPN), Mexico (MEX), South Africa (ZAF), Sweden (SWE), and the USA. This is not comprehensive or particularly diverse sample of countries. We are missing some of the world's most populous countries -- India and China -- and we do not have a majority-Muslim country. However, given that these mechanisms of social change have yet to be tested across different societies on many variables simultaneously, an initial comparison -- albeit limited -- is valuable. We also select the variables for our analysis based on relevance and completeness. In terms of the former, we choose variables that reflect cultural attitudes that could plausibly change over time. This includes a wide range of items, from opinions about child-bearing to attitudes about the acceptability of euthanasia. We also select the variables based on whether they have been asked in all the waves for the countries selected. After implementing both criteria we are left with 56 variables that cover a wide variety of issues, some everyday and some highly sensitive. The full list of items, alongside their respective questions and the abbreviations we use below, is available in the supplementary materials.
 
-For each variable, we calculate $\tau$, as defined above. We then examine how this metric is related to the total amount of change each variable exhibits in each country. Finally, we fit two linear regression models to explore whether the sensitivity of the issues is related to how much they change and to the mechanism that most likely underpins that variation.
+Given that we are interested in how sensitive or mundane these questions are, we fielded a multi-country survey to get at this issue. Though operationalizing sensitivity is difficult, we find the definition given in this special issue a useful starting point. As mentioned above, sensitivity here is defined as those topics that are difficult to talk about. We took this definition and asked respondents to tell us how easy or difficult it would be to discuss a given question, as worded in the WVS. Importantly, we are not interested in the respondents' own opinions on a given issue, but rather on how difficult they think it would be for the *majority of their compatriots* to talk about that question. Thus, we asked them: "how difficult would it be for the majority of people from you country to discuss the following question". We then provided them with a scale from one to ten, where 1 was labelled "not difficult at all" and 10 was labeled "extremely difficult". Each participant rated all the questions associated with the variables that we consider in this study. This provides a plausible measure of how sensitive each issue is in each of the eight countries in our survey sample.
 
-Though capturing the sensitivity of an issue is a difficult task, we use two strategies that can help us operationalize this concept in a principled way. At first glance, we cover variables that differ widely in terms of how sensitive they are. For example, it is possible to contend that questions about the justifiability of euthanasia are more sensitive that questions about whether imagination is an important quality in a child. But we want to ascertain the sensitivity of these questions in a more principled way. Our first approach is to use an LLM to rate each one of the questions in terms of sensitivity on a scale from 1 to 10. The script used to prompt the LLM for the ratings is available in the supplementary materials. The following plot shows the ratings associated with each question:
+To field the surveys, we used the online platforms Prolific and CloudResearch. Both offer a high-quality pool of respondents and, importantly, they maintain samples across different countries [@peerTurkAlternativePlatforms2017]. Between both platforms, we were able to reach respondents from the eight countries that comprise our WVS sample. We translated all the questions to the main languages spoken in each country, and we gave participants the opportunity to choose their preferred language. Initially, our sample consisted of 808 individuals and, after excluding participants that had missed more than two attention checks, we had total sample of 802 respondents. Table 1 breaks down how this sample is distributed across the countries:
+
+
+```{r}
+
+usa_d <- read_csv("Data/usa_data_full.csv") %>% mutate(country = "USA")
+# Keep only the real answers (no headers, pretests or rejections)
+usa_d <- usa_d[-c(1:5, 16:17, 19) ,]
+
+swe_d <- read_csv("Data/swe_data_full.csv") %>% mutate(country = "SWE")
+swe_d <- swe_d[-c(1:2),]
+
+zaf_d <- read_csv("Data/zaf_data_full.csv") %>% mutate(country = "ZAF")
+zaf_d <- zaf_d[-c(1:2),]
+
+mex_d <- read_csv("Data/mex_data_full.csv") %>% mutate(country = "MEX")
+mex_d <- mex_d[-c(1:2),]
+
+jpn_d <- read_csv("Data/jpn_data_full.csv") %>% mutate(country = "JPN")
+jpn_d <- jpn_d[-c(1:2),]
+
+can_d <- read_csv("Data/can_data_full.csv") %>% mutate(country = "CAN")
+can_d <- can_d[-c(1:2),]
+
+aus_d <- read_csv("Data/aus_data_full.csv") %>% mutate(country = "AUS")
+aus_d <- aus_d[-c(1:2),]
+
+arg_d <- read_csv("Data/arg_data_full.csv") %>% mutate(country = "ARG")
+arg_d <- arg_d[-c(1:8,60),]
+
+
+usa_ds <- usa_d %>%
+  select(23:77,81)
+
+swe_ds <- swe_d %>%
+  select(23:77,81)
+
+zaf_ds <- zaf_d %>%
+  select(23:77,81)
+
+mex_ds <- mex_d %>%
+  select(23:77,81)
+
+jpn_ds <- jpn_d %>%
+  select(23:77,81)
+
+can_ds <- can_d %>%
+  select(23:77,81)
+
+aus_ds <- aus_d %>%
+  select(23:77,81)
+
+arg_ds <- arg_d %>%
+  select(22:76,81)
+
+d_sens_complete <- rbind(usa_ds,
+                     	swe_ds,
+                     	zaf_ds,
+                     	mex_ds,
+                     	jpn_ds,
+                     	can_ds,
+                     	aus_ds,
+                     	arg_ds)
+
+d_sens_complete <- d_sens_complete %>%
+  mutate(
+	across(
+  	.cols =1:55,
+  	as.numeric
+	)
+  )
+
+# If attention check succesful then 1, else 0
+# Count attention checks
+d_sens_complete <- d_sens_complete %>%
+  mutate(ac1 = if_else(att1_1 == 2, 1, 0),
+     	ac2 = if_else(att2_1 == 5, 1, 0),
+     	ac3 = if_else(att3_1 == 1, 1, 0),
+     	ac = ac1+ac2+ac3)
+rm(usa_d,
+   swe_d,
+   zaf_d,
+   mex_d,
+   jpn_d,
+   can_d,
+   aus_d)
+
+rm(usa_ds,
+   swe_ds,
+   zaf_ds,
+   mex_ds,
+   jpn_ds,
+   can_ds,
+   aus_ds)
+
+# Keep only respondents with 2 or more attention checks
+d_sens_complete <- d_sens_complete %>%
+  filter(ac >=2)
+
+d_sens_long <- d_sens_complete %>%
+  select(country, everything()) %>%
+  mutate(
+	across(
+  	.cols = 2:56,
+  	as.numeric
+	)
+  ) %>%
+  pivot_longer(
+	2:56,
+	names_to = "question",
+	values_to = "difficulty"
+  ) %>%
+  mutate(
+	question = str_remove(question, "_1$"),
+	variable = case_when(
+  	question == "imp_family" ~ "important_family",
+  	question == "imp_friends" ~ "important_friends",
+  	question == "imp_leisure" ~ "important_leisure",
+  	question == "imp_pol" ~ "important_politics",
+  	question == "imp_wrk" ~ "important_work",
+  	question == "imp_rel" ~ "important_religion",
+  	question == "child_qualities" ~ "child_independence",
+  	question == "neigh_race" ~ "neigh_diff_race",
+  	question == "neigh_drink" ~ "neigh_drink",
+  	question == "neigh_imm" ~ "neigh_imm",
+  	question == "neigh_aids" ~ "neigh_aids",
+  	question == "neigh_drug" ~ "neigh_drugs",
+  	question == "neigh_gay" ~ "neigh_gay",
+  	question == "trust" ~ "trust_people",
+  	question == "life_satisf" ~ "life_satisf",
+  	question == "choice_control" ~ "choice_control",
+  	question == "scarce_jobs_women" ~ "jobs_men_over_women",
+  	question == "scarce_jobs_imm" ~ "jobs_national_over_foreign",
+  	question == "housewife_fulfill" ~ "housewife_fulfilling",
+  	question == "left_right" ~ "politics_scale",
+  	question == "equal_incomes" ~  "income_eq",
+  	question == "private_public_busi" ~ "pvt_state_owned",
+  	question == "gvt_responsibility" ~ "gvt_responsibility",
+  	question == "comp_good_bad" ~ "competition_good_evil",
+  	question == "conf_church" ~ "confidence_churches",
+  	question == "conf_armed" ~ "confidence_armed_forces",
+  	question == "conf_press" ~ "confidence_press",
+  	question == "conf_unions" ~ "confidence_unions",
+  	question == "conf_police" ~ "confidence_police",
+  	question == "conf_parliament" ~ "confidence_parliament",
+  	question == "conf_civil" ~ "confidence_civil",
+  	question == "conf_tv" ~ "confidence_tv",
+  	question == "conf_gvt" ~ "confidence_government",
+  	question == "conf_pol_prt" ~ "confidence_political_parties",
+  	question == "conf_companies" ~ "confidence_major_companies",
+  	question == "conf_courts" ~ "confidence_justice_courts",
+  	question == "rel_services" ~ "attend_relig",
+  	question == "religiosity" ~ "religious_person",
+  	question == "belief_god" ~ "believe_god",
+  	question == "belief_hell" ~ "believe_hell",
+  	question == "imp_god" ~ "important_god",
+  	question == "just_gvt_benefits" ~  "just_gvt_benefits",
+  	question == "just_public_trans" ~ "just_fare_public_trans",
+  	question == "just_cheat_tax" ~ "just_cheat_taxes",
+  	question == "just_bribe" ~ "just_bribe",
+  	question == "just_homo" ~ "just_homosexuality",
+  	question == "just_prst" ~ "just_prostitution",
+  	question == "just_abort" ~ "just_abortion",
+  	question == "just_divorce" ~ "just_divorce",
+  	question == "just_euth" ~ "just_euthanasia",
+  	question == "just_suicide" ~ "just_suicide",
+  	question == "proud" ~ "proud_nationality",
+  	TRUE ~ question),
+  )
+
+
+d_sens_complete %>%
+  group_by(country) %>%
+  summarise(`Number of Respondents` = n()) %>%
+	kableExtra::kable(format = "latex",
+	align = "c",
+	booktabs = TRUE,
+	longtable = TRUE,
+	linesep = "",
+	) %>%
+  kableExtra::kable_styling(
+  	latex_options = c("striped", "repeat_header"),
+  	stripe_color = "gray!15",
+  	font_size = 6
+	)
+
+```
+
+
+We do not claim that this sample is representative of the population of any of those countries. However, we believe that these data provide a principled measure of how sensitive certain issues are perceived in each country. The fact that we prompted participants to think about their second-order beliefs -- to think about what most of their compatriots think -- helps in trying to bypass individual idiosyncrasies and to get a adequate measure of group-level perceptions of sensitivity. This is reflected in the fact that the overall patterns in our data are plausible. Table 2, for example, shows the median score for the three issues that respondents, in each country, rated as the most difficult to discuss^[We provide full descriptive results of the survey data in the supplementary materials]:  
+
+
+```{r}
+# p_usa <- d_sens_long %>%
+#   filter(country == "USA") %>%
+#   group_by(variable) %>%
+#   summarise(avg = median(difficulty)) %>%
+#   ungroup() %>%
+#   arrange(desc(avg)) %>%
+#   slice(1:5) %>%
+#   ggplot(
+# 	aes(x = fct_reorder(variable, avg),
+#     	y = avg)
+#   ) +
+#   geom_point(pch=23) +
+#   coord_flip() +
+#   labs(title = "USA",
+#    	y = "Median Difficulty",
+#    	x = "") +
+#   theme(text = element_text(size = 6))
+#
+# p_swe <- d_sens_long %>%
+#   filter(country == "SWE") %>%
+#   group_by(variable) %>%
+#   summarise(avg = median(difficulty)) %>%
+#   ungroup() %>%
+#   arrange(desc(avg)) %>%
+#   slice(1:5) %>%
+#   ggplot(
+# 	aes(x = fct_reorder(variable, avg),
+#     	y = avg)
+#   ) +
+#   geom_point(pch=23) +
+#   coord_flip() +
+#   labs(title = "SWE",
+#    	y = "Median Difficulty",
+#    	x = "") +
+#   theme(text = element_text(size = 6))
+#
+# p_zaf <- d_sens_long %>%
+#   filter(country == "ZAF") %>%
+#   group_by(variable) %>%
+#   summarise(avg = median(difficulty)) %>%
+#   ungroup() %>%
+#   arrange(desc(avg)) %>%
+#   slice(1:5) %>%
+#   ggplot(
+# 	aes(x = fct_reorder(variable, avg),
+#     	y = avg)
+#   ) +
+#   geom_point(pch=23) +
+#   coord_flip() +
+#   labs(title = "ZAF",
+#    	y = "Median Difficulty",
+#    	x = "") +
+#   theme(text = element_text(size = 6))
+#
+# p_mex <- d_sens_long %>%
+#   filter(country == "MEX") %>%
+#   group_by(variable) %>%
+#   summarise(avg = median(difficulty)) %>%
+#   ungroup() %>%
+#   arrange(desc(avg)) %>%
+#   slice(1:5) %>%
+#   ggplot(
+# 	aes(x = fct_reorder(variable, avg),
+#     	y = avg)
+#   ) +
+#   geom_point(pch=23) +
+#   coord_flip() +
+#   labs(title = "MEX",
+#    	y = "Median Difficulty",
+#    	x = "") +
+#   theme(text = element_text(size = 6))
+#
+# p_jpn <- d_sens_long %>%
+#   filter(country == "JPN") %>%
+#   group_by(variable) %>%
+#   summarise(avg = median(difficulty)) %>%
+#   ungroup() %>%
+#   arrange(desc(avg)) %>%
+#   slice(1:5) %>%
+#   ggplot(
+# 	aes(x = fct_reorder(variable, avg),
+#     	y = avg)
+#   ) +
+#   geom_point(pch=23) +
+#   coord_flip() +
+#   labs(title = "JPN",
+#    	y = "Median Difficulty",
+#    	x = "") +
+#   theme(text = element_text(size = 6))
+#
+# p_can <- d_sens_long %>%
+#   filter(country == "CAN") %>%
+#   group_by(variable) %>%
+#   summarise(avg = median(difficulty)) %>%
+#   ungroup() %>%
+#   arrange(desc(avg)) %>%
+#   slice(1:5) %>%
+#   ggplot(
+# 	aes(x = fct_reorder(variable, avg),
+#     	y = avg)
+#   ) +
+#   geom_point(pch=23) +
+#   coord_flip() +
+#   labs(title = "CAN",
+#    	y = "Median Difficulty",
+#    	x = "") +
+#   theme(text = element_text(size = 6))
+#
+# p_arg <- d_sens_long %>%
+#   filter(country == "ARG") %>%
+#   group_by(variable) %>%
+#   summarise(avg = median(difficulty)) %>%
+#   ungroup() %>%
+#   arrange(desc(avg)) %>%
+#   slice(1:5) %>%
+#   ggplot(
+# 	aes(x = fct_reorder(variable, avg),
+#     	y = avg)
+#   ) +
+#   geom_point(pch=23) +
+#   coord_flip() +
+#   labs(title = "ARG",
+#    	y = "Median Difficulty",
+#    	x = "") +
+#   theme(text = element_text(size = 6))
+#
+# p_aus <- d_sens_long %>%
+#   filter(country == "AUS" &
+#        	!str_detect(variable,"att")) %>%
+#   group_by(variable) %>%
+#   summarise(avg = median(difficulty)) %>%
+#   ungroup() %>%
+#   arrange(desc(avg)) %>%
+#   slice(1:5) %>%
+#   ggplot(
+# 	aes(x = fct_reorder(variable, avg),
+#     	y = avg)
+#   ) +
+#   geom_point(pch=23) +
+#   coord_flip() +
+#   labs(title = "AUS",
+#    	y = "Median Difficulty",
+#    	x = "") +
+#   theme(text = element_text(size = 6))
+#
+# p_usa + p_swe + p_zaf + p_mex + p_jpn + p_can + p_arg + p_aus
+
+d_sens_long %>%
+  group_by(country,
+       	variable) %>%
+  summarise(`Median Difficulty` = median(difficulty, na.rm = T)) %>%
+  ungroup() %>%
+  group_by(country) %>%
+  arrange(desc(`Median Difficulty`)) %>%
+  slice(1:3) %>%
+  ungroup() %>%
+  mutate(
+	Variable = case_when(
+  	variable == "confidence_government" ~ "Confidence in government",
+  	variable == "just_bribe" ~ "Justifiability of bribes",
+  	variable == "just_euthanasia" ~ "Justifiability of euthanasia",
+  	variable == "just_suicide" ~ "Justifiability of suicide",
+  	variable == "just_abortion" ~ "Justifiability of abortion",
+  	variable == "neigh_gay" ~ "Having a gay neighbor",
+  	variable == "jobs_men_over_women" ~ "Jobs for men over women",
+  	variable == "just_homosexuality" ~ "Justifiability of homosexuality",
+  	variable == "jobs_national_over_foreign" ~ "Jobs for national over foreigners",
+  	variable == "neigh_diff_race" ~ "Having a neighbor of a different race"
+	)
+  ) %>%
+  select(-c(country, variable)) %>%
+  kbl(., booktabs = T) %>%
+  kable_styling(
+	latex_options = "striped",
+	stripe_color = "gray!15",
+	font_size = 6
+  ) %>%
+  pack_rows("ARG", 1, 3) %>%
+  pack_rows("AUS", 4, 6) %>%
+  pack_rows("CAN", 7, 9) %>%
+  pack_rows("JPN", 10, 12) %>%
+  pack_rows("MEX", 13, 15) %>%
+  pack_rows("SWE", 16, 18) %>%
+  pack_rows("USA", 19, 21) %>%
+  pack_rows("ZAF", 22, 24)
+
+```
+
+
+Unsurprisingly, the questions about the justifiability of abortion, euthanasia, and suicide feature prominently in most countries, showing cross-cultural similarities in perceptions of sensitivity. However, we also pick up on some context-specific patterns: while issues of corruption and government credibility are perceived as difficult to discuss in Argentina, question about race and immigration are seen as particularly sensitive in Sweden. This resonates with both the recent past of these countries and their current circumstances. The full descriptive summary of the data is provided in the supplementary materials, but overall the results seem to capture intuitive general trends while allowing for context-specific variation. While capturing the notion of sensitivity is challenging, we believe our approach measures this concept reasonably well.
+
+We begin our analyses by examining the relationship between $\tau$ and the total amount of change each variable exhibits. For each variable, we calculate $\tau$, as defined above, and then plot it against how much it has changed across the decades of observation. We then fit two regression models to explore whether the perceived sensitivity of an issue is related to how much they change and to the mechanism that most likely underpins that variation. In both regressions, the key independent variable of interest is the median sensitivity for each country and each variable. ^[We use the median because it is less sensitive to extreme values, but our results show similar patterns when we use the mean sensitivity for each variable]. In turn, the dependent variables of interest are, respectively, the absolute change exhibited by each variable in each country and the calculated $\tau$. In both models, we allow for varying intercepts and slopes across countries to account for cultural variation -- and similarities -- between the different contexts.  
 
 ```{r}
 # Data importation & cleaning ----
@@ -385,242 +780,242 @@ load("Data/wvs_timeseries.rdata")
 d <- data1
 rm(data1)
 
-# Read in the data 
-d_short <- d %>% 
-  select(S002VS, 
-         COUNTRY_ALPHA,
-         S020,
-         S003,
-         X001,
-         X003, 
-         X007, 
-         A001:A006,
-         A029:A042,
-         A124_02, 
-         A124_03, 
-         A124_06:A124_09,
-         A165,
-         A170,
-         A173,
-         C001,
-         C002,
-         D057,
-         E033,
-         E035:E037,
-         E039,
-         E069_01:E069_02,
-         E069_04:E069_08,
-         E069_10:E069_13,
-         E069_17,
-         F028,
-         F034,
-         F050,
-         F053,
-         F063,
-         F114A,
-         F115:F123,
-         G006) %>% 
-  rename(wave = S002VS, 
-         country = COUNTRY_ALPHA,
-         country_code = S003, 
-         year_survey = S020,
-         sex = X001,
-         age = X003, 
-         
-         # Importance battery: 1 means very important, 4 means not at all important
-         important_family = A001,
-         important_friends = A002, 
-         important_leisure = A003, 
-         important_poltics = A004,
-         important_work = A005, 
-         important_religion = A006, 
-         
-         # Important qualities in children: 1 means mentioned, 0 means not mentioned
-         child_independence = A029, 
-         child_hard_work = A030, 
-         child_feeling_responsibility = A032, 
-         child_imagination = A034, 
-         child_tolerance = A035, 
-         child_thrift = A038, 
-         child_determination = A039, 
-         child_religion = A040, 
-         child_unselfish = A041,
-         child_obedience = A042,
-         
-         # People you would not like to have as neighbours: 1 mentioned, 0 means not mentioned
-         neigh_diff_race = A124_02, 
-         neigh_drink = A124_03, 
-         neigh_imm = A124_06, 
-         neigh_aids = A124_07, 
-         neigh_drugs = A124_08, 
-         neigh_gay = A124_09,
-         
-         # Most people can be trusted: (1) Most people, (2) you can never be too careful
-         trust_people = A165,
-         
-         # (10) means more satisfied
-         life_satisf = A170, 
-         
-         # Control over life's choices: (10) feels most in control. 
-         choice_control = A173, 
-         
-         # Men should be given jobs over women: (1) Agree, (2) Disagree, (3) Neither A nor D
-         jobs_men_over_women = C001, 
-         
-         # Nationals should be given jobs over foreigners: (1) Agree, (2) Disagree, (3) Neither A nor D
-         jobs_national_over_foreign = C002, 
-         
-         # Likert: (1) Strongly Agree -- (4) Strongly Disagree
-         housewife_fulfilling = D057,
-         
-         # Left/Right placement: (1) Left -- (10) Right
-         politics_scale = E033,
-         
-         # Importance of income equality 
-         income_eq = E035, 
-         
-         # Business should be public/private owned: (1) Private -- (10) Public
-         pvt_state_owned = E036, 
-         
-         # Government should take responsibility vs individual responsibility: (1) Gvt -- (10) Individual
-         gvt_responsibility = E037,
-         
-         # Competition good or harmful: (1) Good --- (10) harmful
-         competition_good_evil = E039, 
-         
-         # Confidence battery: (1) A great deal; (2) Quite a lot; (3) Not very much; (4) None at all
-         confidence_churches = E069_01, 
-         confidence_armed_forces = E069_02,
-         confidence_press = E069_04, 
-         confidence_unions = E069_05, 
-         confidence_police = E069_06, 
-         confidence_parliament = E069_07,
-         confidence_civil = E069_08,
-         confidence_television = E069_10,
-         confidence_governement = E069_11,
-         confidence_political_party = E069_12,
-         confidence_major_companies = E069_13,
-         confidence_justice_courts = E069_17,
-         
-         # How often attends religious services?
-         # (1) More than once a week -- (8) Never
-         attend_relig = F028, 
-         
-         # (1) Religious; (2) not religious; (3) atheist
-         religious_person = F034,
-         
-         # Believes (1), does not believe (0)
-         believe_god = F050, 
-         believe_hell = F053, 
-         
-         # (1) Not at all important -- (10) very important
-         important_god = F063,
-         just_gvt_benefits = F114A,
-         just_fare_public_trans = F115,
-         just_cheat_taxes = F116,
-         just_bribe = F117,
-         just_homosexuality = F118, 
-         just_prostitution = F119, 
-         just_abortion = F120, 
-         just_divorce = F121, 
-         just_euthanasia = F122, 
-         just_suicide = F123, 
-         proud_nationality = G006, 
-         marital_status = X007) 
+# Read in the data
+d_short <- d %>%
+  select(S002VS,
+     	COUNTRY_ALPHA,
+     	S020,
+     	S003,
+     	X001,
+     	X003,
+     	X007,
+     	A001:A006,
+     	A029:A042,
+     	A124_02,
+     	A124_03,
+     	A124_06:A124_09,
+     	A165,
+     	A170,
+     	A173,
+     	C001,
+     	C002,
+     	D057,
+     	E033,
+     	E035:E037,
+     	E039,
+     	E069_01:E069_02,
+     	E069_04:E069_08,
+     	E069_10:E069_13,
+     	E069_17,
+     	F028,
+     	F034,
+     	F050,
+     	F053,
+     	F063,
+     	F114A,
+     	F115:F123,
+     	G006) %>%
+  rename(wave = S002VS,
+     	country = COUNTRY_ALPHA,
+     	country_code = S003,
+     	year_survey = S020,
+     	sex = X001,
+     	age = X003,
+    	 
+     	# Importance battery: 1 means very important, 4 means not at all important
+     	important_family = A001,
+     	important_friends = A002,
+     	important_leisure = A003,
+     	important_poltics = A004,
+     	important_work = A005,
+     	important_religion = A006,
+    	 
+     	# Important qualities in children: 1 means mentioned, 0 means not mentioned
+     	child_independence = A029,
+     	child_hard_work = A030,
+     	child_feeling_responsibility = A032,
+     	child_imagination = A034,
+     	child_tolerance = A035,
+     	child_thrift = A038,
+     	child_determination = A039,
+     	child_religion = A040,
+     	child_unselfish = A041,
+     	child_obedience = A042,
+    	 
+     	# People you would not like to have as neighbours: 1 mentioned, 0 means not mentioned
+     	neigh_diff_race = A124_02,
+     	neigh_drink = A124_03,
+     	neigh_imm = A124_06,
+     	neigh_aids = A124_07,
+     	neigh_drugs = A124_08,
+     	neigh_gay = A124_09,
+    	 
+     	# Most people can be trusted: (1) Most people, (2) you can never be too careful
+     	trust_people = A165,
+    	 
+     	# (10) means more satisfied
+     	life_satisf = A170,
+    	 
+     	# Control over life's choices: (10) feels most in control.
+     	choice_control = A173,
+    	 
+     	# Men should be given jobs over women: (1) Agree, (2) Disagree, (3) Neither A nor D
+     	jobs_men_over_women = C001,
+    	 
+     	# Nationals should be given jobs over foreigners: (1) Agree, (2) Disagree, (3) Neither A nor D
+     	jobs_national_over_foreign = C002,
+    	 
+     	# Likert: (1) Strongly Agree -- (4) Strongly Disagree
+     	housewife_fulfilling = D057,
+    	 
+     	# Left/Right placement: (1) Left -- (10) Right
+     	politics_scale = E033,
+    	 
+     	# Importance of income equality
+     	income_eq = E035,
+    	 
+     	# Business should be public/private owned: (1) Private -- (10) Public
+     	pvt_state_owned = E036,
+    	 
+     	# Government should take responsibility vs individual responsibility: (1) Gvt -- (10) Individual
+     	gvt_responsibility = E037,
+    	 
+     	# Competition good or harmful: (1) Good --- (10) harmful
+     	competition_good_evil = E039,
+    	 
+     	# Confidence battery: (1) A great deal; (2) Quite a lot; (3) Not very much; (4) None at all
+     	confidence_churches = E069_01,
+     	confidence_armed_forces = E069_02,
+     	confidence_press = E069_04,
+     	confidence_unions = E069_05,
+     	confidence_police = E069_06,
+     	confidence_parliament = E069_07,
+     	confidence_civil = E069_08,
+     	confidence_television = E069_10,
+     	confidence_governement = E069_11,
+     	confidence_political_party = E069_12,
+     	confidence_major_companies = E069_13,
+     	confidence_justice_courts = E069_17,
+    	 
+     	# How often attends religious services?
+     	# (1) More than once a week -- (8) Never
+     	attend_relig = F028,
+    	 
+     	# (1) Religious; (2) not religious; (3) atheist
+     	religious_person = F034,
+    	 
+     	# Believes (1), does not believe (0)
+     	believe_god = F050,
+     	believe_hell = F053,
+    	 
+     	# (1) Not at all important -- (10) very important
+     	important_god = F063,
+     	just_gvt_benefits = F114A,
+     	just_fare_public_trans = F115,
+     	just_cheat_taxes = F116,
+     	just_bribe = F117,
+     	just_homosexuality = F118,
+     	just_prostitution = F119,
+     	just_abortion = F120,
+     	just_divorce = F121,
+     	just_euthanasia = F122,
+     	just_suicide = F123,
+     	proud_nationality = G006,
+     	marital_status = X007)
 
 
 
-# Zap labels 
+# Zap labels
 d_short <- haven::zap_labels(d_short)
 
-d_waves <- d_short %>% 
+d_waves <- d_short %>%
   pivot_longer(important_family:proud_nationality,
-               names_to = "variable",
-               values_to = "y") %>%
+           	names_to = "variable",
+           	values_to = "y") %>%
   mutate(age01 = (age - 25)/(64 - 25),
-         birthyear = year_survey - age,
-         year0 = year_survey - 1981,
-         cohort5 = floor(birthyear/5) * 5,
-         cohort10 = floor(birthyear/10) * 10) %>%
-  drop_na(c(y, birthyear)) %>% 
-  group_by(country, variable) %>% 
+     	birthyear = year_survey - age,
+     	year0 = year_survey - 1981,
+     	cohort5 = floor(birthyear/5) * 5,
+     	cohort10 = floor(birthyear/10) * 10) %>%
+  drop_na(c(y, birthyear)) %>%
+  group_by(country, variable) %>%
   mutate(start = min(year_survey),
-         end = max(year_survey),
-         span = end - start,
-         waves = n_distinct(wave),
-         obs = n()) %>% 
+     	end = max(year_survey),
+     	span = end - start,
+     	waves = n_distinct(wave),
+     	obs = n()) %>%
   ungroup()
 
-# Select sensitivity measures for country-year 
-sens_df <- d_waves %>% 
-  filter(waves >= 4 & span >= 30 & age > 24) %>% 
+# Select sensitivity measures for country-year
+sens_df <- d_waves %>%
+  filter(waves >= 4 & span >= 30 & age > 24) %>%
   group_by(country,
-           variable) %>% 
-  mutate(num_people = n()) %>% 
-  ungroup() %>% 
-  group_by(country, 
-           variable,
-           y) %>% 
-  mutate(num_answer = n(), 
-         percentage_answer = num_answer/num_people) %>% 
-  slice(1) %>% 
-  ungroup() %>% 
-  filter(y == -2) %>% 
+       	variable) %>%
+  mutate(num_people = n()) %>%
+  ungroup() %>%
+  group_by(country,
+       	variable,
+       	y) %>%
+  mutate(num_answer = n(),
+     	percentage_answer = num_answer/num_people) %>%
+  slice(1) %>%
+  ungroup() %>%
+  filter(y == -2) %>%
   select(country, variable, percentage_answer)
 
-# Previous analyses 
+# Previous analyses
 
-d_short_clean <- d_short %>% 
+d_short_clean <- d_short %>%
   mutate(
-    across( 
-      .cols = 5:68, 
-      ~ ifelse(
-        . < 0, 
-        NA_real_, 
-        .
-      ))
+	across(
+  	.cols = 5:68,
+  	~ ifelse(
+    	. < 0,
+    	NA_real_,
+    	.
+  	))
   )
 
 # Create the variables for manipulation
 
-d_waves_clean <- d_short_clean %>% 
+d_waves_clean <- d_short_clean %>%
   pivot_longer(important_family:proud_nationality,
-               names_to = "variable",
-               values_to = "y") %>%
+           	names_to = "variable",
+           	values_to = "y") %>%
   mutate(age01 = (age - 25)/(64 - 25),
-         birthyear = year_survey - age,
-         year0 = year_survey - 1981,
-         cohort5 = floor(birthyear/5) * 5,
-         cohort10 = floor(birthyear/10) * 10) %>%
-  drop_na(c(y, birthyear)) %>% 
-  group_by(country, variable) %>% 
+     	birthyear = year_survey - age,
+     	year0 = year_survey - 1981,
+     	cohort5 = floor(birthyear/5) * 5,
+     	cohort10 = floor(birthyear/10) * 10) %>%
+  drop_na(c(y, birthyear)) %>%
+  group_by(country, variable) %>%
   mutate(start = min(year_survey),
-         end = max(year_survey),
-         span = end - start,
-         waves = n_distinct(wave),
-         obs = n()) %>% 
+     	end = max(year_survey),
+     	span = end - start,
+     	waves = n_distinct(wave),
+     	obs = n()) %>%
   ungroup()
 
-# Filter dataset appropriately 
-d30 <- d_waves_clean %>% 
+# Filter dataset appropriately
+d30 <- d_waves_clean %>%
   filter(waves >= 4 & span >= 30 & age > 24)
 
-d30 <- d30 %>% 
+d30 <- d30 %>%
   mutate(cohort10t = case_when(
-    cohort10 < 1920 ~ 1920,
-    cohort10 > 1980 ~ 1980,
-    TRUE ~ cohort10
+	cohort10 < 1920 ~ 1920,
+	cohort10 > 1980 ~ 1980,
+	TRUE ~ cohort10
   ))
 
-# Functions 
+# Functions
 getmod_lm_b2 <- function(df) {
   lm(y ~ cohort10t,
-     data = df)
+ 	data = df)
 }
 
 getmod_lm_bw2 <- function(df) {
-  lm(y ~ ns(year0, df = 1) * cohort10t,        # spline (or linear; check current setting)
-     data = df)                                # df=2 means one bend; df=1 means line
+  lm(y ~ ns(year0, df = 1) * cohort10t,    	# spline (or linear; check current setting)
+ 	data = df)                            	# df=2 means one bend; df=1 means line
 }
 
 # get R2
@@ -632,325 +1027,363 @@ get_r2 <- function(mod) {
 # Analysis
 
 # Nest dataset
-d30_nest <- d30 %>% 
-  group_by(country, variable) %>% 
+d30_nest <- d30 %>%
+  group_by(country, variable) %>%
   nest()
 
 # Carry out analyses
-results <- d30_nest %>% 
+results <- d30_nest %>%
   mutate(mb = map(data, getmod_lm_b2),
-         mbw = map(data, getmod_lm_bw2),
-         rb = map_dbl(mb, get_r2),
-         rbw = map_dbl(mbw, get_r2),
-         pbetween = rb/rbw) %>% 
+     	mbw = map(data, getmod_lm_bw2),
+     	rb = map_dbl(mb, get_r2),
+     	rbw = map_dbl(mbw, get_r2),
+     	pbetween = rb/rbw) %>%
   select(country, variable, rb, rbw, pbetween)
 
-# CHANGING X-AXIS TO ABSOLUTE CHANGE 
+# CHANGING X-AXIS TO ABSOLUTE CHANGE
 
 # Find variables with meaningful changes from first to last wave
 d_change <- d_waves_clean %>%
-  filter(waves >= 4 & span >= 30 & age > 24) %>% 
+  filter(waves >= 4 & span >= 30 & age > 24) %>%
   mutate(first_obs = min(year0),
-         last_obs = max(year0),
-         .by = c(country, variable)) %>% 
-  filter(year0 == first_obs | year0 == last_obs) %>% 
+     	last_obs = max(year0),
+     	.by = c(country, variable)) %>%
+  filter(year0 == first_obs | year0 == last_obs) %>%
   mutate(post = if_else(year0 == last_obs, 1L, 0L)) %>%
   mutate(ymean = mean(y),
-         .by = c(country, variable, post)) %>% 
+     	.by = c(country, variable, post)) %>%
   mutate(ysd = sd(y),
-         .by = c(country, variable)) %>%
+     	.by = c(country, variable)) %>%
   group_by(country, variable, post) %>%
-  select(ymean, ysd) %>% 
+  select(ymean, ysd) %>%
   slice_head(n = 1) %>%
-  ungroup() %>% 
+  ungroup() %>%
   pivot_wider(names_from = post,
-              values_from = ymean,
-              names_prefix = "mean") %>% 
+          	values_from = ymean,
+          	names_prefix = "mean") %>%
   mutate(change = (mean1 - mean0) / ysd,
-         abschange = abs(change))
+     	abschange = abs(change))
 
 # attach to results
 results <- left_join(results,
-                     select(d_change, country, variable, abschange))
+                 	select(d_change, country, variable, abschange))
 
-
-sens_df_joint <- sens_df %>% 
-  left_join(., results, by = c("country", "variable")) 
-
-sens_df_joint <- sens_df_joint %>% 
-  group_by(country) %>% 
-  mutate(sens_centered = scale(percentage_answer)[,1]) %>% 
-  ungroup()
-
-sens_df_joint <- sens_df_joint %>% 
-  mutate(
-    gpt_sens = case_when( 
-      # Importance battery: 1 means very important, 4 means not at all important
-         variable == "important_family" ~ 2,
-         variable == "important_friends" ~ 2,
-         variable == "important_leisure" ~ 2,
-         variable == "important_poltics" ~ 3,
-         variable == "important_work" ~ 2,
-         variable == "important_religion" ~ 7, 
-         
-         # Important qualities in children: 1 means mentioned, 0 means not mentioned
-         variable == "child_independence" ~ 3,
-         variable == "child_hard_work" ~ 3,
-         variable == "child_feeling_responsibility" ~ 3,
-         variable == "child_imagination" ~ 3,
-         variable == "child_tolerance" ~ 3,
-         variable == "child_thrift" ~ 3,
-         variable == "child_determination" ~ 3,
-         variable == "child_religion" ~ 3,
-         variable == "child_unselfish" ~ 3,
-         variable == "child_obedience" ~ 3,
-         
-         # People you would not like to have as neighbours: 1 mentioned, 0 means not mentioned
-         variable == "neigh_diff_race" ~ 8,
-         variable == "neigh_drink" ~ 5, 
-         variable == "neigh_imm" ~ 8, 
-         variable == "neigh_aids" ~ 7, 
-         variable == "neigh_drugs" ~ 7, 
-         variable == "neigh_gay" ~ 9, 
-         
-         # Most people can be trusted: (1) Most people, (2) you can never be too careful
-         variable == "trust_people" ~ 3,
-         
-         # (10) means more satisfied
-         variable == "life_satisf" ~ 4, 
-         
-         # Control over life's choices: (10) feels most in control. 
-         variable == "choice_control" ~ 4, 
-         
-         # Men should be given jobs over women: (1) Agree, (2) Disagree, (3) Neither A nor D
-         variable == "jobs_men_over_women" ~ 7, 
-         
-         # Nationals should be given jobs over foreigners: (1) Agree, (2) Disagree, (3) Neither A nor D
-         variable == "jobs_national_over_foreign" ~ 8, 
-         
-         # Likert: (1) Strongly Agree -- (4) Strongly Disagree
-         variable == "housewife_fulfilling" ~ 6,
-         
-         # Left/Right placement: (1) Left -- (10) Right
-         variable == "politics_scale" ~ 4,
-         
-         # Importance of income equality 
-         variable == "income_eq" ~ 4, 
-         
-         # Business should be public/private owned: (1) Private -- (10) Public
-         variable == "pvt_state_owned" ~ 5, 
-         
-         # Government should take responsibility vs individual responsibility: (1) Gvt -- (10) Individual
-         variable == "gvt_responsibility" ~ 5,
-         
-         # Competition good or harmful: (1) Good --- (10) harmful
-         variable == "competition_good_evil" ~ 4, 
-         
-         # Confidence battery: (1) A great deal; (2) Quite a lot; (3) Not very much; (4) None at all
-         variable == "confidence_churches" ~ 7, 
-         variable == "confidence_armed_forces" ~ 5,
-         variable == "confidence_press" ~ 5, 
-         variable == "confidence_unions" ~ 5, 
-         variable == "confidence_police" ~ 6, 
-         variable == "confidence_parliament" ~ 5,
-         variable == "confidence_civil" ~ 4,
-         variable == "confidence_television" ~ 5,
-         variable == "confidence_governement" ~ 5,
-         variable == "confidence_political_party" ~5,
-         variable == "confidence_major_companies" ~ 4,
-         variable == "confidence_justice_courts" ~ 5,
-         
-         # How often attends religious services?
-         # (1) More than once a week -- (8) Never
-         variable == "attend_relig" ~ 7, 
-         
-         # (1) Religious; (2) not religious; (3) atheist
-         variable == "religious_person" ~ 7,
-         
-         # Believes (1), does not believe (0)
-         variable == "believe_god" ~ 8, 
-         variable == "believe_hell" ~ 7, 
-         
-         # (1) Not at all important -- (10) very important
-         variable == "important_god" ~ 8,
-         variable == "just_gvt_benefits" ~ 4,
-         variable == "just_fare_public_trans" ~ 3,
-         variable == "just_cheat_taxes" ~ 4,
-         variable == "just_bribe" ~ 5,
-         variable == "just_homosexuality" ~ 8, 
-         variable == "just_prostitution" ~ 8, 
-         variable == "just_abortion" ~ 9, 
-         variable == "just_divorce" ~ 6, 
-         variable == "just_euthanasia" ~ 8, 
-         variable == "just_suicide" ~ 10, 
-         variable == "proud_nationality"~ 4
-      ), 
-    gpt_sens_centered = scale(gpt_sens)[,1]
-  )
-
-sens_df_joint %>% 
-  ggplot(
-    aes(x = fct_reorder(variable, gpt_sens),
-        y = gpt_sens)
-  ) +
-  geom_point(pch = 6) +
-  coord_flip() +
-  theme(axis.text.y = element_text(size = 5))  +
-  labs(title = "LLM Sensitivity Ratings", 
-       y = "Ratings", 
-       x = "")
 
 ```
-
-At first glance, the ratings seem intuitive. Questions about euthanasia and suicide have quite high ratings. In contrast, questions about the importance of friends and those about childrearing tend to have lower scores.
-
-We recognize there are several limitations to this scoring system. Perhaps the biggest is that LLMs are trained on text that might favor certain cultural biases, those of industrialized and highly educated countries. Therefore, these ratings hide cross-cultural variation in sensitivity --- i.e they cannot tell us whether an issue that is sensitive in Japan might be prosaic in Sweden.
-
-To complement this approach, we develop another measure for sensitivity that takes advantage of patterns of missingness in the WVS. Like most large-scale survey efforts, the WVS codes different types of missingness in their data. Missing values here are coded as: does not know (-1), does not apply (-3), did not answer (-2), and missing for other reasons (-5). As we mentioned above, in this special issue, sensitive topics are defined as those that are difficult to *talk about*. If sensitivity is indeed related to how difficult it is to speak about a subject, then we could plausibly interpret participants' unwillingness to answer the questions as an -- admittedly weak -- indicator of an issue's sensitivity. The proportion of missing data coded as (-2) in each question then could give us an indication of whether an issue is sensitive or not. We calculate this proportion for each question for each country and averaged across all countries. For our analyses, we use the latter because it is most comparable to the LLM ratings, but we also conducted all tests using the country-specific proportions and the results are largely the same. In Figure X, we see the sensitivity ratings calculated as the proportion of missing data that denotes unwillingness to answer per question:
-
-```{r}
-sens_df_joint %>% 
-  group_by(variable) %>% 
-  summarise(avg = mean(sens_centered)) %>% 
-  ungroup() %>% 
-  ggplot(
-    aes(x = fct_reorder(variable, avg),
-        y = avg)
-  ) +
-  geom_point(pch = 6) +
-  coord_flip() +
-  theme(axis.text.y = element_text(size = 5))  +
-  labs(title = "LLM Sensitivity Ratings", 
-       y = "Ratings", 
-       x = "")
-```
-
-Though not entirely similar, both measures are weakly positively correlated. We notice similar patterns, like questions about childrearing being deemed mundane, while the justifiability of homosexuality and suicide are still high up the list. Nonetheless, there are important differences. For instance, we notice here that questions about religion and political self-placement, as well as some questions about confidence in institutions, are high on this list.
-
-These are, of course, by no means perfect measures of sensitivity. The LLM ratings are based on training data that is not very sensitive to cultural differences, and the measure based on missingness is only a weak indicator of respondents' unwillingness to discuss a subject. However, both strategies seem to capture aspects of sensitivity, and display results that are -- at least at first glance -- intuitive. Moreover, if the patterns of change of sensitive issues exhibit similar relationships when considering both of our measures, this would give us further confidence about the validity of our results.
 
 ## Results
 
-We begin by calculating $\tau$ for all variables across each country. Figure X displays the relationship between $\tau$ on the y-axis and absolute change of the variable across the recorded time span on the x-axis:
+We begin by calculating $\tau$ for all variables across each country. Figure 4 displays the relationship between $\tau$ on the y-axis and absolute change of the variable across the recorded time span on the x-axis:
+
 
 ```{r}
-# Results 
+# Results
 ggplot(results,
-       aes(x = abschange,
-           y = pbetween,
-           label = variable, 
-           color = variable)) +
-  geom_point(alpha = 0.3) + 
+   	aes(x = abschange,
+       	y = pbetween,
+       	label = variable,
+       	color = variable)) +
+  geom_point(alpha = 0.3) +
   geom_text_repel(
-    data = results %>% 
-      filter(abschange >= .8), 
-    size = 2.5, 
-    box.padding = 0.75
+	data = results %>%
+  	filter(abschange >= .8),
+	size = 2.5,
+	box.padding = 0.75
   ) +
   facet_wrap(~country) +
   theme(legend.position = "none") +
   labs(
-    title = "Relationship between Tau and Change", 
-    y = "Tau", 
-    x = "Standardized change"
+	title = expression("Relationship between Change and"~tau),
+	y = expression(tau),
+	x = "Standardized change, 1981-2020"
   )
 ```
 
-On the y-axis, we have our measure $\tau$, which can be interpreted variance explained that is preserved when *within-cohort changes* are removed from the model. On the x-axis, we have the absolute change - in standard deviations - between the first and last wave. Therefore, in the upper right quadrant of each plot, we should see variables that have changed a lot and whose change is explained mostly by cohort replacement. On the lower right quadrant, we should see variables that have also exhibited a lot of change but whose variations are mostly accounted for by *within-cohort change*.
 
-The first striking result is that most variables do not display considerable change - i.e. most variables hover around the left-hand side of the x-axis. This is most evident in countries like Mexico and South Africa. In the plot, we label the variables that have displayed a directional change higher than 0.8 standard deviations. Another important pattern that emerges is that, consistent with previous work on cultural change [@kileyMeasuringStabilityChange2020], the variable that seems to display consistently large change across countries is the justifiability of homosexuality. Moreover, notice that this variable tends to be on upper-right quadrant, which suggests that this change tends to be driven mostly by *between-cohort differences*, rather than *within-cohort change*. In fact, at first glance, we see that this seems to be a common patterns for sensitive issues such as the justifiability of abortion, euthanasia, and divorce. When they do exhibit considerable change, most of the variation is explained by cohort differences. The variables that exhibit change through *within-cohort change* are mostly related to confidence in institutions and childrearing. Our results do seem to capture certain *period effects* that we would expect to show up given the time when the surveys were administered. For instance, changes in confidence in justice courts in Argentina coincide with the famous trials of the military dictatorship and the variation in confidence in the armed forces in Japan runs parallel with a restructuring of that institution. Thus, there seems to be a pattern in how change in different variables is underpinned mostly by *within-cohort changes* and *between-cohort differences*, and it seems to be organized around sensitivity. We test this idea properly below.
+On the y-axis, we have our measure $\tau$, which can be interpreted variance explained that is preserved when *within-cohort changes* are removed from the model. On the x-axis, we have the absolute change - in standard deviations - between the first and last wave. Therefore, in the upper right quadrant of each plot, we should see variables that have changed a lot and whose change is explained mostly by cohort replacement. In the lower right quadrant, we should see variables that have also exhibited a lot of change but whose variations are mostly accounted for by *within-cohort change*.
 
-In our background section, we suggest that sensitive issues occupy an interesting position: they enjoy sustained public attention and individuals' attitudes seem particularly entrenched. We then hypothesize that these issues might display different patterns of cultural change, but our hypothesis is non-directional. Next, we test two ideas. First, we examine whether the sensitivity of an issue is predictive of how much change it has undergone. Second, we analyze whether sensitive issues seem to change more through *within-cohort changes* or *between-cohort differences* -- i.e. whether an issue's sensitivity is informative of its $\tau$.
+The first striking result is that most variables do not display considerable change - i.e. most variables hover around the left-hand side of the x-axis. This is most evident in countries like Mexico and South Africa. In the plot, we label the variables that have displayed a directional change higher than 0.8 standard deviations. Another important pattern that emerges is that, consistent with previous work on cultural change [@kileyMeasuringStabilityChange2020; @tormosRhythmModernizationHow2021], the variable that seems to display consistently large change across countries is the justifiability of homosexuality. Moreover, notice that this variable tends to be on upper-right quadrant, which suggests that this change tends to be driven mostly by *between-cohort differences*, rather than *within-cohort change*. In fact, at first glance, we see that this seems to be a common pattern for sensitive issues such as the justifiability of abortion, euthanasia, and divorce. When they do exhibit considerable change, most of the variation is explained by cohort differences. The variables that exhibit change through *within-cohort change* are mostly related to confidence in institutions and childrearing. Our results do seem to capture certain *period effects* that we would expect to show up given the time when the surveys were administered. For instance, changes in confidence in justice courts in Argentina coincide with the famous trials of the military dictatorship and the variation in confidence in the armed forces in Japan runs parallel with a restructuring of that institution. Thus, there seems to be a pattern in how change in different variables reflects different change mechanisms and it seems to be related to issue sensitivity.
 
-To see if sensitive issues display different rates of overall change, we fit two linear regression models where the outcome variable is overall change and the main independent variable is an issue's sensitivity. We fit one model for each one of our measures of sensitivity, and include varying intercepts for country. The following tables display the results for both models:
+We test this idea directly in two ways. First, we examine whether the sensitivity of an issue is predictive of how much change it has undergone. Second, we analyze whether sensitivity predicts a variable's $\tau$.
+
+To see if sensitive issues display different rates of overall change, we fit a linear regression model where the outcome is overall change and the main predictor is an issue's median sensitivity in each country. Given that the outcome variable is truncated at zero -- a variable cannot display less than no change -- we use the lognormal link. As mentioned above, the model includes varying intercepts and slopes at the level of country. Panel A in Figure 5 shows the posterior distribution of the population-level coefficient for sensitivity in this model, in the log scale^[Formal definition of the model, detailed results, and assessments of fit are included in the supplementary materials]. The distribution is centered around 0.15, and a considerable amount of the mass lies below 0. The uncertainty in this posterior distribution suggests that -- in our data -- there is not a strong relationship between an issue's perceived sensitivity and the amount of change it displays.
+
 
 ```{r}
-var_label(sens_df_joint) <- list(abschange = "Std. Change", 
-                                 sens_centered = "Sensitivity", 
-                                 gpt_sens_centered = "Sensitivity", 
-                                 pbetween = "Delta")
-
-sens_df_joint_missing <- sens_df_joint %>% 
-  select(abschange, 
-         country, 
-         sens_centered, 
-         pbetween) %>% 
-  rename(sensitivity = sens_centered)
-
-mod1 <- lme4::lmer(abschange ~ (1 | country) + sensitivity, 
-                   data = sens_df_joint_missing)
-
-s1 <- gtsummary::tbl_regression(mod1, tidy_fun = broom.mixed::tidy, 
-                                label=list("country.sd__(Intercept)" = "Country Intercept SD", 
-                                           "Residual.sd__Observation" = "Residuals SD", 
-                                           "sensitivity" = "Sensitivity"))
-
-sens_df_joint_gpt <- sens_df_joint %>% 
-  select(abschange, 
-         country, 
-         gpt_sens_centered, 
-         pbetween) %>% 
-  rename(sensitivity = gpt_sens_centered)
-
-mod2 <- lme4::lmer(abschange ~ (1 | country) + sensitivity, 
-                   data = sens_df_joint_gpt)
-s2 <- gtsummary::tbl_regression(mod2, tidy_fun = broom.mixed::tidy, 
-                                label=list("country.sd__(Intercept)" = "Country Intercept SD", 
-                                           "Residual.sd__Observation" = "Residuals SD", 
-                                           "sensitivity" = "Sensitivity"))
-tbl_merge_ex1 <-
-  tbl_merge(
-    tbls = list(s1, s2),
-    tab_spanner = c("**Missingness**", "**LLM**")
+# Our child qualities question maps on to a few in the WVS
+# Let's create those
+d_sens_complete <- d_sens_complete %>%
+  mutate(
+	child_hard_work = child_qualities_1,
+	child_feeling_responsibility = child_qualities_1,
+	child_imagination = child_qualities_1,
+	child_tolerance = child_qualities_1,
+	child_thrift = child_qualities_1,
+	child_determination = child_qualities_1,
+	child_religion = child_qualities_1,
+	child_unselfish = child_qualities_1,
+	child_obedience = child_qualities_1
   )
-tbl_merge_ex1
+
+d_sens_long <- d_sens_complete %>%
+  select(country, imp_family_1:just_suicide_1, proud_1, child_hard_work:child_obedience) %>%
+  mutate(
+	across(
+  	.cols =2:62,
+  	as.numeric
+	)
+  ) %>%
+  pivot_longer(
+	2:62,
+	names_to = "question",
+	values_to = "difficulty"
+  ) %>%
+  mutate(
+	question = str_remove(question, "_1$"),
+	variable = case_when(
+  	question == "imp_family" ~ "important_family",
+  	question == "imp_friends" ~ "important_friends",
+  	question == "imp_leisure" ~ "important_leisure",
+  	question == "imp_pol" ~ "important_politics",
+  	question == "imp_wrk" ~ "important_work",
+  	question == "imp_rel" ~ "important_religion",
+  	question == "child_qualities" ~ "child_independence",
+  	question == "neigh_race" ~ "neigh_diff_race",
+  	question == "neigh_drink" ~ "neigh_drink",
+  	question == "neigh_imm" ~ "neigh_imm",
+  	question == "neigh_aids" ~ "neigh_aids",
+  	question == "neigh_drug" ~ "neigh_drugs",
+  	question == "neigh_gay" ~ "neigh_gay",
+  	question == "trust" ~ "trust_people",
+  	question == "life_satisf" ~ "life_satisf",
+  	question == "choice_control" ~ "choice_control",
+  	question == "scarce_jobs_women" ~ "jobs_men_over_women",
+  	question == "scarce_jobs_imm" ~ "jobs_national_over_foreign",
+  	question == "housewife_fulfill" ~ "housewife_fulfilling",
+  	question == "left_right" ~ "politics_scale",
+  	question == "equal_incomes" ~  "income_eq",
+  	question == "private_public_busi" ~ "pvt_state_owned",
+  	question == "gvt_responsibility" ~ "gvt_responsibility",
+  	question == "comp_good_bad" ~ "competition_good_evil",
+  	question == "conf_church" ~ "confidence_churches",
+  	question == "conf_armed" ~ "confidence_armed_forces",
+  	question == "conf_press" ~ "confidence_press",
+  	question == "conf_unions" ~ "confidence_unions",
+  	question == "conf_police" ~ "confidence_police",
+  	question == "conf_parliament" ~ "confidence_parliament",
+  	question == "conf_civil" ~ "confidence_civil",
+  	question == "conf_tv" ~ "confidence_tv",
+  	question == "conf_gvt" ~ "confidence_government",
+  	question == "conf_pol_prt" ~ "confidence_political_parties",
+  	question == "conf_companies" ~ "confidence_major_companies",
+  	question == "conf_courts" ~ "confidence_justice_courts",
+  	question == "rel_services" ~ "attend_relig",
+  	question == "religiosity" ~ "religious_person",
+  	question == "belief_god" ~ "believe_god",
+  	question == "belief_hell" ~ "believe_hell",
+  	question == "imp_god" ~ "important_god",
+  	question == "just_gvt_benefits" ~  "just_gvt_benefits",
+  	question == "just_public_trans" ~ "just_fare_public_trans",
+  	question == "just_cheat_tax" ~ "just_cheat_taxes",
+  	question == "just_bribe" ~ "just_bribe",
+  	question == "just_homo" ~ "just_homosexuality",
+  	question == "just_prst" ~ "just_prostitution",
+  	question == "just_abort" ~ "just_abortion",
+  	question == "just_divorce" ~ "just_divorce",
+  	question == "just_euth" ~ "just_euthanasia",
+  	question == "just_suicide" ~ "just_suicide",
+  	question == "proud" ~ "proud_nationality",
+  	TRUE ~ question),
+  )
+
+# Center the results
+d_sens_long <- d_sens_long %>%
+  group_by(
+	country
+  ) %>%
+  mutate(
+	sens_ctd = scale(difficulty)[,1]
+  ) %>%  
+  ungroup()
+
+# Now calculate the median and mean
+summary_sens <- d_sens_long %>%
+  group_by(country,
+       	variable) %>%
+  summarise(
+	avg = mean(sens_ctd, na.rm = T),
+	med = median(sens_ctd, na.rm = T)
+  ) %>%
+  ungroup()
+
+results_sens <- results %>%
+  left_join(., summary_sens, by = c("country", "variable"))
+
+saveRDS(results_sens,
+    	"data_for_analysis.rds")
+
+set.seed(43543)
+
+output1 <- capture.output(mod1 <- brms::brm(abschange ~ (med | country) + med,
+              	data = results_sens,
+              	family = "lognormal"))
+
+saveRDS(mod1, "model_abschange.rds")
+
+mix <- mixture(Beta, Beta)
+
+output2 <- capture.output(mod2 <- brm(bf(pbetween ~ 1,
+           	theta2 ~ (med | country) + med),
+        	results_sens,
+        	family = mix,
+        	chains = 4,
+        	iter = 2000))
+
+saveRDS(mod2, "model_beta.rds")
+
+output3 <- capture.output(mod3 <- brm(pbetween ~ (med | country) + med,
+        	results_sens,
+        	chains = 4,
+        	iter = 2000))
+
+saveRDS(mod3, "model_linear.rds")
+
+prds_mod1 <- prepare_predictions(mod1)["dpars"]
+
+panel_a <- data.frame(prds_mod1$dpars$mu$fe$b) %>%
+  ggplot(
+	aes(x = b_med)
+  ) +
+  geom_density(fill = "gray80",
+           	alpha = 0.8) +
+  geom_vline(aes(xintercept = 0),
+         	linetype = "dashed",
+         	col="darkred") +
+  labs(y = "",
+   	x = "Estimate of Sensitivity (log scale)",
+   	title = "Panel A") +
+  theme(text = element_text(size = 8))
+
+panel_b <- results_sens %>%
+  ggplot(aes(x = pbetween)) +
+  geom_density(fill = "gray80",
+           	alpha = 0.8) +
+  labs(y = "",
+   	x = "Distribution of Tau",
+   	title = "Panel B") +
+  theme(text = element_text(size = 8))
+
+prds_mod2 <- prepare_predictions(mod2)["dpars"]
+
+panel_c <- data.frame(prds_mod2$dpars$theta2$fe$b) %>%
+  ggplot(
+	aes(x = b_theta2_med)
+  ) +
+  geom_density(fill = "gray80",
+           	alpha = 0.8) +
+  geom_vline(aes(xintercept = 0),
+         	linetype = "dashed",
+         	col="darkred") +
+  labs(y = "",
+   	x = "Estimate of Sensitivity (log-odds scale)",
+   	title = "Panel C") +
+  theme(text = element_text(size = 8))
+
+panel_a + panel_b + panel_c
 ```
 
-Here, we have mixed evidence. When we use the sensitivity ratings based on unwillingness to answer the questions, we find that there no differences in rates of overall change between more and less sensitive issues. However, when we use the ratings by the LLM, we do see that there are some small differences: a one standard deviation increase in sensitivity would lead to a 0.07 standard deviations increase in overall change. Thus, even though we have some indications that sensitive issues tend to exhibit more overall change, given the contradictory evidence, it is not possible to draw strong conclusions.
-
-The next tables, in turn, display the coefficients for two regression models where the outcome variable is $\tau$ and the main independent variable is an issue's sensitivity. Again, we fit the models for each one of our measures of sensitivity, and we include varying intercepts for countries:
+In models with varying slopes and intercepts, it is difficult to interpret population-level effects, so it is more intuitive to plot the predictions that the model implies. Figure 6 shows these predictions with the x-axis representing centered sensitivity scales ranging from -1.5 standard deviations below the mean and 1.5 standard deviations above. The lines represent the mean prediction for each value of sensitivity. We notice that, while the relationship appears to be positive in countries like Argentina and South Africa, it is flat in the rest of our sample. Thus, we find no compelling evidence to suggest a specific relationship between an issue's sensitivity and the amount of aggregate change and, therefore, it is not possible to draw any strong conclusions.
 
 ```{r}
-mod3 <- lme4::lmer(pbetween ~ (1 | country) + sensitivity, 
-                   data = sens_df_joint_missing)
-s3 <- gtsummary::tbl_regression(mod3, tidy_fun = broom.mixed::tidy, 
-                                label=list("country.sd__(Intercept)" = "Country Intercept SD", 
-                                           "Residual.sd__Observation" = "Residuals SD", 
-                                           "sensitivity" = "Sensitivity"))
-mod4 <- lme4::lmer(pbetween ~ (1 | country) + sensitivity, 
-                   data = sens_df_joint_gpt)
-s4 <- gtsummary::tbl_regression(mod4, tidy_fun = broom.mixed::tidy, 
-                                label=list("country.sd__(Intercept)" = "Country Intercept SD", 
-                                           "Residual.sd__Observation" = "Residuals SD", "sensitivity" = "Sensitivity"))
-tbl_merge_ex1 <-
-  tbl_merge(
-    tbls = list(s3, s4),
-    tab_spanner = c("**Missingness**", "**LLM**")
+newdata <- expand_grid(
+  country = unique(results_sens$country),
+  med = seq(from =-1.5, to= 1.5, by=0.05)
+)
+
+newdata$preds <- predict(mod1, newdata)
+
+newdata %>%
+  ggplot(aes(x = med,
+         	y = preds[,1]),
+     	fill = country)  +
+  geom_line(linetype = "dashed")  +
+  geom_point(
+	data = results_sens,
+	aes(x = med,
+    	y = abschange),
+	pch = 23
+  ) +
+  facet_wrap(~country) +
+  labs(
+	title = "Absolute Change and Sensitivity",
+	y = "Abs. Change",
+	x = "Centered Sensitivity"
   )
-tbl_merge_ex1
+```
+
+To model $\tau$ as a function of the sensitivity of the issues, it is necessary to make a few additional considerations. First, given that $\tau$ is a proportion, it is bounded between 0 and 1. Second, in our data, $\tau$ exhibits a clear bi-modality. We address this by fitting a finite-mixture model where we consider $\tau$ as produced by two different beta distributions, themselves bounded between 0 and 1. Panel B of Figure 5 shows the bi-modal distribution of $\tau$, which we are going to model as consisting of two beta distributions.
+
+Within the model, we also regress the probability of an issue belonging to the distribution with higher $\tau$ on that issue's perceived sensitivity. In other words, we ask the question: does the perceived sensitivity of an issue tell us whether it is more likely to have emerged from the beta distribution with higher average $\tau$? If this is the case, then a higher sensitivity should be associated with a larger proportion of change explained by *between-cohort differences*. As above, in the regression component, we include varying intercepts and slopes at the level of country.^[We also perform this analysis using gaussian linear regression and the results are substantially the same. We include those analyses in the supplementary materials]
+
+Panel C in Figure 5 displays the posterior distribution for the population-level coefficient for the effect of sensitivity on the probability of belonging to the distribution with higher $\tau$^[Formal definition of the model, detailed results, and assessments of fit are included in the supplementary materials]. The coefficient is in the log-odds scale, but it is readily apparent that the majority of its mass lies above 0. The model suggests then that as an issue's sensitivity increases, so does the probability that it belongs to the distribution with higher average $\tau$.
+
+However, results in the log-odds scales are notoriously difficult to interpret. Given the overall complexity of the model, it is better to examine its predictions to understand the implications of the results. Figure 7 displays the model's predicted outcomes, where the lines represent the average prediction at each value of sensitivity. We notice that the slopes consistently exhibit a slight, positive relationship. Again, we have variation between the countries: while a one standard deviation increase in sensitivity in Mexico leads to a predicted increase in $tau$ of around 0.158, in Sweden the increase is of around 0.147. Despite this variation, the evidence for a positive relationship is consistent across countries. Thus, although the effect of sensitivity is not large, and there are differences across countries, our model suggests that -- on average -- we should expect more sensitive issues to change more through *between-cohort differences* rather than via *within-cohort changes*.    
+
+
+```{r}
+newdata <- expand_grid(
+  country = unique(results_sens$country),
+  med = seq(from =-1.5, to= 1.5, by=0.05)
+)
+
+newdata$preds <- predict(mod2, newdata)
+
+newdata %>%
+  ggplot(aes(x = med,
+         	y = preds[,1]),
+     	fill = country) +
+  # geom_ribbon(aes(
+  #   ymin = preds[,3],
+  #   ymax = preds[,4]
+  # ),
+  # col = "gray80",
+  # alpha = 0.1) +
+  geom_line(linetype = "dashed") +
+  geom_point(
+	data = results_sens,
+	aes(x = med,
+    	y = pbetween),
+	pch = 23
+  ) +
+  facet_wrap(~country) +
+  labs(
+	title = expression("Relationship between Sensitivity and"~tau),
+	y = expression(tau),
+	x = "Centered Sensitivity"
+  )
+
 
 ```
 
-Here, both models are broadly consistent. The results suggests that as sensitivity increases, so does $\tau$. For the model that includes the LLM ratings, a one standard deviation increase in sensitivity leads to a 0.08 increase in $\tau$. In turn, for the model that operationalizes missingness as an unwillingness to answer questions, a one standard deviation increase in sensitivity is associated with a 0.05 increase in $\tau$. Although the coefficients are not large, this means that -- on average -- we should expect more sensitive issues to change more through *between-cohort differences* as opposed to *within-cohort changes*. Sensitive issues do seem to vary in terms of the mechanism that undergirds their variation across time: they appear to change more due to cohort replacement. These are small effects, but they are consistent with the theoretical mechanisms we discussed above. The fact that both models point in the same direction lends further confidence to the results.
 
-## Discussion
+## Discussion and Conclusion
 
-In this paper, we expand on previous work on large-scale cultural change by examining multiple cultural contexts, and by systematically examining *what* variables have changed in each setting and *how*. The last decade has seen renewed interest in one of the central theoretical questions in the social sciences: how societies change. There have been important steps in understanding this puzzle. At the aggregate level, there is evidence that most average intra-cohort opinions remain relatively stable, which implies that large-scale change most likely occurs through cohort replacement. At the individual-level, previous work shows that although adults do sometimes change their beliefs, they mostly remain stable in their attitudes throughout their lives. This -- again -- reinforces the idea that the main mechanism of aggregate-level change is most likely cohort succession. What previous research has not done is move beyond a single cultural context to make systematic comparisons between different settings, and try to adjudicate how different types of variable change across cultures and groups. We follow the methods that analyze aggregate-level change to try to address these gaps.
+In this paper, we expanded on previous work on large-scale cultural change by examining multiple cultural contexts and by systematically examining *which* beliefs have changed in each nation and what processes. Building on previous research on cultural change, we sought to adjudicate the mechanisms that drive processes of large-scale cultural change. Consistent with this previous research, we found results that are consistent with the claim that most (but of course not all) aggregate cultural change is attributable to between-cohort differences and cohort replacement. We also found that items viewed as more sensitive in each country are more likely to change via these cohort-replacement processes.
 
-Building on previous research on cultural change, we seek to adjudicate the mechanisms that drive processes of large-scale cultural change. We note that there are two broad ways in which we can understand change at the individual level across the life-course: the "active-updating" model and the "settled-dispositions" model. The former portrays individuals as continuously open to new information, and the latter notes that, after the critical period of socialization, individuals are mostly stable in their attitudes. At the aggregate level, both models predict widely different patterns of social change. If individuals are active updaters, we would expect change to happen swiftly, as whole sections of the population react to new information and/or circumstances. That is, we should expect change to b driven largely by *within-cohort changes*. In turn, if individuals are mostly stable in their attitudes after adolescence, then change should be gradual, as younger cohorts replace their predecessors. Here, change would mostly be explained by *between-cohort differences*. We contend that we can begin to adjudicate which one of these two models is most likely to be driving change in a given variable by examining how much variance is explained by two different regressions. In an idealized world, where all change is driven by cohort replacement, knowing the current year does not give us any information about attitudes at the aggregate level. On the other hand, if active-updating is driving change, then knowing the current year -- and therefore the current circumstances -- is crucial for understanding current beliefs at the level of the population. Our measure $\tau$ captures this relationship: it represents the proportion of variance explained that is preserved when the effect of time is taken out of the model. In other words, a higher $\tau$ would suggest that most of the variance in certain issue is explained by *between-cohort differences* rather than *within-cohort changes*.
+Our results capture context-specific differences across countries, while also revealing important commonalities in processes of cultural change. First, we show that most beliefs do not change much, even over four decades. Across most countries, attitudes towards homosexuality do exhibit considerable change [@tormosRhythmModernizationHow2021], and this change can be mostly attributed to *between-cohort differences*. In some countries, we see a similar pattern for other sensitive issues like attitudes around divorce and euthanasia [tormosPatternsChangeJustifiability2023]. The variables that display more variation through *within-cohort change* tend to be related to confidence in institutions and the characteristics that are desirable in children. These issues also seem to -- at times -- capture important historical processes, like the restructuring of the armed forces in Japan.
 
-We not only want to examine the explanatory power of each mechanism, but we want to understand if different types of variables are changing due to different mechanisms. We contend that the idea of sensitivity allows us to get an initial handle on this question. Sensitive issues like gay civil rights and abortion have displayed change across many contexts in the last several decades. These changes have been contentious and have resulted in acrimonious divisions and political backlash. Sensitive issues are paradoxical in a way: at the aggregate level they have displayed considerable change, we have evidence of individual attitudinal updating around them, and yet they seem like the beliefs where agents are most firmly entrenched. Previous work, then, suggests that these issues might change differently than other topics that are considered perhaps more mundane.
+Our results may seem at odds with the work of Törmos [-@tormosRhythmModernizationHow2021], but we think there is more common ground that it might appear at first glance. We replicate his finding that attitudes towards homosexuality have changed considerably across most contexts. While the $\tau$ for this variable tends to be high, it also allows for considerable *within-cohort change*, which he illustrates clearly in his work. For example, he notes the importance of *within-cohort changes* in Sweden. Our analyses echo this, suggesting the relative contribution of both processes is fairly equal. In the U.S., $\tau$ is of around 0.67, meaning that within-cohort changes play a considerable role. Thus, our work replicates some of his main findings: that attitudes towards homosexuality display considerable change and that *within-cohort changes* are a key part of that variation. We do come at the question of relative importance from different angles: while he focuses on coefficient sizes, we examine the relative explanatory contribution of adding a new variable. We also find the former pattern – the differences between the coefficients – in our analyses. However, we believe that our method compels us to think about the relative explanatory power of each mechanism. Even under the circumstances of steep *within-cohort changes*, *between-cohort differences* could remain the primary mechanism of long-term variation. 
 
-Operationalizing the concept of sensitivity, however, is difficult. In this paper, we use two strategies to tackle this challenge. First, we use a LLM to get sensitivity ratings for each of the variables we examined. These ratings are largely intuitive and plausible, but they are inevitable constrained by the data with which LLMs are trained. To complement these ratings, we examine patterns of missingness in our data. Based on the definition of sensitivity provided in this special issue, we hypothesize that unwillingness to answer a question could be a weak indicator of how sensitive a topic is. Thus, we calculate the proportion of this type of missing data -- where the participant did not answer --- for each variable and country. Again, the results here are intuitive, and they are weakly positively correlated with the LLM ratings. Having the two measures allow us to tackle the issue of sensitivity from multiple angles and in a more principled way.
+It is worth briefly discussing why confidence in institutions would display more *within-cohort change* than other types of beliefs. Institutions can change in meaning as their occupants come and go. Thus, what it means to have confidence in an institution might change depending on those who control it. For a Democrat in the U.S., for example, the election of Donald Trump might have considerably changed their reported confidence in the office of the presidency, even though none of their beliefs had really changed. Similarly, a conservative Catholic in that country might currently look favorably at a Supreme Court that they might have distrusted a few decades ago. We would not say these individuals have "changed their minds" -- at least not in the ways that are most interesting to social scientists. What has changed is the meaning associated with those institutions.
 
-Our results capture context-specific dynamics across different countries, while also revealing important commonalities in processes of cultural change. For instance, we show that stability is quite common across most of the issues we examine. Across most countries, attitudes towards homosexuality exhibit considerable change, and this change can be mostly attributed to *between-cohort differences*. In some countries, we see a similar pattern for other sensitive issues like attitudes around divorce and euthanasia. The variables that display more variation through *within-cohort change* tend to be related to confidence in institutions and the characteristics that are desirable in children. These issues also seem to -- at times -- capture important historical processes, like the restructuring of the armed forces in Japan.
+Second, we found little support for the possibility that sensitive issues might change more or less over time. While we see a positive relationship between sensitivity and the extent of change in Argentina and South Africa, the relationship is non-existent in the other settings. This uncertainty prevents us from drawing strong conclusions about whether sensitive issues change more or less than their counterparts.
 
-It is worth briefly discussing why issues like confidence in institutions would display more *within-cohort change*. These institutions change in meaning as their occupants come and go. Thus, what it means to support -- or have confidence in -- an institution might change depending on who currently occupies it. For a Democrat in the U.S., for example, the election of Donald Trump might have considerably changed their confidence in the presidency, even though none of their attitudes really varied. Similarly, a conservative Catholic in that country might currently look favorably at a Supreme Court that they might have distrusted a few decades ago. We would not say these individuals have changed their minds -- at least not in the ways that are most interesting to social scientists. What has changed is the meaning associated with those institutions.
+Third, we found that although sensitivity does not predict the *amount* of change, it does predict the *type* of change. We showed that sensitive issues tend to change more through *cohort replacement* than through *within-cohort change*. The relationship is slight, but it is consistent across the eight countries in our sample. We find consistent evidence, then, that issues that are difficult to talk about change more privately.
 
-We explore differences between more or less sensitive issues more rigorously by examining whether our ratings of sensitivity are predictive of the extent to which variables have changed and how they have changed. We find mixed evidence about whether the sensitivity of issues is informative of how much they change, which prevents us from drawing strong conclusions in this regard. Nonetheless, out analysis suggests that sensitive issues tend to change more through cohort replacement than through *within-cohort change*. In other words, it seems that issues that are difficult to talk about change more privately.
+This last finding has important implications. First, it provides initial evidence that different types of beliefs change -- at the aggregate level -- through different mechanisms. Second, it sheds light on some of the mechanisms that lead to heated public debate about sensitive issues. For example, in his work about transnational LGBT+ rights, Velasco [-@velascoTransnationalBacklashDeinstitutionalization2023] shows that there has been considerable backlash in reaction to some of the political victories of this community. Through the lens of belief change, this presents a puzzle: how do we reconcile the variation in beliefs towards homosexuality with this forceful backlash? Well, if most of that change has occurred through cohort replacement, it means that older individuals, many who occupy positions of power, have not been swayed in their opposition to the expansion of civil rights for the LGBT+ community. As younger cohorts move further away from their predecessors, we should still expect the fight to be acrimonious while the latter are still a considerable -- but perhaps dwindling -- portion of the civil sphere. Moreover, we should expect these divisions to be particularly salient in contexts where older cohorts hold more anti-LGBTQ+ views, and therefore where inter-cohort average opinions might be further away. This is reflected in Velasco's cross-cultural analyses. The fact that some issues are difficult to talk about, then, might mean that when these topics change, they might display both considerable variation at the aggregate level and entrenchment at the individual level.
 
-Now, this seems like an intuitive conclusion but it has important implications. First, it provides initial evidence that different types of variables change -- at the aggregate level -- through different mechanisms. Second, it sheds light on current heated discussions about the sensitive issues that are the center of public debate. In his work about transnational LGBT+ rights, Velasco [-@velascoTransnationalBacklashDeinstitutionalization2023] shows that there has been considerable backlash in reaction to some of the political victories of this community. Through the lens of attitudinal change, this presents a puzzle: how do we reconcile the variation in attitudes towards homosexuality with this forceful backlash? Well, if most of that change has occurred through cohort replacement, it means that older individuals, many who occupy positions of power, have not been swayed in their opposition to the expansion of civil rights for the LGBT+ community. As younger cohorts move further away from their predecessors, we should still expect the fight to be acrimonious while the latter are still a considerable -- but perhaps dwindling -- portion of the civil sphere. Moreover, we should expect these divisions to be particularly salient in contexts where older cohorts hold more anti-LGBTQ+ views, and therefore where inter-cohort average opinions might be further away. This is reflected in Velasco's cross-cultural analyses. The fact that some issues are difficult to talk about, then, might mean that when these topics change, they might display both considerable variation at the aggregate level and entrenchment at the individual level.
-
-Our study, then, helps widen ongoing conversations about the mechanisms of cultural change by contrasting different variables and national contexts. We contend that, at the heart of current debates about cultural change, lies the question of the relative explanatory power of *within-cohort changes* and *between-cohort differences*. We outline a straightforward method to adjudicate which one of these sources of variance explains most change at the aggregate level for a variable. Then, we carry out this test for 56 different variables across 8 different countries. We find that common patterns -- like changes in attitudes towards homosexuality -- as well as processes particular to each context, like changes in public trust towards the armed forces in Japan. We also find variation in what kind of processes underpin change in different variables. For attitudes towards homosexuality, for example, *between-cohort changes* appears to be an important mechanism of change. For issues that relate to confidence in institutions, we find that *within-cohort changes* explain a lot of the variation evidenced at the group level. In general, we find evidence that suggests that more sensitive issues tend to change more through cohort replacement. In other words, themes that are more difficult to talk about change more privately. This represents a theoretically-informed finding that suggests that different issues might change through distinct mechanisms. This is an important finding for scholars of cultural change, because it suggests that different aspects of culture can change through varying mechanisms and at varying paces. It is key then to begin to outline clear and testable theoretical statements that link these different aspects of culture with the mechanisms of change that might undergird them. Here, we suggest that one such mechanism is how difficult it may be to talk about certain subjects. These issues should change more through cohort replacements, as people are less likely to change their already established positions.
+We believe this study contributes to ongoing conversations about the mechanisms of cultural change by contrasting different variables and national contexts. We contend that, at the heart of current debates about cultural change, lies the question of the relative explanatory power of *within-cohort changes* and *between-cohort differences*. In addition to providing additional, cross-national, evidence that bolsters the importance of cohort replacement as a change mechanism, we also contribute new insight by showing that that beliefs about sensitive issues change somewhat differently than beliefs about non-sensitive issues. This matters because it suggests that different aspects of culture can change through varying mechanisms and at varying paces.
 
 ## References
+
+
