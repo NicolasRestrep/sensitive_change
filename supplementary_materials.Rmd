@@ -559,7 +559,7 @@ pp_check(mod_linear) +
 
 The data is clearly bimodal and our model is not capturing this. Our model mostly predicts values of $\tau$ in a region where they are quite sparse in our data. 
 
-As we explain in the text, a way to deal with this problem is to fit a mixture model. We are going to stipulate that the bimodal distributed pictured above is a combination of two distributions. In this case, we choose two beta distributions, because they are bounded between 0 and 1, just like our data. 
+As we explain in the text, a way to deal with this problem is to fit a mixture model. We are going to stipulate that the bimodal distribution pictured above is a combination of two distributions. In this case, we choose two beta distributions, because they are bounded between 0 and 1, just like our data. 
 
 Then, in the same model, we ask whether the sensitivity of an issue is associated with the probability of its $\tau$ being drawn from the beta distribution with higher values on average. If this is the case, then there is a positive relationship between an issue's sensitivity and its $\tau$. 
 

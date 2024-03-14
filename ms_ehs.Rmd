@@ -51,11 +51,11 @@ Much of the scholarly interest in culture lies in trying to understand how it ch
 
 We have two main goals. First, we examine whether there are systematic differences in patterns of change across variables, especially in relation to how sensitive---that is, how difficult to discuss---they are. Individuals do update their beliefs about particularly salient issues; however, these issues tend to be difficult to talk about because interlocutors are often firmly entrenched in their beliefs. The sensitivity of a topic might be a useful gateway to start asking how different beliefs change via different mechanisms. Second, following the work of Törmos and colleagues [-@tormosRhythmModernizationHow2021; -@tormosPatternsChangeJustifiability2023], we want to move beyond U.S. data and examine cross-cultural variation in how different issues change. We approach this comparative work slightly differently, using methods that have – up to date – mainly been implemented to explore change in the U.S. context. In short, we want to dig deeper into the mechanisms that underpin change for different cultural issues, and we want to examine whether these mechanisms of change are consistent across contexts.
 
-We investigate these questions using data from the World Value Survey (WVS) [@inglehartWorldValuesSurveys2000]. Though the data are cross-sectional and therefore cannot directly answer questions about individual-level change, we can use them to adjudicate between different mechanisms that might account for population-level cultural change. To do this, we propose a straightforward method^[All necessary code and data to reproduce this paper is available on: <https://github.com/NicolasRestrep/sensitive_change> .]. We begin by positing an idealized model, where, after the critical period of youth, individuals do not change their beliefs. Under these assumptions, all cultural change can be explained by *between-cohort differences* and all we need to know to estimate a person's opinion on a given issue is to know their year of birth. Then, we consider another model, where the average opinion of each cohort is allowed to change linearly over time. We contend that, when fitted to the WVS data, the relative explanatory power of these two models provides an indication of the mechanism that might be responsible for change for a given issue. If the proportion of the variance explained is relatively unchanged when we move from the first model to the second one, then this suggests a given issue is changing primarily through cohort replacement. If the second model improves greatly on the first, then this would point towards the importance of *within-cohort change* in accounting for the trends.
+We investigate these questions using data from the World Value Survey (WVS) [@inglehartWorldValuesSurveys2000]. Though the data are cross-sectional and therefore cannot directly answer questions about individual-level change, we can use them to adjudicate between different mechanisms that might account for population-level cultural change. To do this, we propose a straightforward method. We begin by positing an idealized model, where, after the critical period of youth, individuals do not change their beliefs. Under these assumptions, all cultural change can be explained by *between-cohort differences* and all we need to know to estimate a person's opinion on a given issue is to know their year of birth. Then, we consider another model, where the average opinion of each cohort is allowed to change linearly over time. We contend that, when fitted to the WVS data, the relative explanatory power of these two models provides an indication of the mechanism that might be responsible for change for a given issue. If the proportion of the variance explained is relatively unchanged when we move from the first model to the second one, then this suggests a given issue is changing primarily through cohort replacement. If the second model improves greatly on the first, then this would point towards the importance of *within-cohort change* in accounting for the trends.
 
 To examine patterns of change across different types of cultural issues, we fit these models to 56 different variables, measured between 1981-2020, across 8 countries. We select the countries -- Argentina, Australia, Canada, Japan, Mexico, South Africa, Sweden, and the USA -- based on completeness, seeking to cover the longest time-spans possible with this survey. We also choose to focus on variables that have been asked in all the waves of the WVS, and that cover a wide-range of topics and different levels of sensitivity, from the justifiability of euthanasia to whether imagination is a desirable attribute in children.
 
-Our results lead to several key insights. We show that, consistent with previous work on opinion change over the past five decades, large differences are uncommon. Nonetheless, echoing work on attitudinal change in the U.S. [@kileyMeasuringStabilityChange2020] and previous work using the WVS [@tormosRhythmModernizationHow2021], we find that the variable that has changed most consistently across the countries is related to attitudes about homosexuality. Furthermore, we show that cohort replacement explains a considerable portion of the variation in some of the variables that display the most linear change. Perhaps most relevant to our questions about the mechanisms of change, we see a pattern across the sensitivity of different cultural issues. We find that change in more sensitive topics can be explained mostly by *between-cohort differences*, and variation in less sensitive issues can be attributed more to *within-cohort change*. This provides some evidence for the claim that issues change through different mechanisms and provides a starting point for identifying which issues are more likely to change in different ways.
+Our results lead to several key insights. We show that, consistent with previous work on opinion change over the past five decades, large differences are uncommon. Nonetheless, echoing work on attitudinal change in the U.S. [@kileyMeasuringStabilityChange2020] and previous work using the WVS [@tormosRhythmModernizationHow2021], we find that the variable that has changed most consistently across the countries is related to attitudes about homosexuality. Furthermore, we show that cohort replacement explains a considerable portion of the variation in some of the variables that display the most linear change. Perhaps most relevant to our questions about the mechanisms of change, we see a pattern across the sensitivity of different cultural issues. We find that change in more sensitive topics can be explained mostly by *between-cohort differences*, and variation in less sensitive issues can be attributed more to *within-cohort change*. This provides some evidence for the claim that issues change through different mechanisms and provides a starting point for identifying which issues are more likely to change in different ways. All necessary code and data to reproduce this paper is available on: <https://github.com/NicolasRestrep/sensitive_change> .
 
 
 ## Cultural change and its elements
@@ -112,7 +112,7 @@ Our discussion above suggests that the goal is not disentangling the full range 
 To clarify the distinction between patterns of large-scale change mainly driven by *between-cohort differences* or *within-cohort change*, it is useful to envision two idealized models of aggregate change. First, imagine a scenario where, after the critical period of socialization, cohorts have formed beliefs from which they do not deviate. If we were able to track the data by cohort it would look like overlapping horizontal lines, with different intercepts on the y-axis. Change, at the aggregate level, would look like a gradual shift towards the averages of the younger cohorts. Figure 1 illustrates both dynamics. In this case, knowing a person's year of birth would give us a good estimate of their opinion, in whatever year and at whatever age it what measured. Cohort differences would also explain all the variation in aggregate change, given that -- in this idealized scenario -- all change occurs through cohort replacement.
 
 
-```{r}
+```{r, fig.cap="Cohort trends (a) & aggregate change (b) for an idealized model with no within-cohort changes"}
 set.seed(2607)
 cohort_1920 <- tibble(
   year=(1920+18):2000,
@@ -157,7 +157,7 @@ cohort_plot <- all_cohorts %>%
   labs(y = "Opinion",
    	x = "Year",
    	color = "Cohort",
-   	title = "Opinions by Cohort")
+   	title = "(A)")
 
 
 aggregate_change <- all_cohorts %>%
@@ -176,17 +176,21 @@ aggregate_change <- all_cohorts %>%
   labs(
 	y = "Avg. Opinion",
 	x = "Year",
-	title = "Aggregate Change"
+	title = "(B)"
   )
 
-cohort_plot + aggregate_change
+p1 <- cohort_plot + aggregate_change
+p1 
+
+ggsave("~/Documents/sensitive_change/aggregate_no_within.png", p1, dpi = 500)
 ```
 
 
 Now, imagine another scenario where adults do update their beliefs, either because as individuals get older they tend to change their beliefs or because an issue has been particularly salient in public discussions. In other words, we would assume that there are, in addition to initial *between-cohort differences*, *within-cohort changes*, which can be either *period* or *age* effects (for our purposes, this distinction is unimportant). In this stylized example, we can imagine an issue -- like attitudes towards homosexuality -- that has become increasingly important in the public sphere since the middle of the 20th century and where individuals seem to have updated their beliefs. Figure 2 shows this second example. Here we see *within cohort changes*, due to common trends experienced by all members of the group. This, in turn, translates into much steeper cultural change at the aggregate level. Cultural change here is not only due to the overall differences between cohorts - and their replacement - but also due to changes in the same direction within cohorts.
 
 
-```{r}
+```{r, fig.cap="Cohort trends (a) & aggregate change (b) for an idealized model with both within-cohort changes & between-cohort differences"}
+
 coh_plot_period <- all_cohorts %>%
   mutate(cohort = rep(c("1920",
                     	"1940",
@@ -207,7 +211,7 @@ coh_plot_period <- all_cohorts %>%
   labs(y = "Opinion",
    	x = "Year",
    	color = "Cohort",
-   	title = "Opinions by Cohort")
+   	title = "(A)")
  
 
 aggregate_change_period <- all_cohorts %>%
@@ -231,17 +235,19 @@ group_by(year) %>%
   labs(
 	y = "Avg. Opinion",
 	x = "Year",
-	title = "Aggregate Change"
+	title = "(B)"
   )
 
-coh_plot_period + aggregate_change_period
+p2 <- coh_plot_period + aggregate_change_period
+p2 
+ggsave("~/Documents/sensitive_change/aggregate_within_between.png", p2, dpi = 500)
 ```
 
 
 A more extreme variant of this example would be one where all cohorts start from the same average opinion -- regardless of the current year -- and experience the same *within-cohort changes*. In other words, we can imagine a scenario where there are no initial *between-cohort differences* and all age-groups follow the same trends in opinion change. Figure 3 illustrates such a case:
 
 
-```{r}
+```{r, fig.cap="Cohort trends (a) & aggregate change (b) for an idealized model with no between-cohort differences"}
 
 
 set.seed(2607)
@@ -279,7 +285,7 @@ coh_plot_period <- all_cohorts_same %>%
   labs(y = "Opinion",
    	x = "Year",
    	color = "Cohort",
-   	title = "Opinions by Cohort")
+   	title = "(A)")
 
 aggregate_change_period <- all_cohorts_same %>%
   mutate(cohort = rep(c("1920",
@@ -301,10 +307,12 @@ aggregate_change_period <- all_cohorts_same %>%
   labs(
 	y = "Avg. Opinion",
 	x = "Year",
-	title = "Aggregate Change"
+	title = "(B)"
   )
 
-coh_plot_period + aggregate_change_period
+p3 <- coh_plot_period + aggregate_change_period
+p3
+ggsave("~/Documents/sensitive_change/aggregate_no_between.png", p3, dpi = 500)
 ```
 
 
@@ -398,7 +406,7 @@ $$ \tau = \frac{R^2_{\text{M1}}}{R^2_{\text{M2}}} $$
 
 This measure may seem simple---perhaps too simple. But it captures the intuition behind comparing the models. Values of $\tau$ closer to one indicate that within-cohort changes add nothing to a model that includes only between cohort differences. For example, in the rather simple scenarios we discussed above, $\tau$ for the first case would be `r first_mod_r2` and in the second case would be `r second_mod_r2`. For the third -- admittedly extreme -- case, $\tau$ would be `r third_mod_r2`. Almost all variance explained is preserved in the first case when we take the effect of survey year out of the model. In the second case, we lose information, as expected, because the model does not allow within-cohort changes. In the third case, almost *none* of the variance explained is preserved when we do not consider *within-cohort changes*, as these explain almost all the change in aggregate opinion. This simple metric, then, is a useful way to differentiate the mechanisms that underpin the large-scale opinion change in repeated cross-sectional data.
 
-### Data & Analysis
+### Data 
 
 To compare mechanisms of change across different contexts and issues, we use the World Values Survey (WVS) [@inglehartWorldValuesSurveys2000]. The WVS, which began in 1981, is a large-scale effort to collect comparable data on beliefs and attitudes across multiple countries. For each country and each wave, the WVS collects high-quality, nationally-representative samples, and covers a wide range of questions from views on gender equality to socioeconomic indices. The survey, however, is not longitudinal, which means that we are unable to track any within-individual changes across time. However, it does allow us to examine trends in aggregate opinion across time for different countries. 
 
@@ -592,18 +600,19 @@ d_sens_complete %>%
 	align = "c",
 	booktabs = TRUE,
 	longtable = TRUE,
-	linesep = "",
+	linesep = "", 
+	caption = "Sample size by country for the survey examining difficulty to discuss the WVS items."
 	) %>%
   kableExtra::kable_styling(
-  	latex_options = c("striped", "repeat_header"),
+  	latex_options = c("striped", "repeat_header", "hold_position"),
   	stripe_color = "gray!15",
   	font_size = 6
-	)
+	) 
 
 ```
 
 
-We do not claim that this sample is representative of the population of any of those countries. However, we believe that these data provide a principled measure of how sensitive certain issues are perceived in each country. The fact that we prompted participants to think about their second-order beliefs -- to think about what most of their compatriots think -- helps in trying to bypass individual idiosyncrasies and to get a adequate measure of country-level perceptions of sensitivity. This is reflected in the fact that the overall patterns in our data are plausible. Table 2, for example, shows the median score for the three issues that respondents, in each country, rated as the most difficult to discuss^[We provide full descriptive results of the survey data in the supplementary materials]:  
+We do not claim that this sample is representative of the population of any of those countries. However, we believe that these data provide a principled measure of how sensitive certain issues are perceived in each country. The fact that we prompted participants to think about their second-order beliefs -- to think about what most of their compatriots think -- helps in trying to bypass individual idiosyncrasies and to get a adequate measure of country-level perceptions of sensitivity. This is reflected in the fact that the overall patterns in our data are plausible. Table 2, for example, shows the median score for the three issues that respondents, in each country, rated as the most difficult to discuss (we provide full descriptive results of the survey data in the supplementary materials):  
 
 
 ```{r}
@@ -778,9 +787,10 @@ d_sens_long %>%
 	)
   ) %>%
   select(-c(country, variable)) %>%
-  kbl(., booktabs = T) %>%
+  kbl(., booktabs = T, 
+      caption = "The three issues rated as the most sensitive in each country") %>%
   kable_styling(
-	latex_options = "striped",
+	latex_options = c("striped", "hold_position"),
 	stripe_color = "gray!15",
 	font_size = 6
   ) %>%
@@ -798,7 +808,9 @@ d_sens_long %>%
 
 Unsurprisingly, the questions about the justifiability of abortion, euthanasia, and suicide feature prominently in most countries, showing cross-national similarities in perceptions of sensitivity. However, we also pick up on some context-specific patterns: while issues of corruption and government credibility are perceived as difficult to discuss in Argentina, question about race and immigration are seen as particularly sensitive in Sweden. This resonates with both the recent past of these countries and their current circumstances. The full descriptive summary of the data is provided in the supplementary materials, but overall the results seem to capture intuitive general trends while allowing for context-specific variation. While capturing the notion of sensitivity is challenging, we believe our approach measures this concept reasonably well.
 
-We begin our analyses by examining the relationship between $\tau$ and the total amount of change each variable exhibits. For each variable, we calculate $\tau$, as defined above, and then plot it against how much it has changed across the decades of observation (in standard deviations calculated by pooling the first and last waves). We then fit two regression models to explore whether the perceived sensitivity of an issue predicts how much it changes and the proportion of linear change attributable to between-cohort differences ($\tau$). ^[We use the median because it is less sensitive to extreme values, but our results show similar patterns when we use the mean sensitivity for each variable]. In turn, the dependent variables of interest are, respectively, the absolute change exhibited by each variable in each country and the calculated $\tau$. In both models, we allow for varying intercepts and slopes across countries to account for cultural variation -- and similarities -- between the different contexts.  
+### Analysis 
+
+We begin our analyses by examining the relationship between $\tau$ and the total amount of change each variable exhibits. For each variable, we calculate $\tau$, as defined above, and then plot it against how much it has changed across the decades of observation (in standard deviations calculated by pooling the first and last waves). We then fit two regression models to explore whether the perceived sensitivity of an issue predicts how much it changes and the proportion of linear change attributable to between-cohort differences ($\tau$). We use the median because it is less sensitive to extreme values, but our results show similar patterns when we use the mean sensitivity for each variable. In turn, the dependent variables of interest are, respectively, the absolute change exhibited by each variable in each country and the calculated $\tau$. In both models, we allow for varying intercepts and slopes across countries to account for cultural variation -- and similarities -- between the different contexts.  
 
 ```{r}
 # Data importation & cleaning ----
@@ -1102,9 +1114,9 @@ results <- left_join(results,
 We begin by calculating $\tau$ for all variables across each country. Figure 4 displays the relationship between $\tau$ on the y-axis and absolute change of the variable across the recorded time span on the x-axis:
 
 
-```{r}
+```{r, fig.cap="Relationship between the variance explained preserved when linear within-cohort changes are assumed to be zero and absolute change -- in standard deviations - between the first and last wave."}
 # Results
-ggplot(results,
+p4 <- ggplot(results,
    	aes(x = abschange,
        	y = pbetween,
        	label = variable,
@@ -1119,10 +1131,14 @@ ggplot(results,
   facet_wrap(~country) +
   theme(legend.position = "none") +
   labs(
-	title = expression("Relationship between Change and"~tau),
+	title = "",
 	y = expression(tau),
 	x = "Standardized change, 1981-2020"
   )
+
+p4 
+
+ggsave("~/Documents/sensitive_change/tau_change.png", p4, dpi = 500)
 ```
 
 
@@ -1136,10 +1152,10 @@ Another important pattern that emerges is that, consistent with previous work on
 
 We test the possible relevance of sensitivity directly in two ways. First, we examine whether the sensitivity of an issue is predictive of how much change it has undergone. Second, we analyze whether sensitivity predicts a variable's $\tau$.
 
-To see if sensitive issues display different rates of overall change, we fit a linear regression model where the outcome is overall change and the main predictor is an issue's median sensitivity in each country. Given that the outcome variable is truncated at zero -- a variable cannot display less than no change -- we use the lognormal link. As mentioned above, the model includes varying intercepts and slopes at the level of country. Panel A in Figure 5 shows the posterior distribution of the population-level coefficient for sensitivity in this model, in the log scale^[Formal definition of the model, detailed results, and assessments of fit are included in the supplementary materials]. The distribution is centered around 0.15, and a considerable amount of the mass lies below 0. The uncertainty in this posterior distribution suggests that -- in our data -- there is not a strong relationship between an issue's perceived sensitivity and the amount of change.
+To see if sensitive issues display different rates of overall change, we fit a linear regression model where the outcome is overall change and the main predictor is an issue's median sensitivity in each country. Given that the outcome variable is truncated at zero -- a variable cannot display less than no change -- we use the lognormal link. As mentioned above, the model includes varying intercepts and slopes at the level of country. Panel A in Figure 5 shows the posterior distribution of the population-level coefficient for sensitivity in this model, in the log scale (a formal definition of the model, detailed results, and assessments of fit are included in the supplementary materials). The distribution is centered around 0.15, and a considerable amount of the mass lies below 0. The uncertainty in this posterior distribution suggests that -- in our data -- there is not a strong relationship between an issue's perceived sensitivity and the amount of change.
 
 
-```{r}
+```{r, fig.cap="a) posterior estimate of the coefficient for sensitivity for the model regressing absolute change on sensitivity; b) bimodality of tau; c) posterior estimate of the coefficient for sensitivity for the model regressing the probability of a value being drawn from the higher beta distribution on sensitivity."}
 # Our child qualities question maps on to a few in the WVS
 # Let's create those
 d_sens_complete <- d_sens_complete %>%
@@ -1254,29 +1270,35 @@ saveRDS(results_sens,
 
 set.seed(43543)
 
-output1 <- capture.output(mod1 <- brms::brm(abschange ~ (med | country) + med,
-              	data = results_sens,
-              	family = "lognormal"))
+# output1 <- capture.output(mod1 <- brms::brm(abschange ~ (med | country) + med,
+#               	data = results_sens,
+#               	family = "lognormal"))
+# 
+# saveRDS(mod1, "model_abschange.rds")
 
-saveRDS(mod1, "model_abschange.rds")
+mod1 <- read_rds("model_abschange.rds")
 
-mix <- mixture(Beta, Beta)
+# mix <- mixture(Beta, Beta)
+# 
+# output2 <- capture.output(mod2 <- brm(bf(pbetween ~ 1,
+#            	theta2 ~ (med | country) + med),
+#         	results_sens,
+#         	family = mix,
+#         	chains = 4,
+#         	iter = 2000))
+# 
+# saveRDS(mod2, "model_beta.rds")
 
-output2 <- capture.output(mod2 <- brm(bf(pbetween ~ 1,
-           	theta2 ~ (med | country) + med),
-        	results_sens,
-        	family = mix,
-        	chains = 4,
-        	iter = 2000))
+mod2 <- read_rds("model_beta.rds")
 
-saveRDS(mod2, "model_beta.rds")
+# output3 <- capture.output(mod3 <- brm(pbetween ~ (med | country) + med,
+#         	results_sens,
+#         	chains = 4,
+#         	iter = 2000))
+# 
+# saveRDS(mod3, "model_linear.rds")
 
-output3 <- capture.output(mod3 <- brm(pbetween ~ (med | country) + med,
-        	results_sens,
-        	chains = 4,
-        	iter = 2000))
-
-saveRDS(mod3, "model_linear.rds")
+mod3 <- read_rds("model_linear.rds")
 
 prds_mod1 <- prepare_predictions(mod1)["dpars"]
 
@@ -1291,7 +1313,7 @@ panel_a <- data.frame(prds_mod1$dpars$mu$fe$b) %>%
          	col="darkred") +
   labs(y = "",
    	x = "Estimate of Sensitivity (log scale)",
-   	title = "Panel A") +
+   	title = "(A)") +
   theme(text = element_text(size = 8))
 
 panel_b <- results_sens %>%
@@ -1300,7 +1322,7 @@ panel_b <- results_sens %>%
            	alpha = 0.8) +
   labs(y = "",
    	x = "Distribution of Tau",
-   	title = "Panel B") +
+   	title = "(B)") +
   theme(text = element_text(size = 8))
 
 prds_mod2 <- prepare_predictions(mod2)["dpars"]
@@ -1316,15 +1338,18 @@ panel_c <- data.frame(prds_mod2$dpars$theta2$fe$b) %>%
          	col="darkred") +
   labs(y = "",
    	x = "Estimate of Sensitivity (log-odds scale)",
-   	title = "Panel C") +
+   	title = "(C)") +
   theme(text = element_text(size = 8))
 
-panel_a + panel_b + panel_c
+p5 <- panel_a + panel_b + panel_c
+
+p5
+ggsave("~/Documents/sensitive_change/posterior_distributions.png", p5, dpi = 500)
 ```
 
 In models with varying slopes and intercepts, it is difficult to interpret population-level effects, so it is more intuitive to plot model-implied predictions. Figure 6 shows these predictions with the x-axis representing centered sensitivity scales ranging from -1.5 standard deviations below the mean to 1.5 standard deviations above. The lines represent the mean prediction for each value of sensitivity. We notice that, while the relationship appears to be positive in countries like Argentina and South Africa, it is flat in the rest of our sample. Thus, we find no compelling evidence to suggest a specific relationship between an issue's sensitivity and the amount of aggregate change and, therefore, it is not possible to draw any strong conclusions.
 
-```{r}
+```{r, fig.cap="Model-implied average predictions for the model regressing absolute change on sensitivity"}
 newdata <- expand_grid(
   country = unique(results_sens$country),
   med = seq(from =-1.5, to= 1.5, by=0.05)
@@ -1332,7 +1357,7 @@ newdata <- expand_grid(
 
 newdata$preds <- predict(mod1, newdata)
 
-newdata %>%
+p6 <- newdata %>%
   ggplot(aes(x = med,
          	y = preds[,1]),
      	fill = country)  +
@@ -1345,22 +1370,24 @@ newdata %>%
   ) +
   facet_wrap(~country) +
   labs(
-	title = "Absolute Change and Sensitivity",
+	title = "",
 	y = "Abs. Change",
 	x = "Centered Sensitivity"
   )
+p6 
+ggsave("~/Documents/sensitive_change/change_sensitivity.png", p6, dpi = 500)
 ```
 
 To model $\tau$ as a function of sensitivity, it is necessary to make a few additional adjustments. First, given that $\tau$ is a proportion, it is bounded between 0 and 1. Second, in our data, $\tau$ exhibits a clear bimodality. We address this by fitting a finite-mixture model where we consider $\tau$ as produced by two different beta distributions, themselves bounded between 0 and 1. Panel B of Figure 5 shows the bimodal distribution of $\tau$, which we are going to model as two beta distributions.
 
-Within the model, we also regress the probability of an issue belonging to the distribution with higher $\tau$ on that issue's perceived sensitivity. In other words, we ask the question: does the perceived sensitivity of an issue tell us whether it is more likely to have emerged from the beta distribution with higher average $\tau$? If this is the case, then a higher sensitivity should be associated with a larger proportion of change explained solely by *between-cohort differences*. As above, in the regression component, we include varying intercepts and slopes at the level of country.^[We also perform this analysis using Gaussian linear regression and the results are substantially the same. We include those analyses in the supplementary materials.]
+Within the model, we also regress the probability of an issue belonging to the distribution with higher $\tau$ on that issue's perceived sensitivity. In other words, we ask the question: does the perceived sensitivity of an issue tell us whether it is more likely to have emerged from the beta distribution with higher average $\tau$? If this is the case, then a higher sensitivity should be associated with a larger proportion of change explained solely by *between-cohort differences*. As above, in the regression component, we include varying intercepts and slopes at the level of country. It is worth noting that we also perform this analysis using Gaussian linear regression and the results are substantially the same. We include those analyses in the supplementary materials.
 
-Panel C in Figure 5 displays the posterior distribution for the population-level coefficient for the effect of sensitivity on the probability of belonging to the distribution with higher $\tau$^[Formal definition of the model, detailed results, and assessments of fit are included in the supplementary materials]. The coefficient is in the log-odds scale, but it is readily apparent that the majority of its mass lies above 0. The model suggests then that as an issue's sensitivity increases, so does the probability that it belongs to the distribution with higher average $\tau$.
+Panel C in Figure 5 displays the posterior distribution for the population-level coefficient for the effect of sensitivity on the probability of belonging to the distribution with higher $\tau$ (we include a formal definition of the model, detailed results, and assessments of fit are included in the supplementary materials). The coefficient is in the log-odds scale, but it is readily apparent that the majority of its mass lies above 0. The model suggests then that as an issue's sensitivity increases, so does the probability that it belongs to the distribution with higher average $\tau$.
 
 However, results in the log-odds scales are notoriously difficult to interpret. Given the overall complexity of the model, it is better to examine its predictions to understand the implications of the results. Figure 7 displays the model's predicted outcomes, where the lines represent the average prediction at each value of sensitivity. We notice that the slopes consistently exhibit a slight, positive relationship. There is a small amount of variation between countries; for example, while a one standard deviation increase in sensitivity predicts an increase in $tau$ of 0.158 in Mexico, it predicts and increase of 0.147 in Sweden. Despite this variation, the evidence for a positive relationship is consistent across countries. Thus, although the effect of sensitivity is not large, our model suggests that -- on average -- we should expect more sensitive issues to change more through *between-cohort differences* rather than via *within-cohort changes*.    
 
 
-```{r}
+```{r, fig.cap="Model-implied average predictions for the model regressing tau on sensitivity"}
 newdata <- expand_grid(
   country = unique(results_sens$country),
   med = seq(from =-1.5, to= 1.5, by=0.05)
@@ -1368,7 +1395,7 @@ newdata <- expand_grid(
 
 newdata$preds <- predict(mod2, newdata)
 
-newdata %>%
+p7 <- newdata %>%
   ggplot(aes(x = med,
          	y = preds[,1]),
      	fill = country) +
@@ -1387,12 +1414,13 @@ newdata %>%
   ) +
   facet_wrap(~country) +
   labs(
-	title = expression("Relationship between Sensitivity and"~tau),
+	title = "",
 	y = expression(tau),
 	x = "Centered Sensitivity"
   )
 
-
+p7 
+ggsave("~/Documents/sensitive_change/senstivity_tau.png", p7, dpi = 500)
 ```
 
 
